@@ -28,9 +28,14 @@ async function pageQuery () {
   return result
 }
 
+/**
+ * Querys new books.
+ * @param {*Number} pageIndex
+ */
 async function queryNewBooks (pageIndex) {
 
 }
+
 exports.queryNewBooks = queryNewBooks
 exports.pageQuery = pageQuery
 exports.queryCertainFields = queryCertainFields
