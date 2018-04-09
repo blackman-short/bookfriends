@@ -28,6 +28,10 @@ async function pageQuery () {
   return result
 }
 
+async function queryNewBooks (pageIndex) {
+
+}
+exports.queryNewBooks = queryNewBooks
 exports.pageQuery = pageQuery
 exports.queryCertainFields = queryCertainFields
 exports.saveBook = saveBook
