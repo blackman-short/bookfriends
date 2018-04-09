@@ -67,7 +67,7 @@ async function login (req, res, next) {
       password = validator.trim(password)
     }
   } catch (error) {
-    responseResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+    responseResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: error.message }
   }
 
   if (responseResult.errorCode === errorCode.SUCCESS) {

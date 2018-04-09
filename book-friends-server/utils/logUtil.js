@@ -12,10 +12,10 @@ function logMessage (errorMsg) {
   const data = moment.now()
   let messageInfo = `[${data.toString()}]` + '\n'
   messageInfo += '***************INFO START***************'
-  messageInfo += '/n'
-  messageInfo += errorMsg
+  messageInfo += '\n'
+  messageInfo += errorMsg + '\n'
   messageInfo += '***************INFO END***************'
-  messageInfo += '/n'
+  messageInfo += '\n'
   logInfo.info(messageInfo)
 }
 

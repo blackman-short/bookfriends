@@ -11,6 +11,7 @@ async function saveBook (data) {
       publisher: data.publisher, // 出版社
       images: data.images, // 图片路径集合： small, middle, large.
       price: data.price, // 价格： douban '89.00元'
+      catalog: data.catalog, // 目录
       summary: data.summary // 综述
     })
     await bookInfo.save()

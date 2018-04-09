@@ -1,4 +1,6 @@
 module.exports = {
-  topBooksUrl: '',
-  searchBooks: 'https://api.douban.com/v2/book/search'
+  baseUrl: 'https://api.douban.com/v2/book',
+  getBookByISBNUrl () {
+    return this.baseUrl + '/isbn/'
+  }
 }
