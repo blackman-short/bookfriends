@@ -74,6 +74,21 @@ async function updateInfo (userInfo) {
   return result
 }
 
+/**
+ * Querys user info according to user ID.
+ * @param {*String} userId
+ */
+async function queryUserInfoById (userId) {
+  let data = null
+
+  if (userId) {
+    data = await UserInfo.findOne({ userId: userId, isActive: true }, '-createTime -updateTime')
+  }
+
+  return data
+}
+
 exports.login = login
 exports.register = register
 exports.updateInfo = updateInfo
+exports.queryUserInfoById = queryUserInfoById

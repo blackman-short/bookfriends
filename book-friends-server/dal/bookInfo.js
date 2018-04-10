@@ -1,4 +1,5 @@
 const BookInfo = require('../models').BookInfo
+const PAGE_SIZE = require('../config/systemConfig').pageSize
 
 async function saveBook (data) {
   if (data) {
@@ -28,15 +29,66 @@ async function pageQuery () {
   return result
 }
 
+// =============================================================================
+// the dev environnment
+// =============================================================================
+
 /**
  * Querys new books.
  * @param {*Number} pageIndex
+ * @param {*String} keyWord
  */
-async function queryNewBooks (pageIndex) {
+async function queryNewBooks (pageIndex, keyWord) {
+  let data = null
 
+  // Querys certain books according to current page index.
+  if (pageIndex > 0) {
+    const skipCount = PAGE_SIZE * (pageIndex - 1)
+    const regEx = new RegExp(keyWord, 'i')
+    data = await BookInfo.find({isNews: true, title: regEx}).skip(skipCount).limit(PAGE_SIZE)
+  }
+
+  return data
 }
 
-exports.queryNewBooks = queryNewBooks
-exports.pageQuery = pageQuery
-exports.queryCertainFields = queryCertainFields
+/**
+ * Querys hot books.
+ * @param {*Number} pageIndex
+ * @param {*String} keyWord
+ */
+async function queryHotBooks (pageIndex, keyWord) {
+  let data = null
+
+  // Querys certain books according to current page index.
+  if (pageIndex > 0) {
+    const skipCount = PAGE_SIZE * (pageIndex - 1)
+    const regEx = new RegExp(keyWord, 'i')
+    data = await BookInfo.find({isHot: true, title: regEx}).skip(skipCount).limit(PAGE_SIZE)
+  }
+
+  return data
+}
+
+/**
+ * Querys recommened books.
+ * @param {*Number} pageIndex
+ * @param {*String} keyWord
+ */
+async function queryRecommendBooks (pageIndex, flags) {
+  let data = null
+
+  // Querys certain books according to current page index.
+  if (pageIndex > 0) {
+    const skipCount = PAGE_SIZE * (pageIndex - 1)
+    data = await BookInfo.where('flag').in(flags).skip(skipCount).limit(PAGE_SIZE)
+  }
+
+  return data
+}
+
 exports.saveBook = saveBook
+exports.pageQuery = pageQuery
+exports.queryNewBooks = queryNewBooks
+exports.queryHotBooks = queryHotBooks
+exports.queryCertainFields = queryCertainFields
+exports.queryRecommendBooks = queryRecommendBooks
