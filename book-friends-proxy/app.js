@@ -1,27 +1,19 @@
-var express = require('express')
+var fs = require('fs')
 var path = require('path')
-// var favicon = require('serve-favicon')
-var logger = require('morgan')
-var cookieParser = require('cookie-parser')
+// var router = require('./routes')
+var express = require('express')
 var bodyParser = require('body-parser')
-
-var router = require('./routes')
+var cookieParser = require('cookie-parser')
 
 var app = express()
+var logConfig = require('./config/logConfig')
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'))
-// app.set('view engine', 'ejs')
-
-// uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', router)
+// app.use('/', router)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -40,5 +32,33 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.render('error')
 })
+
+/**
+ * 确定目录是否存在, 如果不存在则创建目录.
+ * @param {*String} pathStr
+ */
+var confirmPath = function (pathStr) {
+  if (!fs.existsSync(pathStr)) {
+    fs.mkdirSync(pathStr)
+  }
+}
+
+/**
+ * 初始化log相关目录.
+ */
+var initLogPath = function () {
+  // 创建log的根目录'logs'.
+  if (logConfig.baseLogPath) {
+    confirmPath(logConfig.baseLogPath)
+    // 根据不同的logType创建不同的文件目录.
+    for (var i = 0, len = logConfig.appenders.length; i < len; i++) {
+      if (logConfig.appenders[i].path) {
+        confirmPath(logConfig.baseLogPath + logConfig.appenders[i].path)
+      }
+    }
+  }
+}
+
+initLogPath()
 
 module.exports = app

@@ -148,6 +148,185 @@
          }
        }
       }
+    },
+    "/book/new": {
+      "get": {
+        "tags": [
+          "图书"
+        ],
+        "summary": "此接口用于查询新上架的图书",
+        "description": "用户进入首页, 系统获取最新上架的图书",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "分页查询的页码",
+            "required": true,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "keyWord",
+            "in": "query",
+            "description": "模糊查询的关键字",
+            "required": true,
+            "type": "string",
+            "default": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取最新上架的图书成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref":"#/definitions/BookInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/book/hot": {
+      "get": {
+        "tags": [
+          "图书"
+        ],
+        "summary": "此接口用于查询热门畅销的图书",
+        "description": "用户进入首页, 系统获取最近热门畅销的图书",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "分页查询的页码",
+            "required": true,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "keyWord",
+            "in": "query",
+            "description": "模糊查询的关键字",
+            "required": true,
+            "type": "string",
+            "default": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取热门畅销图书成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref":"#/definitions/BookInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/book/recommend": {
+      "get": {
+        "tags": [
+          "图书"
+        ],
+        "summary": "此接口用于查询相应用户推荐的图书",
+        "description": "用户进入首页, 系统根据用户的喜好和所读书籍进行推荐图书",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "分页查询的页码",
+            "required": true,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户更新个人信息请求成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref":"#/definitions/BookInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -203,7 +382,7 @@
         "hobbies": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/HobbyInfo "
+            "$ref": "#/definitions/HobbyInfo"
           },
           "description": "用户的喜好"
         },
@@ -326,7 +505,12 @@
       }
     },
     "ResultCode": {
-      "type": "string"
+      "type": "number",
+      "enum": [
+        0,
+        1,
+        4
+      ]
     }
   }
 }

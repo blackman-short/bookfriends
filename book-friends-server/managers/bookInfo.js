@@ -1,8 +1,10 @@
 const bookDal = require('../dal/bookInfo')
-const mockConfig = require('../config/mockConfig')
-const commonRequest = require('../common/common_request')
-const errorCode = require('../error/errorCode')
+const userDal = require('../dal/userInfo')
 const errorMsg = require('../error/errorMsg')
+const errorCode = require('../error/errorCode')
+const mockConfig = require('../config/mockConfig')
+const userBookDal = require('../dal/userBooksInfo')
+const commonRequest = require('../common/common_request')
 
 // #region practice
 async function saveBook () {
@@ -86,8 +88,40 @@ async function queryHotBooks (pageIndex, keyWord) {
  * @param {*Number} pageIndex
  * @param {*Array} flags
  */
-async function queryRecommendBooks (pageIndex, flags) {
+async function queryRecommendBooks (pageIndex, userId) {
+  let queryResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+  const userInfo = await userDal.queryUserInfoById(userId)
+  // validates the userId is right.
+  if (!userInfo) {
+    queryResult = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED + `: userId: ${userId}` }
+    return queryResult
+  }
 
+  // Gets user's hobbies according to user's readed books & setted hobbies.
+  const hobbies = await getUserHobbiesByUser(userInfo)
+  let response = null
+  if (hobbies.length > 0) {
+    response = commonRequest.get()
+  }
+}
+
+/**
+ * Gets user's hobbies according to userId.
+ * @param {*String} userId
+ */
+async function getUserHobbiesByUser (userInfo) {
+  let hobbies = []
+
+  if (userInfo.habbies && userInfo.hobbies.length > 0) {
+    hobbies = userInfo.hobbies
+  }
+
+  const readedFlags = await userBookDal.queryUserBookInfoByUserId(userInfo.id)
+  if (readedFlags) {
+    readedFlags.foreach(flag => {
+      hobbies.push(flag)
+    })
+  }
 }
 
 exports.saveBook = saveBook
