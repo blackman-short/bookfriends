@@ -1,6 +1,6 @@
 var fs = require('fs')
 var path = require('path')
-// var router = require('./routes')
+var router = require('./routers')
 var express = require('express')
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-// app.use('/', router)
+app.use('/', router)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

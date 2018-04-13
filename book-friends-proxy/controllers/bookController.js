@@ -1,3 +1,4 @@
+const validator = require('validator')
 const types = require('../utils/types')
 const logUtil = require('../utils/logUtil')
 const errorMsg = require('../error/errorMsg')
@@ -17,13 +18,16 @@ async function getRecommendBooks (req, res, next) {
   let hobbies = req.body.hobbies
 
   try {
-    if (!hobbies || (hobbies && !types.isArray(hobbies))) {
-      throw new Error('Please provide valid parameter: (Array) hobbies')
+    if (!hobbies || (hobbies && !validator.trim(hobbies))) {
+      throw new Error('Please provide valid parameter: hobbies')
     } else {
-      // Nothing to do.
+      hobbies = JSON.parse(hobbies)
+      if (!types.isArray(hobbies)) {
+        throw new Error('Please provide valid parameter: (Array)hobbies')
+      }
     }
   } catch (error) {
-    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: error.message }
   }
 
   // If has no parameter errors.

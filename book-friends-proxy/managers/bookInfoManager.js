@@ -19,10 +19,14 @@ async function queryRecommendBooks (hobbies) {
   }
 
   try {
-    const books = await getBooksByTags(hobbies)
+    result = await getBooksByTags(hobbies)
     // sync operations.
-    bookDal.saveBooks(books)
-    result = { errorCode: errorCode.SUCCESS, data: books }
+    if (result.errorCode === errorCode.SUCCESS) {
+      const books = result.data
+      if (books && books.length > 0) {
+        bookDal.saveBooks(books)
+      }
+    }
   } catch (error) {
     result = { errorCode: errorCode.ERROR_REQUEST, errorMsg: errorMsg.ERROR_REQUEST + error.message }
     logUtil.logErrorMsg(funcName, result.errorMsg)
@@ -32,23 +36,31 @@ async function queryRecommendBooks (hobbies) {
 }
 
 async function getBooksByTags (hobbies) {
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
   let books = []
   if (!hobbies || !types.isArray(hobbies) || hobbies.length <= 0) {
-    return books
+    return result
   }
 
   const divCount = doubanConfig.queryCount / hobbies.length
   const queryCount = divCount < 1 ? 1 : divCount
   for (let i = 0; i < hobbies.length; i++) {
-    let bs = await getBookByTagFromDouBan(hobbies[i], queryCount)
-    if (bs && bs.length > 0) {
-      bs.forEach(b => {
-        books.push(b)
-      })
+    let queryResult = await getBookByTagFromDouBan(hobbies[i], queryCount)
+    if (queryResult.errorCode === errorCode.SUCCESS) {
+      const bs = queryResult.data
+      if (bs && bs.length > 0) {
+        bs.forEach(b => {
+          books.push(b)
+        })
+      }
+    } else {
+      return queryResult
     }
   }
 
-  return books
+  result = { errorCode: errorCode.SUCCESS, data: books }
+
+  return result
 }
 
 /**
@@ -57,6 +69,7 @@ async function getBooksByTags (hobbies) {
  */
 async function getBookByTagFromDouBan (hobby, queryCount) {
   const funcName = 'proxy: managers/book/getBookByTagFromDouBan'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
   let books = []
 
   if (!hobby || (hobby && !validator.trim(hobby))) {
@@ -73,19 +86,27 @@ async function getBookByTagFromDouBan (hobby, queryCount) {
     logUtil.logDebugMsg(funcName, `call douban server: url - ${doubanConfig.getBooksByTag()}; param - ${hobby}`)
     response = await commonRequest.get(doubanConfig.getBooksByTag(), reqData)
   } catch (error) {
-    logUtil.logErrorMsg(funcName, errorMsg.ERROR_REQUEST + error.message)
+    result = { errorCode: errorCode.ERROR_REQUEST, errorMsg: errorMsg.ERROR_REQUEST }
+
+    if (error.code === 'ENOENT') {
+      result.errorMsg = 'NetWork errored'
+    }
+    logUtil.logErrorMsg(funcName, result.errorMsg + JSON.stringify(error))
+    return result
   }
 
   if (!response) {
     logUtil.logDebugMsg(funcName, 'get response is null from douban')
   } else {
     // Converts getted books.
+    response = JSON.parse(response)
     response.books.forEach(b => {
       books.push(bookConvertor(b))
     })
   }
 
-  return books
+  result = { errorCode: errorCode.SUCCESS, data: books }
+  return result
 }
 
 /**

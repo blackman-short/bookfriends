@@ -112,7 +112,7 @@ async function queryRecommendBooks (pageIndex, userId) {
   // If user has hobbies.
   if (hobbies.length > 0) {
     const postData = {
-      hobbies: hobbies
+      hobbies: JSON.stringify(hobbies)
     }
     try {
       response = await commonRequest.post(proxyConfig.getRecommendBookUrl(), postData)

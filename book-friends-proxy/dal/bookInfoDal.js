@@ -1,4 +1,4 @@
-const BookInfo = require('../models/bookInfo')
+const BookInfo = require('../models').BookInfo
 
 /**
  * Querys books from db according to keyword.
@@ -20,7 +20,15 @@ async function queryBooksByKeyWord (keyWord) {
  */
 async function saveBooks (books) {
   if (books && books.length > 0) {
-    await BookInfo.create(books)
+    // await BookInfo.insert(books)
+    for (let i = 0; i < books.length; i++) {
+      const book = books[i]
+      const find = await BookInfo.find({isbn: book.isbn})
+      if (!find || (find && find.length < 1)) {
+        const bookInfo = new BookInfo(book)
+        await bookInfo.save()
+      }
+    }
   }
 }
 

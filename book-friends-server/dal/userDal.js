@@ -97,7 +97,7 @@ async function queryUserInfoById (userId) {
   let data = null
 
   if (userId) {
-    data = await UserInfo.findOne({ userId: userId, isActive: true }, '-createTime -updateTime')
+    data = await UserInfo.findOne({ id: userId, isActive: true }, '-createTime -updateTime')
   }
 
   return data
