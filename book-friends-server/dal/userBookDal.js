@@ -5,13 +5,13 @@ const UserBookInfo = require('../models').UserBookInfo
  * @param {*String} userId
  */
 async function queryUserBookInfoByUserId (userId) {
-  let data = null
+  let datas = null
 
   if (userId) {
-    data = await UserBookInfo.findOne({id: userId, isActive: true})
+    datas = await UserBookInfo.find({id: userId})
   }
 
-  return data
+  return datas
 }
 
 exports.queryUserBookInfoByUserId = queryUserBookInfoByUserId

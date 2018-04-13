@@ -14,4 +14,15 @@ async function queryBooksByKeyWord (keyWord) {
   return loadData
 }
 
+/**
+ * Batches to save books
+ * @param {*Array} books
+ */
+async function saveBooks (books) {
+  if (books && books.length > 0) {
+    await BookInfo.create(books)
+  }
+}
+
+exports.saveBooks = saveBooks
 exports.queryBooksByKeyWord = queryBooksByKeyWord

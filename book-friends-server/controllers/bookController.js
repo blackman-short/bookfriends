@@ -1,4 +1,5 @@
 const validator = require('validator')
+const logUtil = require('../utils/logUtil')
 const errorMsg = require('../error/errorMsg')
 const errorCode = require('../error/errorCode')
 const bookManager = require('../managers/bookManager')
@@ -10,10 +11,15 @@ const bookManager = require('../managers/bookManager')
  * @param {*} next
  */
 async function saveBook (req, res, next) {
-  await bookManager.saveBook()
-  // const loadData = await bookManager.queryCertainFields()
-  // const loadData = await bookManager.pageQuery()
-  return res.status(200).send({Code: 0, result: 'ok'})
+  let result = null
+
+  try {
+    result = await bookManager.saveBook()
+  } catch (error) {
+    result = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + error.message }
+  }
+
+  return res.status(200).send(result)
 }
 
 /**
@@ -23,6 +29,8 @@ async function saveBook (req, res, next) {
  * @param {*} next
  */
 async function getNewBooks (req, res, next) {
+  const funcName = 'server: controllers/book/getNewBooks'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
   let response = { errorCode: errorCode.SUCCESS }
   let keyWord = req.query.keyWord
   let pageIndex = req.query.pageIndex
@@ -40,6 +48,8 @@ async function getNewBooks (req, res, next) {
     }
   } catch (error) {
     response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
   }
 
   // If has no parameter errors.
@@ -49,6 +59,7 @@ async function getNewBooks (req, res, next) {
       response = loadResult
     } catch (error) {
       response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_MANAGER + error.message }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
     }
   }
 
@@ -62,6 +73,8 @@ async function getNewBooks (req, res, next) {
  * @param {*} next
  */
 async function getHotBooks (req, res, next) {
+  const funcName = 'server: controllers/book/getHotBooks'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
   let response = { errorCode: errorCode.SUCCESS }
   let keyWord = req.query.keyWord
   let pageIndex = req.query.pageIndex
@@ -79,15 +92,16 @@ async function getHotBooks (req, res, next) {
     }
   } catch (error) {
     response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: error.message }
+    logUtil.logErrorMsg(funcName, error.message)
   }
 
   // If has no parameter errors.
   if (response.errorCode === errorCode.SUCCESS) {
     try {
-      const loadResult = await bookManager.queryHotBooks(pageIndex, keyWord)
-      response = loadResult
+      response = await bookManager.queryHotBooks(pageIndex, keyWord)
     } catch (error) {
       response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_MANAGER + error.message }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
     }
   }
 
@@ -101,21 +115,37 @@ async function getHotBooks (req, res, next) {
  * @param {*} next
  */
 async function getRecommendBooks (req, res, next) {
+  const funcName = 'server: controllers/book/getRecommendBooks'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
   let response = { errorCode: errorCode.SUCCESS }
   let userId = req.query.userId
+  let pageIndex = req.query.pageIndex
 
   try {
     if (!userId || (userId && !validator.trim(userId))) {
       throw new Error('Please provide parameter: user ID')
+    } else if (!pageIndex || (pageIndex && !validator.trim(pageIndex))) {
+      throw new Error('Please provide parameter: page index')
     } else {
       userId = validator.trim(userId)
+      pageIndex = parseInt(pageIndex)
+      if (pageIndex <= 0) {
+        throw new Error('Please provide valid number parameter: page index > 0')
+      }
     }
   } catch (error) {
     response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: error.message }
+    logUtil.logErrorMsg(funcName, error.message)
   }
 
+  // If has no parameter errors.
   if (response.errorCode === errorCode.SUCCESS) {
-
+    try {
+      response = await bookManager.queryRecommendBooks(pageIndex, userId)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + error.message }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
   }
 
   return res.status(200).send(response)

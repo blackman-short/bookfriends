@@ -6,27 +6,28 @@ async function saveBook (data) {
     const bookInfo = new BookInfo({
       isbn: data.isbn13,
       author: data.author, // 作者
+      authorIntro: data.author_intro, // 作者介绍
       translator: data.translator, // 译者
       title: data.title, // 书名
       originTitle: data.origin_title, // 书的原名
       publisher: data.publisher, // 出版社
+      pubdate: data.pubdate, // 出版时间
       images: data.images, // 图片路径集合： small, middle, large.
       price: data.price, // 价格： douban '89.00元'
       catalog: data.catalog, // 目录
-      summary: data.summary // 综述
+      summary: data.summary, // 综述
+      tags: data.tags,
+      rating: data.rating.average == null ? 0 : Number(data.rating.average), // 评分
+      ebookUrl: data.ebook_url == null ? '' : data.ebook_url // 电子书网址
     })
+
+    if (data.status === 0) {
+      bookInfo.isNews = true
+    } else if (data.status === 1) {
+      bookInfo.isHot = true
+    }
     await bookInfo.save()
   }
-}
-
-async function queryCertainFields () {
-  const result = await BookInfo.find({}, '-_id isbn price')
-  return result
-}
-
-async function pageQuery () {
-  const result = await BookInfo.find({}).skip(5).limit(5)
-  return result
 }
 
 // =============================================================================
@@ -86,9 +87,23 @@ async function queryRecommendBooks (pageIndex, flags) {
   return data
 }
 
+/**
+ * Querys books from TOP 250.
+ * @param {*Number} pageIndex
+ */
+async function queryTopBooks (pageIndex) {
+  let data = null
+
+  if (pageIndex > 0) {
+    const skipCount = PAGE_SIZE * (pageIndex - 1)
+    data = await BookInfo.find({isNews: false, isHot: false}).skip(skipCount).limit(PAGE_SIZE)
+  }
+
+  return data
+}
+
 exports.saveBook = saveBook
-exports.pageQuery = pageQuery
+exports.queryTopBooks = queryTopBooks
 exports.queryNewBooks = queryNewBooks
 exports.queryHotBooks = queryHotBooks
-exports.queryCertainFields = queryCertainFields
 exports.queryRecommendBooks = queryRecommendBooks

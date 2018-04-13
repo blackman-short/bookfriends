@@ -1,4 +1,4 @@
-exports.types = {
+module.exports = {
   isNumber (data) {
     return Object.prototype.toString.call(data).toLowerCase() === '[object string]'
   },

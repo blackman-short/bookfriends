@@ -11,17 +11,31 @@ const commonRequest = require('../common/common_request')
 // #region practice
 async function saveBook () {
   const books = mockConfig.top250BooksFormDouBan
-  console.log(books.length)
-  for (let i = 174; i < books.length; i++) {
+
+  for (let i = 0; i < 100; i++) {
     const isbn = books[i].isbn
-    console.log(isbn)
     const requestUrl = `https://api.douban.com/v2/book/isbn/${isbn}`
-    const loadData = await commonRequest.get(requestUrl, null)
+    let loadData = null
+    try {
+      loadData = await commonRequest.get(requestUrl, null)
+    } catch (error) {
+      logUtil.logErrorMsg('server: managers/book/save', 'Fails to request douban')
+      return { errorCode: errorCode.ERROR_REQUEST, errorMsg: `Fails to request douban: ${error.message}` }
+    }
     if (loadData) {
-      bookDal.saveBook(JSON.parse(loadData))
+      const book = JSON.parse(loadData)
+      if (i < 50) {
+        book.status = 0
+      } else if (i >= 50 && i < 100) {
+        book.status = 1
+      } else {
+        // nothing to do.
+      }
+      await bookDal.saveBook(book)
     }
   }
-  console.log('-----------')
+
+  return { errorCode: errorCode.SUCCESS }
 }
 // #endregion
 
@@ -43,6 +57,7 @@ async function queryNewBooks (pageIndex, keyWord) {
     data = await bookDal.queryNewBooks(pageIndex, keyWord)
   } catch (error) {
     loadResult = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + error.message }
+    logUtil.logErrorMsg('server: managers/book/queryNewBooks', loadResult.errorMsg)
   }
 
   if (data) {
@@ -66,6 +81,7 @@ async function queryHotBooks (pageIndex, keyWord) {
     data = await bookDal.queryHotBooks(pageIndex, keyWord)
   } catch (error) {
     loadResult = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + error.message }
+    logUtil.logErrorMsg('server: managers/book/queryHotBooks', loadResult.errorMsg)
   }
 
   if (data) {
@@ -93,6 +109,7 @@ async function queryRecommendBooks (pageIndex, userId) {
   // Gets user's hobbies according to user's readed books & setted hobbies.
   const hobbies = await getUserHobbiesByUser(userInfo)
   let response = null
+  // If user has hobbies.
   if (hobbies.length > 0) {
     const postData = {
       hobbies: hobbies
@@ -102,6 +119,16 @@ async function queryRecommendBooks (pageIndex, userId) {
     } catch (error) {
       queryResult = { errorCode: errorCode.ERROR_REQUEST, errorMsg: errorMsg.ERROR_REQUEST + error.message }
       logUtil.logErrorMsg(functionName, queryResult.errorMsg)
+    }
+  // If user has nohobbies, get books from TOP 250.
+  } else {
+    let books = null
+    try {
+      books = await bookDal.queryTopBooks(pageIndex)
+      response = { errorCode: errorCode.SUCCESS, data: books }
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + error.message }
+      logUtil.logErrorMsg(functionName, response.errorMsg)
     }
   }
 
@@ -122,18 +149,28 @@ async function queryRecommendBooks (pageIndex, userId) {
 async function getUserHobbiesByUser (userInfo) {
   let hobbies = []
 
+  // Personal info's hobby.
   if (userInfo.hobbies && userInfo.hobbies.length > 0) {
     userInfo.hobbies.forEach(h => {
       hobbies.push(h)
     })
   }
 
-  const readedFlags = await userBookDal.queryUserBookInfoByUserId(userInfo.id)
-  if (readedFlags) {
-    readedFlags.forEach(flag => {
-      hobbies.push(flag)
+  // Gets hobbies by the user's readed books.
+  const tagsList = await userBookDal.queryUserBookInfoByUserId(userInfo.id)
+  if (tagsList && tagsList.length > 0) {
+    tagsList.forEach(tags => {
+      if (tags && tags.length > 0) {
+        tags.forEach(tag => {
+          if (hobbies.indexOf(tag) < 0) {
+            hobbies.push(tag)
+          }
+        })
+      }
     })
   }
+
+  return hobbies
 }
 
 exports.saveBook = saveBook
