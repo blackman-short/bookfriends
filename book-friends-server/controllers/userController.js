@@ -3,7 +3,7 @@ const tools = require('../utils/tools')
 const logUtil = require('../utils/logUtil')
 const errorMsg = require('../error/errorMsg')
 const errorCode = require('../error/errorCode')
-const userInfoManager = require('../managers/userInfo')
+const userInfoManager = require('../managers/userManager')
 
 /**
  * Register.

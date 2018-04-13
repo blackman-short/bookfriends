@@ -30,5 +30,5 @@ db.on('error', function () {
 })
 db.once('open', function () {
   console.log('Connect mongodb is successful')
-  logUtil.logMessage('Connect mongodb is successful')
+  logUtil.logInfoMsg('Connect mongodb is successful')
 })

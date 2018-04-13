@@ -1,0 +1,5 @@
+book-friends-server/logs/*
+book-friends-server/node-modules/*
+book-friends-proxy/logs/*
+book-friends-proxy/node-modules/*
+

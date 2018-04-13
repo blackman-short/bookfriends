@@ -1,6 +1,8 @@
 const validator = require('validator')
+const logUtil = require('../../utils/logUtil')
+const errorMsg = require('../../error/errorMsg')
 const errorCode = require('../../error/errorCode')
-const loginManager = require('../../managers/admin/loginManger')
+const adminManger = require('../../managers/admin/adminManager')
 
 /**
  * Admin register account.
@@ -9,6 +11,8 @@ const loginManager = require('../../managers/admin/loginManger')
  * @param {*} next
  */
 async function register (req, res, next) {
+  const funcName = 'server: controllers/admin/register'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
   let response = { errorCode: errorCode.SUCCESS }
 
   let adminName = req.body.adminName
@@ -28,8 +32,12 @@ async function register (req, res, next) {
   }
 
   if (response.errorCode === errorCode.SUCCESS) {
-    const result = await loginManager.register(adminName, password)
-    response = result
+    try {
+      response = await adminManger.register(adminName, password)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + error.message }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
   }
 
   return res.status(200).send(response)

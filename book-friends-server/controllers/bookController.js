@@ -1,7 +1,7 @@
 const validator = require('validator')
 const errorMsg = require('../error/errorMsg')
 const errorCode = require('../error/errorCode')
-const bookManager = require('../managers/bookInfo')
+const bookManager = require('../managers/bookManager')
 
 /**
  * Mock data.

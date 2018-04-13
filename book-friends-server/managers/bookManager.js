@@ -1,10 +1,10 @@
-const bookDal = require('../dal/bookInfo')
-const userDal = require('../dal/userInfo')
+const bookDal = require('../dal/bookDal')
+const userDal = require('../dal/userDal')
 const logUtil = require('../utils/logUtil')
 const errorMsg = require('../error/errorMsg')
 const errorCode = require('../error/errorCode')
+const userBookDal = require('../dal/userBookDal')
 const mockConfig = require('../config/mockConfig')
-const userBookDal = require('../dal/userBooksInfo')
 const proxyConfig = require('../config/proxyConfig')
 const commonRequest = require('../common/common_request')
 
