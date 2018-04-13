@@ -1,20 +1,24 @@
+const logUtil = require('../utils/logUtil')
+const errorMsg = require('../error/errorMsg')
 const userInfoDal = require('../dal/userInfo')
 const errorCode = require('../error/errorCode')
-const errorMsg = require('../error/errorMsg')
 
 /**
  * Registers a new account.
  * @param {*String} phoneNumber
  * @param {*String} password
+ * @param {*String} nickName
  */
-async function register (phoneNumber, password) {
+async function register (phoneNumber, password, nickName) {
+  const functionName = 'server: managers/user/register'
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
-  if (phoneNumber && password) {
+  if (phoneNumber && password && nickName) {
     try {
-      result = await userInfoDal.register(phoneNumber, password)
+      result = await userInfoDal.register(phoneNumber, password, nickName)
     } catch (error) {
-      result = { errorCode: errorCode.ERROR_REGISTER, errorMsg: errorMsg.ERROR_REGISTER }
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_INSERT_DB + error.message }
+      logUtil.logErrorMsg(functionName, result.errorMsg)
     }
   }
 
@@ -27,20 +31,15 @@ async function register (phoneNumber, password) {
  * @param {*String} password
  */
 async function login (phoneNumber, password) {
+  const funcName = 'server: managers/user/login'
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
-  let loginResult = null
   if (phoneNumber && password) {
     try {
-      loginResult = await userInfoDal.login(phoneNumber, password)
+      result = await userInfoDal.login(phoneNumber, password)
     } catch (error) {
-      result = { errorCode: errorCode.ERROR_LOGIN, errorMsg: errorMsg.ERROR_LOGIN }
-    }
-
-    if (loginResult.errorCode === errorCode.SUCCESS) {
-      result = { errorCode: errorCode.SUCCESS }
-    } else {
-      result = loginResult
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + error.message }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
     }
   }
 
@@ -58,7 +57,8 @@ async function updateInfo (userInfo) {
     try {
       result = await userInfoDal.updateInfo(userInfo)
     } catch (error) {
-      result = { errorCode: errorCode.ERROR_UPDATE_USERINFO, errorMsg: errorMsg.ERROR_UPDATE_USERINFO }
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_INSERT_DB }
+      logUtil.logErrorMsg('server: managers/user/update', result.errorMsg)
     }
   }
 

@@ -8,7 +8,7 @@ async function queryUserBookInfoByUserId (userId) {
   let data = null
 
   if (userId) {
-    data = await UserBookInfo.findOne({userId: userId})
+    data = await UserBookInfo.findOne({id: userId, isActive: true})
   }
 
   return data

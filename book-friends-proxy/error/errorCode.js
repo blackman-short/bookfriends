@@ -1,5 +1,6 @@
 module.exports = {
   SUCCESS: 0,
+  ERROR_REQUEST: 2,
   ERROR_DB: 4,
   ERROR_MANAGER: 5,
   ERROR_PARAMETER: 1001,
