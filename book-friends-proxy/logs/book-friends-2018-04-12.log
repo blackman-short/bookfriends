@@ -1,0 +1,100 @@
+[2018-04-12T22:02:59.776] [ERROR] logInfo - [1523541779774]
+***************INFO START***************
+[proxy: controllers/book/getRecommendBooks]{}
+***************INFO END***************
+
+[2018-04-12T22:02:59.781] [ERROR] logInfo - [1523541779780]
+***************ERROR START***************
+[proxy: controllers/book/getRecommendBooks]Please provide valid parameter: (Array) hobbies
+***************ERROR END***************
+
+[2018-04-12T22:04:13.405] [ERROR] logInfo - [1523541853403]
+***************INFO START***************
+[proxy: controllers/book/getRecommendBooks]{"hobbies":["java"]}
+***************INFO END***************
+
+[2018-04-12T22:04:13.413] [ERROR] logInfo - [1523541853413]
+***************INFO START***************
+[proxy: managers/book/getBooksByTag]request param: hobby - java
+***************INFO END***************
+
+[2018-04-12T22:04:39.890] [ERROR] logInfo - [1523541879890]
+***************INFO START***************
+[proxy: controllers/book/getRecommendBooks]{"hobbies":["java"]}
+***************INFO END***************
+
+[2018-04-12T22:04:54.528] [ERROR] logInfo - [1523541894528]
+***************INFO START***************
+[proxy: managers/book/getBooksByTag]request param: hobby - java
+***************INFO END***************
+
+[2018-04-12T22:05:55.418] [ERROR] logInfo - [1523541955416]
+***************INFO START***************
+[proxy: controllers/book/getRecommendBooks]{"hobbies":["java"]}
+***************INFO END***************
+
+[2018-04-12T22:06:03.422] [ERROR] logInfo - [1523541963422]
+***************INFO START***************
+[proxy: managers/book/getBooksByTag]request param: hobby - java
+***************INFO END***************
+
+[2018-04-12T22:06:46.983] [ERROR] logInfo - [1523542006983]
+***************INFO START***************
+[proxy: controllers/book/getRecommendBooks]{"hobbies":["java"]}
+***************INFO END***************
+
+[2018-04-12T22:06:50.953] [ERROR] logInfo - [1523542010953]
+***************INFO START***************
+[proxy: managers/book/getBooksByTag]request param: hobby - java
+***************INFO END***************
+
+[2018-04-12T22:07:58.608] [ERROR] logInfo - [1523542078607]
+***************INFO START***************
+[proxy: controllers/book/getRecommendBooks]{"hobbies":["java"]}
+***************INFO END***************
+
+[2018-04-12T22:08:00.606] [ERROR] logInfo - [1523542080606]
+***************INFO START***************
+[proxy: managers/book/getBooksByTag]request param: hobby - java
+***************INFO END***************
+
+[2018-04-12T22:10:55.453] [ERROR] logInfo - [1523542255452]
+***************INFO START***************
+[proxy: controllers/book/getRecommendBooks]{"hobbies":["java"]}
+***************INFO END***************
+
+[2018-04-12T22:11:00.522] [ERROR] logInfo - [1523542260522]
+***************INFO START***************
+[proxy: managers/book/getBooksByTag]request param: hobby - java
+***************INFO END***************
+
+[2018-04-12T22:11:11.878] [ERROR] logInfo - [1523542271878]
+***************ERROR START***************
+[proxy: controllers/book/getRecommendBooks]books.foreach is not a function
+***************ERROR END***************
+
+[2018-04-12T22:15:09.871] [ERROR] logInfo - [1523542509871]
+***************INFO START***************
+[proxy: controllers/book/getRecommendBooks]{"hobbies":["java"]}
+***************INFO END***************
+
+[2018-04-12T22:15:13.753] [ERROR] logInfo - [1523542513753]
+***************INFO START***************
+[proxy: managers/book/getBooksByTag]request param: hobby - java
+***************INFO END***************
+
+[2018-04-12T22:15:37.784] [ERROR] logInfo - [1523542537784]
+***************ERROR START***************
+[proxy: controllers/book/getRecommendBooks]books.foreach is not a function
+***************ERROR END***************
+
+[2018-04-12T22:17:54.879] [ERROR] logInfo - [1523542674876]
+***************INFO START***************
+[proxy: controllers/book/getRecommendBooks]{"hobbies":["java"]}
+***************INFO END***************
+
+[2018-04-12T22:17:56.757] [ERROR] logInfo - [1523542676757]
+***************INFO START***************
+[proxy: managers/book/getBooksByTag]request param: hobby - java
+***************INFO END***************
+
