@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "title": "书圈系统"
   },
-  "host": "104.194.94.3:3001",
+  "host": "104.194.94.3:3002",
   "basePath": "/bookcircle",
   "schemes": [
     "http"
@@ -196,7 +196,6 @@
                 "data": {
                   "type": "array",
                   "items": {
-                    "type": "object",
                     "$ref":"#/definitions/BookInfo"
                   }
                 }
@@ -256,7 +255,6 @@
                 "data": {
                   "type": "array",
                   "items": {
-                    "type": "object",
                     "$ref":"#/definitions/BookInfo"
                   }
                 }
@@ -315,7 +313,6 @@
                 "data": {
                   "type": "array",
                   "items": {
-                    "type": "object",
                     "$ref":"#/definitions/BookInfo"
                   }
                 }
@@ -382,7 +379,7 @@
         "hobbies": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/HobbyInfo"
+            "type": "string"
           },
           "description": "用户的喜好"
         },
@@ -397,7 +394,8 @@
       },
       "required": [
         "phoneNumber",
-        "password"
+        "password",
+        "nickName"
       ]
     },
     "loginParams": {

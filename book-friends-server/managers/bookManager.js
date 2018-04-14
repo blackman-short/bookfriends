@@ -119,6 +119,7 @@ async function queryRecommendBooks (pageIndex, userId) {
     } catch (error) {
       queryResult = { errorCode: errorCode.ERROR_REQUEST, errorMsg: errorMsg.ERROR_REQUEST + error.message }
       logUtil.logErrorMsg(functionName, queryResult.errorMsg)
+      return queryResult
     }
   // If user has nohobbies, get books from TOP 250.
   } else {

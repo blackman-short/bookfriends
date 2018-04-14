@@ -14,7 +14,7 @@ const userInfoSchema = mongoose.Schema({
   headIcon: { type: String }, // 头像
   description: { type: String }, // 自我描述
   QRCode: { type: String }, // 二维码
-  hobbies: { type: Array }, // 喜好,
+  hobbies: [String], // 喜好,
   isActive: { type: Boolean, default: true },
   createTime: { type: String, default: tools.getCurrentTime() }, // 创建时间
   updateTime: { type: String, default: tools.getCurrentTime() }, // 更新时间
