@@ -89,6 +89,24 @@ async function login (req, res, next) {
   if (responseResult.errorCode === errorCode.SUCCESS) {
     try {
       responseResult = await userInfoManager.login(phoneNumber, password)
+      if (responseResult && responseResult.errorCode) {
+        switch (responseResult.errorCode) {
+          case errorCode.SUCCESS:
+            responseResult.data = 'ok'
+            break
+          case errorCode.ERROR_PWD:
+            responseResult.errorMsg = '密码错误'
+            break
+          case errorCode.ERROR_ACCOUNT:
+            responseResult.errorMsg = '该用户已被拉近黑名单'
+            break
+          case errorCode.ERROR_USER_NOTEXISTED:
+            responseResult.errorMsg = '用户不存在'
+            break
+          default:
+            break
+        }
+      }
     } catch (error) {
       responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + error.message }
       logUtil.logErrorMsg(functionName, responseResult.errorMsg)
