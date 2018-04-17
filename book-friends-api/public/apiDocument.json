@@ -149,6 +149,64 @@
        }
       }
     },
+    "/user/query": {
+      "get": {
+        "tags": [
+          "用户"
+        ],
+        "summary": "此接口用于搜索查找相应用户",
+        "description": "搜索查找用户",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "分页的页码",
+            "required": true,
+            "type": "number",
+            "format": "int"
+          },
+          {
+            "name": "keyWord",
+            "in": "query",
+            "description": "查询用户的关键字",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "搜索用户请求成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref":"#/definitions/UserInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
     "/book/new": {
       "get": {
         "tags": [
@@ -316,6 +374,52 @@
                     "$ref":"#/definitions/BookInfo"
                   }
                 }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/userbook/storeup": {
+      "post": {
+        "tags": [
+          "图书"
+        ],
+        "summary": "此接口用于用户添加收藏的书籍",
+        "description": "用户收藏某本书籍",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "收藏的书的信息",
+            "required": true,
+            "schema": {
+              "$ref":"#/definitions/StoredInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户收藏某本书籍请求成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                }      
               }
             }
           },
@@ -499,6 +603,19 @@
           "type": "number",
           "format": "int",
           "description": "数量"
+        }
+      }
+    },
+    "StoredInfo": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "用户ID"
+        },
+        "isbn": {
+          "type": "string",
+          "description": "书籍的ISBN"
         }
       }
     },
