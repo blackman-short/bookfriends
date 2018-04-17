@@ -10,5 +10,6 @@ module.exports = {
   ERROR_INSERT_DB: '数据库保存错误: ',
   ERROR_LOAD_DBDATA: '从数据库中查询数据发生错误: ',
   ERROR_CALL_MANAGER: '调用MANAGER层函数发生错误: ',
-  ERROR_REQUEST: '请求错误：'
+  ERROR_REQUEST: '请求错误：',
+  ERROR_BOOK_HASSTORED: '该书已收藏在我的书架'
 }

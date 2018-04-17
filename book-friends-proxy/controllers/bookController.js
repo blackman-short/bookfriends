@@ -3,6 +3,7 @@ const types = require('../utils/types')
 const logUtil = require('../utils/logUtil')
 const errorMsg = require('../error/errorMsg')
 const errorCode = require('../error/errorCode')
+const bookProxy = require('../proxy/douban/bookInfoProxy')
 const bookManager = require('../managers/bookInfoManager')
 
 /**
@@ -43,4 +44,38 @@ async function getRecommendBooks (req, res, next) {
   return res.status(200).send(response)
 }
 
+/**
+ * Gets book info by book's isbn.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function getBookInfoByISBN (req, res, next) {
+  const funcName = 'proxy: controllers/book/getBookInfoByISBN'
+  let response = { errorCode: errorCode.SUCCESS }
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+
+  // Validates parameters.
+  let isbn = req.body.isbn
+  try {
+    if (!isbn || (isbn && !validator.trim(isbn))) {
+      throw new Error('Please provide parameter: isbn')
+    } else {
+      isbn = validator.trim(isbn)
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  // If has no parameter errors.
+  if (response.errorCode === errorCode.SUCCESS) {
+    response = await bookProxy.getBookInfoByISBN(isbn)
+  }
+
+  return res.status(200).send(response)
+}
+
+exports.getBookInfoByISBN = getBookInfoByISBN
 exports.getRecommendBooks = getRecommendBooks

@@ -2,6 +2,7 @@ const logUtil = require('../utils/logUtil')
 const errorMsg = require('../error/errorMsg')
 const UserInfo = require('../models').UserInfo
 const errorCode = require('../error/errorCode')
+const PAGE_SIZE = require('../config/systemConfig').pageSize
 
 /**
  * Registers a new account.
@@ -49,7 +50,7 @@ async function login (phoneNumber, password) {
     const pwd = await UserInfo.findOne({phoneNumber: phoneNumber, password: password})
     // If success, return the user's information
     if (user) {
-      result = { errorCode: errorCode.SUCCESS } // login successfully.
+      result = { errorCode: errorCode.SUCCESS, data: user } // login successfully.
     } else {
       if (pwd) {
         result = { errorCode: errorCode.ERROR_PWD } // password is wrong.
@@ -103,7 +104,26 @@ async function queryUserInfoById (userId) {
   return data
 }
 
+/**
+ * Searched users by keyword.
+ * @param {*String} keyWord
+ * @param {*Number} pageIndex
+ */
+async function searchUsersByKeyword (keyWord, pageIndex) {
+  let users = null
+
+  if (keyWord && pageIndex > 0) {
+    const regEx = new RegExp(keyWord, 'i')
+    const skipCount = (pageIndex - 1) * PAGE_SIZE
+    users = await UserInfo.find({$or: [{nickName: regEx}, {phoneNumber: regEx}], isActive: false})
+      .skip(skipCount).limit(PAGE_SIZE)
+  }
+
+  return users
+}
+
 exports.login = login
 exports.register = register
 exports.updateInfo = updateInfo
 exports.queryUserInfoById = queryUserInfoById
+exports.searchUsersByKeyword = searchUsersByKeyword

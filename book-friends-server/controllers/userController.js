@@ -92,7 +92,7 @@ async function login (req, res, next) {
       if (responseResult && responseResult.errorCode) {
         switch (responseResult.errorCode) {
           case errorCode.SUCCESS:
-            responseResult.data = 'ok'
+            responseResult.message = 'ok'
             break
           case errorCode.ERROR_PWD:
             responseResult.errorMsg = '密码错误'
@@ -156,6 +156,50 @@ async function updateInfo (req, res, next) {
   return res.status(200).send(responseResult)
 }
 
-exports.register = register
+/**
+ * Gets users according to keyword.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function getUsersByKeyword (req, res, next) {
+  const funcName = 'server: controllers/user/getUsersByKeyword'
+  let responseResult = { errroCode: errorCode.SUCCESS }
+
+  // validates req parameters.
+  let keyWord = req.query.keyWord
+  let pageIndex = req.query.pageIndex
+  try {
+    if (!keyWord || (keyWord && !validator.trim(keyWord))) {
+      throw new Error('Please provide parameter: keyWord')
+    } else if (!pageIndex || (pageIndex && !validator.trim(pageIndex))) {
+      throw new Error('Please provide parameter: pageIndex')
+    } else {
+      keyWord = validator.trim(keyWord)
+      pageIndex = parseInt(validator.trim(pageIndex))
+      if (pageIndex <= 0) {
+        throw new Error('pageIndex(> 0) is invalid')
+      }
+    }
+  } catch (error) {
+    responseResult = { errorCode: errorCode.PARAMETER_ERRORMSG, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
+    logUtil.logErrorMsg(funcName, responseResult.errorMsg)
+    return res.status(200).send(responseResult)
+  }
+
+  if (responseResult.errroCode === errorCode.SUCCESS) {
+    try {
+      responseResult = await userInfoManager.queryUsersByKeyword(keyWord, pageIndex)
+    } catch (error) {
+      responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, responseResult.errorMsg)
+    }
+  }
+
+  return res.status(200).send(responseResult)
+}
+
 exports.login = login
+exports.register = register
 exports.updateInfo = updateInfo
+exports.getUsersByKeyword = getUsersByKeyword

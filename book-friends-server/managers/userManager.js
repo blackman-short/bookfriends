@@ -65,6 +65,28 @@ async function updateInfo (userInfo) {
   return result
 }
 
-exports.register = register
+/**
+ * Querys users by keyword.
+ * @param {*String} keyWord
+ * @param {*Number} pageIndex
+ */
+async function queryUsersByKeyword (keyWord, pageIndex) {
+  let result = { errorCode: errorCode.PARAMETER_ERRORMSG, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  if (keyWord && pageIndex > 0) {
+    let loadData = null
+    try {
+      loadData = await userInfoDal.searchUsersByKeyword(keyWord, pageIndex)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+    }
+    result = { errorCode: errorCode.SUCCESS, data: loadData }
+  }
+
+  return result
+}
+
 exports.login = login
+exports.register = register
 exports.updateInfo = updateInfo
+exports.queryUsersByKeyword = queryUsersByKeyword

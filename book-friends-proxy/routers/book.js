@@ -4,5 +4,6 @@ const bookController = require('../controllers/bookController')
 
 const routers = router
   .post('/recommend', bookController.getRecommendBooks)
+  .post('/querybyisbn', bookController.getBookInfoByISBN)
 
 module.exports = routers
