@@ -8,8 +8,10 @@ module.exports = {
   ERROR_LOGIN: '登录失败',
   ERROR_UPDATE_USERINFO: '用户更新信息失败',
   ERROR_INSERT_DB: '数据库保存错误: ',
+  ERROR_DELETE_DB: '数据库删除错误: ',
   ERROR_LOAD_DBDATA: '从数据库中查询数据发生错误: ',
   ERROR_CALL_MANAGER: '调用MANAGER层函数发生错误: ',
   ERROR_REQUEST: '请求错误：',
-  ERROR_BOOK_HASSTORED: '该书已收藏在我的书架'
+  ERROR_BOOK_HASSTORED: '该书已收藏在我的书架',
+  ERROR_FRIEND_HASADDED: '该用户已在好友列表'
 }

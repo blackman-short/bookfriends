@@ -15,7 +15,7 @@ exports.AdminInfo = mongoose.model('admin')
 exports.BookInfo = mongoose.model('book')
 exports.UserBookInfo = mongoose.model('userbook')
 exports.BookStoreInfo = mongoose.model('bookstore')
-exports.UserFriend = mongoose.model('userfriend')
+exports.UserFriendInfo = mongoose.model('userfriend')
 
 // Connecting the mongoDB.
 mongoose.Promise = global.Promise

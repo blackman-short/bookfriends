@@ -4,10 +4,12 @@ const user = require('./user')
 const book = require('./book')
 const admin = require('./admin')
 const userBook = require('./userBook')
+const userFriend = require('./userFriend')
 
 router.use('/user', user)
 router.use('/book', book)
 router.use('/admin', admin)
+router.use('/friend', userFriend)
 router.use('/userbook', userBook)
 
 module.exports = router

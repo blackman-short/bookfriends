@@ -428,6 +428,148 @@
           }
         }
       }
+    },
+    "/friend/add": {
+      "post": {
+        "tags": [
+          "用户好友"
+        ],
+        "summary": "此接口用于用户添加好友",
+        "description": "用户添加好友",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "添加好友时所需的参数",
+            "required": true,
+            "schema": {
+              "$ref":"#/definitions/FriendParams"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户添加好友请求成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                }      
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/friend/delete": {
+      "post": {
+        "tags": [
+          "用户好友"
+        ],
+        "summary": "此接口用于用户取消关注好友",
+        "description": "用户取消关注好友、删除好友",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "取关好友时所需的参数",
+            "required": true,
+            "schema": {
+              "$ref":"#/definitions/FriendParams"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户取关好友请求成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                }      
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/friend/query": {
+      "get": {
+        "tags": [
+          "用户好友"
+        ],
+        "summary": "此接口用于查询某个用户的好友列表",
+        "description": "获取用户的好友列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户的ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取用户好友列表成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref":"#/definitions/UserInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -523,6 +665,10 @@
       "type": "object",
       "description": "用户更新的个人信息",
       "properties": {
+        "phoneNumber": {
+          "type": "string",
+          "description": "用户手机号"
+        },
         "password": {
           "type": "string",
           "description": "用户密码"
@@ -552,7 +698,10 @@
           "type": "string",
           "description": "个人头像"
         }
-      }
+      },
+      "required": [
+        "phoneNumber"
+      ]
     },
     "BookInfo": {
       "type": "object",
@@ -604,7 +753,10 @@
           "format": "int",
           "description": "数量"
         }
-      }
+      },
+      "required": [
+        "tag"
+      ]
     },
     "StoredInfo": {
       "type": "object",
@@ -617,7 +769,28 @@
           "type": "string",
           "description": "书籍的ISBN"
         }
-      }
+      },
+      "required": [
+        "userId",
+        "isbn"
+      ]
+    },
+    "FriendParams": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "用户ID"
+        },
+        "friendId": {
+          "type": "string",
+          "description": "好友ID"
+        }
+      },
+      "required": [
+        "userId",
+        "friendId"
+      ]
     },
     "ResultCode": {
       "type": "number",
@@ -631,7 +804,9 @@
         2002, // 用户已存在
         2003, // 账号异常, 黑名单
         2004, // 密码错误
-        2005 // 更新用户信息失败
+        2005, // 更新用户信息失败
+        2006, // 书籍已被收藏
+        2007  // 用户已被添加为好友
       ]
     }
   }

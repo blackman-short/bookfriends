@@ -19,7 +19,8 @@ async function register (phoneNumber, password, nickName) {
     if (!user || (user && user.length === 0)) {
       const userInfo = new UserInfo({
         phoneNumber: phoneNumber,
-        password: password
+        password: password,
+        nickName: nickName
       })
       // creates one account.
       await userInfo.save()
@@ -52,14 +53,14 @@ async function login (phoneNumber, password) {
     if (user) {
       result = { errorCode: errorCode.SUCCESS, data: user } // login successfully.
     } else {
-      if (pwd) {
-        result = { errorCode: errorCode.ERROR_PWD } // password is wrong.
-      } else {
-        result = { errorCode: errorCode.ERROR_ACCOUNT } // account is not active. - 黑名单
-      }
-
       if (!account) {
-        result = { errorCode: errorCode.ERROR_USER_NOTEXISTED } // account is existed.
+        result = { errorCode: errorCode.ERROR_USER_NOTEXISTED } // account is not existed.
+      } else {
+        if (pwd) {
+          result = { errorCode: errorCode.ERROR_ACCOUNT } // account is not active. - 黑名单
+        } else {
+          result = { errorCode: errorCode.ERROR_PWD } // password is wrong.
+        }
       }
     }
   }
