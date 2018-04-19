@@ -6,16 +6,20 @@ const logUtil = require('../utils/logUtil')
 require('./userInfo')
 require('./bookInfo')
 require('./adminInfo')
+require('./commentInfo')
 require('./userBookInfo')
 require('./bookStoreInfo')
 require('./userFriendInfo')
+require('./userDynamicInfo')
 
+exports.BookInfo = mongoose.model('book')
 exports.UserInfo = mongoose.model('user')
 exports.AdminInfo = mongoose.model('admin')
-exports.BookInfo = mongoose.model('book')
+exports.CommentInfo = mongoose.model('comment')
 exports.UserBookInfo = mongoose.model('userbook')
 exports.BookStoreInfo = mongoose.model('bookstore')
 exports.UserFriendInfo = mongoose.model('userfriend')
+exports.UserDynamicInfo = mongoose.model('userDynamic')
 
 // Connecting the mongoDB.
 mongoose.Promise = global.Promise

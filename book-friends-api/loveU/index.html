@@ -20,20 +20,27 @@
 		<div id="content">
 			<div id="code">
 				<span class="comments">/**</span><br />
-				<span class="space"/><span class="comments">* We are both playing 剑三,but I am a Programmer</span><br />
-				<span class="space"/><span class="comments">* so I write some code to celebrate our 1st anniversary.</span><br />
+				<span class="space"/><span class="comments">* We have not met each other, only exchanged photos.</span><br />
+        <span class="space"/><span class="comments">* For I am a Programmer,</span><br />
+        <span class="space"/><span class="comments">* so I write some code to express my feeling.</span><br />
 				<span class="space"/><span class="comments">*/</span><br />
-				Boy i = <span class="keyword">new</span> Boy(<span class="string">"红颜-peng"</span>);<br />
-				Girl u = <span class="keyword">new</span> Girl(<span class="string">"噬灵-yan"</span>);<br />
-				<span class="comments">// Nov 28, 2016, I met you. </span><br />
-				i.love(u);<br />
-				<span class="comments">// Luckily, you accepted and became my girlfriend eversince.</span><br />
+				Boy i = <span class="keyword">new</span> Boy(<span class="string">"blackman-zhou"</span>);<br />
+				Girl u = <span class="keyword">new</span> Girl(<span class="string">"prettygirl-yu"</span>);<br />
+        <span class="comments">// April 16, 2018.</span><br />
+        <span class="comments">// I heard that you are a pretty girl by seeing the photo.</span><br />
+        <font style="color: #DD4040">i.know(u);</font><br />
+        <font style="color: #EE4040">i.moved();</font><br />
+        <font style="color: #FF4040">i.touched();</font><br />
+  
+        <span class="comments">// Luckily and happily, I got the contact</span><br />
+        i.contacted(u)<br />
 				u.accepted();<br />
-				<span class="comments">// Since then, I miss u every day.</span><br />
-				i.miss(u);<br />
-				<span class="comments">// And take care of u and our love.</span><br />
-				i.takeCareOf(u);<br />
-				<span class="comments">// You say that you won't be so easy to marry me.</span><br />
+				<span class="comments">// Since then, I want to date with u every day.</span><br />
+				i.want() => i.datewith(u);<br />
+				<span class="comments">// And take care of u for the rest of life.</span><br />
+				i.want() => i.takeCareOf(u);<br />
+        <!-- <span class="comments">// You say that you won't be so easy to marry me.</span><br /> -->
+        <span class="comments">// You are suprised that i am older than u.</span><br />
 				<span class="comments">// So I keep waiting and I have confidence that you will.</span><br />
 				<span class="keyword">boolean</span> isHesitate = <span class="keyword">true</span>;<br />
 				<span class="keyword">while</span> (isHesitate) {<br />
@@ -41,31 +48,40 @@
 				<span class="placeholder"/><span class="comments">// I think it is an important decision</span><br />				
 				<span class="placeholder"/>isHesitate = u.thinkOver();<br />
 				}<br />
-				i.liveHappilyWith(u);<br />
+				i.datewith(u);<br />
 			</div>
 			<div id="loveHeart">
 				<canvas id="garden"></canvas>
 				<div id="words">
 					<div id="messages">
-						yanxin, I have fallen in love with you for
+						huirong, I have fallen in love for
 						<div id="elapseClock"></div>
 					</div>
 					<div id="loveu">
-						Love u forever and ever.<br/>
-						<div class="signature">- Mr.peng</div>
+						So......, I want to see U.<br/>
+						<div class="signature">- Mr.zhou</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div id="copyright">
-			Copyright © 2017 <a href='https://github.com/InvokerPeng'>Mr.peng</a> 2016-2017
-		</div>
+		<!-- <div id="copyright">
+			Copyright © 2018 <a href='https://github.com/blackman-short'>Mr.zhou</a> 2017-2018
+    </div> -->
+    <div style="float: left;">
+      <div style="float:left">
+        <img src="./images/small.gif" style="width: 500px;height: 180px;margin-left: -50px;"/>
+      </div>
+      <div style="float:left;">
+        <img src="./images/slow.gif" style="width: 1000px;height: 200px;margin-left: -180px"/>
+      </div>
+    </div>
 	</div>
 	<script type="text/javascript">
 		var offsetX = $("#loveHeart").width() / 2;
 		var offsetY = $("#loveHeart").height() / 2 - 55;
-		var together = new Date();
-		together.setFullYear(2016, 11, 28);
+    var together = new Date();
+    console.log(together)
+		together.setFullYear(2018, 3, 16);
 		together.setHours(20);
 		together.setMinutes(0);
 		together.setSeconds(0);
@@ -77,8 +93,8 @@
 			msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+"; 
 			document.body.appendChild(msg);
 			$("#code").css("display", "none")
-			$("#copyright").css("position", "absolute");
-			$("#copyright").css("bottom", "10px");
+			// $("#copyright").css("position", "absolute");
+			// $("#copyright").css("bottom", "10px");
 		    document.execCommand("stop");
 		} else {
 			setTimeout(function () {
@@ -94,6 +110,6 @@
 			$("#code").typewriter();
 		}
 	</script>
-	<embed src="羽肿 - Rain after Summer.mp3" hidden="true" autostart="true" loop="true">
+	<embed src="周杰伦 - 告白气球.mp3" hidden="true" autostart="true" loop="true">
 </body>
 </html>
