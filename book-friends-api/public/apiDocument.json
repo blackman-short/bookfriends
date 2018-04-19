@@ -570,6 +570,244 @@
           }
         }
       }
+    },
+    "/dynamic/infos": {
+      "get": {
+        "tags": [
+          "用户动态"
+        ],
+        "summary": "此接口用于查询用户的动态信息",
+        "description": "查询用户动态内容",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户的ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取用户动态信息成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref":"#/definitions/DynamicInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/dynamic/like": {
+      "post": {
+        "tags": [
+          "用户动态"
+        ],
+        "summary": "此接口用于更新用户动态信息",
+        "description": "更新某一条动态信息的点赞数",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "用户点赞所需的参数",
+            "required": true,
+            "schema": {
+              "$ref":"#/definitions/LikeParams"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "为某条动态点赞成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/dynamic/publish": {
+      "post": {
+        "tags": [
+          "用户动态"
+        ],
+        "summary": "此接口用于用户发表动态",
+        "description": "用户发表动态",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "发表动态时所需的参数",
+            "required": true,
+            "schema": {
+              "$ref":"#/definitions/DynamicInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "发表动态成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/comment/infos": {
+      "get": {
+        "tags": [
+          "用户评论"
+        ],
+        "summary": "此接口用于获取某条动态的评论信息",
+        "description": "获取某条动态的所有评论信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "dynamicId",
+            "in": "query",
+            "description": "某条动态的ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取某条动态的评论信息成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref":"#/definitions/CommentInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/comment/publish": {
+      "post": {
+        "tags": [
+          "用户评论"
+        ],
+        "summary": "此接口用于用户发表评论",
+        "description": "用户对某一条动态发表评论",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "发表评论时所需的参数",
+            "required": true,
+            "schema": {
+              "$ref":"#/definitions/CommentInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户发表评论成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -790,6 +1028,81 @@
       "required": [
         "userId",
         "friendId"
+      ]
+    },
+    "DynamicInfo": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "用户ID"
+        },
+        "content": {
+          "type": "string",
+          "description": "动态内容"
+        },
+        "likeCount": {
+          "type": "number",
+          "description": "点赞数",
+          "default": 0,
+          "format": "int"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "动态创建时间"
+        }
+      },
+      "required": [
+        "userId",
+        "content"
+      ]
+    },
+    "LikeParams": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "用户ID"
+        },
+        "dynamicId": {
+          "type": "string",
+          "description": "某条动态ID"
+        }
+      },
+      "required": [
+        "userId"
+      ]
+    },
+    "CommentInfo": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "用户ID"
+        },
+        "dynamicId": {
+          "type": "string",
+          "description": "被评论的动态的ID"
+        },
+        "content": {
+          "type": "string",
+          "description": "评论内容"
+        },
+        "likeCount": {
+          "type": "number",
+          "description": "点赞数",
+          "default": 0,
+          "format": "int"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "评论创建时间"
+        }
+      },
+      "required": [
+        "userId",
+        "dynamicId",
+        "content"
       ]
     },
     "ResultCode": {
