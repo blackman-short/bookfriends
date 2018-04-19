@@ -103,6 +103,7 @@ async function queryRecommendBooks (pageIndex, userId) {
   // validates the userId is right.
   if (!userInfo) {
     queryResult = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED + `: userId: ${userId}` }
+    logUtil.logDebugMsg(functionName, queryResult.errorMsg + `userId: ${userId}`)
     return queryResult
   }
 

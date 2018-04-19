@@ -66,6 +66,34 @@ async function updateInfo (userInfo) {
 }
 
 /**
+ * Gets certain user's info by the user ID.
+ * @param {*String} userId
+ */
+async function getUserInfoByUserId (userId) {
+  const funcName = 'server: managers/user/getUserInfoByUserId'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  let userInfo = null
+  if (userId) {
+    try {
+      userInfo = await userInfoDal.queryUserInfoById(userId)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_LOAD_DBDATA, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
+      return result
+    }
+    if (!userInfo) {
+      result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED }
+      logUtil.logDebugMsg(funcName, result.errorMsg + `userId: ${userId}`)
+    } else {
+      result = { errorCode: errorCode.SUCCESS, data: userInfo }
+    }
+  }
+
+  return result
+}
+
+/**
  * Querys users by keyword.
  * @param {*String} keyWord
  * @param {*Number} pageIndex
@@ -89,4 +117,5 @@ async function queryUsersByKeyword (keyWord, pageIndex) {
 exports.login = login
 exports.register = register
 exports.updateInfo = updateInfo
+exports.getUserInfoByUserId = getUserInfoByUserId
 exports.queryUsersByKeyword = queryUsersByKeyword

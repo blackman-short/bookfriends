@@ -13,5 +13,6 @@ module.exports = {
   ERROR_CALL_MANAGER: '调用MANAGER层函数发生错误: ',
   ERROR_REQUEST: '请求错误：',
   ERROR_BOOK_HASSTORED: '该书已收藏在我的书架',
-  ERROR_FRIEND_HASADDED: '该用户已在好友列表'
+  ERROR_FRIEND_HASADDED: '该用户已在好友列表',
+  ERROR_DYNAMIC_NOTEXISTED: '该条动态不存在'
 }

@@ -199,7 +199,47 @@ async function getUsersByKeyword (req, res, next) {
   return res.status(200).send(responseResult)
 }
 
+/**
+ * Gets certain user info by user ID.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function getUserInfoByUserId (req, res, next) {
+  const funcName = 'server: controllers/user/getUserInfoByUserId'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+  let response = { errorCode: errorCode.SUCCESS }
+
+  // Validates parameters.
+  let userId = req.query.userId
+
+  try {
+    if (!userId || (userId && !validator.trim(userId))) {
+      throw new Error('Please provide parameter: userId')
+    } else {
+      userId = validator.trim(userId)
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  // If has no parameter errors
+  if (response.errorCode === errorCode.SUCCESS) {
+    try {
+      response = await userInfoManager.getUserInfoByUserId(userId)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
+  }
+
+  return res.status(200).send(response)
+}
+
 exports.login = login
 exports.register = register
 exports.updateInfo = updateInfo
 exports.getUsersByKeyword = getUsersByKeyword
+exports.getUserInfoByUserId = getUserInfoByUserId

@@ -19,7 +19,7 @@ async function addFriends (userId, friendId) {
       const user = await userDal.queryUserInfoById(userId)
       if (!user) {
         result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED }
-        logUtil.logDebugMsg(funcName, result.errorMsg)
+        logUtil.logDebugMsg(funcName, result.errorMsg + `userId: ${userId}`)
         return result
       }
 
@@ -49,7 +49,7 @@ async function deleteFriend (userId, friendId) {
       const user = await userDal.queryUserInfoById(userId)
       if (!user) {
         result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED }
-        logUtil.logDebugMsg(funcName, result.errorMsg)
+        logUtil.logDebugMsg(funcName, result.errorMsg + `userId: ${userId}`)
         return result
       }
 
