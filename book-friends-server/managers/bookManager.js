@@ -52,16 +52,17 @@ async function queryNewBooks (pageIndex, keyWord) {
   let loadResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
   let data = null
-
+  let totalCount = 0
   try {
     data = await bookDal.queryNewBooks(pageIndex, keyWord)
+    totalCount = await bookDal.getNewBooksTotalCount(keyWord)
   } catch (error) {
     loadResult = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + error.message }
     logUtil.logErrorMsg('server: managers/book/queryNewBooks', loadResult.errorMsg)
   }
 
   if (data) {
-    loadResult = { errorCode: errorCode.SUCCESS, data: data }
+    loadResult = { errorCode: errorCode.SUCCESS, data: data, totalCount: totalCount }
   }
 
   return loadResult
@@ -76,16 +77,18 @@ async function queryHotBooks (pageIndex, keyWord) {
   let loadResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
   let data = null
+  let totalCount = 0
 
   try {
     data = await bookDal.queryHotBooks(pageIndex, keyWord)
+    totalCount = await bookDal.getHotBooksTotalCount(keyWord)
   } catch (error) {
     loadResult = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + error.message }
     logUtil.logErrorMsg('server: managers/book/queryHotBooks', loadResult.errorMsg)
   }
 
   if (data) {
-    loadResult = { errorCode: errorCode.SUCCESS, data: data }
+    loadResult = { errorCode: errorCode.SUCCESS, data: data, totalCount: totalCount }
   }
 
   return loadResult
@@ -259,6 +262,31 @@ async function storeUpBook (userId, isbn) {
 }
 
 /**
+ * Querys the certain book's info by ISBN.
+ * @param {*String} isbn
+ */
+async function queryBookInfoByISBN (isbn) {
+  const funcName = 'server: managers/book/queryBookInfoByISBN'
+  let result = { errorCode: errorCode.PARAMETER_ERRORMSG, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  let bookInfo = null
+  if (isbn) {
+    try {
+      bookInfo = await bookDal.queryBookByISBN(isbn)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
+    }
+  }
+
+  if (bookInfo) {
+    result = { errorCode: errorCode.SUCCESS, data: bookInfo }
+  }
+
+  return result
+}
+
+/**
  * Converts douBook to local book.
  * @param {*Object} douBook
  */
@@ -309,4 +337,5 @@ exports.saveBook = saveBook
 exports.storeUpBook = storeUpBook
 exports.queryNewBooks = queryNewBooks
 exports.queryHotBooks = queryHotBooks
+exports.queryBookInfoByISBN = queryBookInfoByISBN
 exports.queryRecommendBooks = queryRecommendBooks

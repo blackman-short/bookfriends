@@ -149,12 +149,12 @@
        }
       }
     },
-    "/user/query": {
+    "/user/search": {
       "get": {
         "tags": [
           "用户"
         ],
-        "summary": "此接口用于搜索查找相应用户",
+        "summary": "此接口用于搜索查找用户",
         "description": "搜索查找用户",
         "consumes": [
           "application/json"
@@ -197,6 +197,54 @@
                   "items": {
                     "$ref":"#/definitions/UserInfo"
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/user/get": {
+      "get": {
+        "tags": [
+          "用户"
+        ],
+        "summary": "此接口用于根据用户ID查找相应用户",
+        "description": "根据用户ID查找相应用户",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户ID",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "查找用户请求成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "object",
+                  "$ref":"#/definitions/UserInfo"
                 }
               }
             }
@@ -255,7 +303,14 @@
                   "type": "array",
                   "items": {
                     "$ref":"#/definitions/BookInfo"
-                  }
+                  },
+                  "description": "新书列表"
+                },
+                "totalCount": {
+                  "type": "number",
+                  "format": "int",
+                  "default": 0,
+                  "description": "新书的总数量"
                 }
               }
             }
@@ -314,7 +369,14 @@
                   "type": "array",
                   "items": {
                     "$ref":"#/definitions/BookInfo"
-                  }
+                  },
+                  "description": "热销书列表"
+                },
+                "totalCount": {
+                  "type": "number",
+                  "format": "int",
+                  "default": 0,
+                  "description": "热销书的总数量"
                 }
               }
             }
@@ -1119,7 +1181,8 @@
         2004, // 密码错误
         2005, // 更新用户信息失败
         2006, // 书籍已被收藏
-        2007  // 用户已被添加为好友
+        2007,  // 用户已被添加为好友
+        2008 // 该条动态不存在
       ]
     }
   }

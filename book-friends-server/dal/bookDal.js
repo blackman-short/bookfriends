@@ -14,7 +14,8 @@ async function saveBook (data) {
       }
       await bookInfo.save()
     } else {
-      await BookInfo.update({isbn: data.isbn}, {isActive: true})
+      data.isActive = true
+      await BookInfo.update({isbn: data.isbn}, data)
     }
   }
 }
@@ -35,10 +36,25 @@ async function queryNewBooks (pageIndex, keyWord) {
   if (pageIndex > 0) {
     const skipCount = PAGE_SIZE * (pageIndex - 1)
     const regEx = new RegExp(keyWord, 'i')
-    data = await BookInfo.find({isNews: true, title: regEx}).skip(skipCount).limit(PAGE_SIZE)
+    data = await BookInfo.find({isNews: true, title: regEx, isActive: true}).skip(skipCount).limit(PAGE_SIZE)
   }
 
   return data
+}
+
+/**
+ * Gets the new books' total count.
+ * @param {*String} keyWord
+ */
+async function getNewBooksTotalCount (keyWord) {
+  let count = 0
+
+  if (keyWord) {
+    const regEx = new RegExp(keyWord, 'i')
+    count = await BookInfo.find({isNews: true, title: regEx, isActive: true}).count()
+  }
+
+  return count
 }
 
 /**
@@ -57,6 +73,21 @@ async function queryHotBooks (pageIndex, keyWord) {
   }
 
   return data
+}
+
+/**
+ * Gets the hot books' total count.
+ * @param {*String} keyWord
+ */
+async function getHotBooksTotalCount (keyWord) {
+  let count = 0
+
+  if (keyWord) {
+    const regEx = new RegExp(keyWord, 'i')
+    count = await BookInfo.find({isHot: true, title: regEx, isActive: true}).count()
+  }
+
+  return count
 }
 
 /**
@@ -111,3 +142,5 @@ exports.queryNewBooks = queryNewBooks
 exports.queryHotBooks = queryHotBooks
 exports.queryBookByISBN = queryBookByISBN
 exports.queryRecommendBooks = queryRecommendBooks
+exports.getNewBooksTotalCount = getNewBooksTotalCount
+exports.getHotBooksTotalCount = getHotBooksTotalCount

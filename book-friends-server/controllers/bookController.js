@@ -151,7 +151,46 @@ async function getRecommendBooks (req, res, next) {
   return res.status(200).send(response)
 }
 
+/**
+ * Gets the certain book's info by ISBN.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function getBookInfoByISBN (req, res, next) {
+  const funcName = 'server: controllers/book/getBookInfoByISBN'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+
+  let response = { errorCode: errorCode.SUCCESS }
+  let isbn = req.query.isbn
+
+  // Validates parameters
+  try {
+    if (!isbn || (isbn && !validator.trim(isbn))) {
+      throw new Error('Please provide parameter: isbn')
+    } else {
+      isbn = validator.trim(isbn)
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  // If has no parameter errors.
+  if (response.errorCode === errorCode.SUCCESS) {
+    try {
+      response = await bookManager.queryBookInfoByISBN(isbn)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
+  }
+  return res.status(200).send(response)
+}
+
 exports.saveBook = saveBook
 exports.getNewBooks = getNewBooks
 exports.getHotBooks = getHotBooks
+exports.getBookInfoByISBN = getBookInfoByISBN
 exports.getRecommendBooks = getRecommendBooks

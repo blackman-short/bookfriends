@@ -11,7 +11,7 @@ const userInfoSchema = mongoose.Schema({
   provinceName: { type: String }, // 所在省
   cityName: { type: String }, // 所在城市
   univercity: { type: String }, // 所在大学
-  headIcon: { type: String }, // 头像
+  headIcon: { type: String, default: 'm_01' }, // 头像
   description: { type: String }, // 自我描述
   QRCode: { type: String }, // 二维码
   hobbies: [String], // 喜好,
