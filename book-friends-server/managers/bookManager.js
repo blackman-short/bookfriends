@@ -279,9 +279,7 @@ async function queryBookInfoByISBN (isbn) {
     }
   }
 
-  if (bookInfo) {
-    result = { errorCode: errorCode.SUCCESS, data: bookInfo }
-  }
+  result = { errorCode: errorCode.SUCCESS, data: bookInfo }
 
   return result
 }

@@ -4,7 +4,7 @@ module.exports = {
   getBookByISBNUrl () {
     return this.baseUrl + '/isbn/'
   },
-  getBooksByTag () {
+  searchBooks () {
     return this.baseUrl + '/search'
   }
 }

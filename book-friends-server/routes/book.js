@@ -5,6 +5,7 @@ const routers = router
   .post('/save', bookController.saveBook)
   .get('/new', bookController.getNewBooks)
   .get('/hot', bookController.getHotBooks)
+  .get('/isbn', bookController.getBookInfoByISBN)
   .get('/recommend', bookController.getRecommendBooks)
 
 module.exports = routers

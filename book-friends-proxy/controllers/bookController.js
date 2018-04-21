@@ -77,5 +77,51 @@ async function getBookInfoByISBN (req, res, next) {
   return res.status(200).send(response)
 }
 
+/**
+ * Searches books by keyWord.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function searchBooks (req, res, next) {
+  const funcName = 'proxy: controllers/book/searchBooks'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+  let response = { errorCode: errorCode.SUCCESS }
+
+  // Validates parameters
+  let keyWord = req.query.keyWord
+  let pageIndex = req.query.pageIndex
+  try {
+    if (!keyWord || (keyWord && !validator.trim(keyWord))) {
+      throw new Error('Please provide parameter: keyWord')
+    } else if (!pageIndex || (pageIndex && !validator.trim(pageIndex))) {
+      throw new Error('Please provide parameter: pageIndex')
+    } else {
+      keyWord = validator.trim(keyWord)
+      pageIndex = parseInt(pageIndex)
+      if (pageIndex < 1) {
+        throw new Error('the pageIndex should be > 0')
+      }
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  // If has no parameter errors
+  if (response.errorCode === errorCode.SUCCESS) {
+    try {
+      response = await bookProxy.searchBooks(keyWord, pageIndex)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
+  }
+
+  return res.status(200).send(response)
+}
+
+exports.searchBooks = searchBooks
 exports.getBookInfoByISBN = getBookInfoByISBN
 exports.getRecommendBooks = getRecommendBooks

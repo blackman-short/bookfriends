@@ -1,4 +1,6 @@
+const types = require('../../utils/types')
 const logUtil = require('../../utils/logUtil')
+const bookDal = require('../../dal/bookInfoDal')
 const errorMsg = require('../../error/errorMsg')
 const errorCode = require('../../error/errorCode')
 const doubanConfig = require('../../config/douban_config')
@@ -40,4 +42,103 @@ async function getBookInfoByISBN (isbn) {
   return loadResult
 }
 
+/**
+ * Searches books by calling douban server.
+ * @param {*String} keyWord
+ */
+async function searchBooks (keyWord, pageIndex) {
+  const funcName = 'proxy: managers/book/getBookByTagFromDouBan'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+  let books = []
+
+  if (!keyWord && pageIndex < 1) {
+    return books
+  }
+
+  let response = null
+  const startIndex = (pageIndex - 1) * doubanConfig.queryCount
+  try {
+    const reqData = {
+      q: keyWord,
+      start: startIndex,
+      count: doubanConfig.queryCount
+    }
+    logUtil.logDebugMsg(funcName, `call douban server: url - ${doubanConfig.searchBooks()}; param - ${keyWord}`)
+    response = await commonRequest.get(doubanConfig.searchBooks(), reqData)
+  } catch (error) {
+    result = { errorCode: errorCode.ERROR_REQUEST, errorMsg: errorMsg.ERROR_REQUEST }
+
+    if (error.code === 'ENOENT') {
+      result.errorMsg = 'NetWork errored'
+    }
+    logUtil.logErrorMsg(funcName, result.errorMsg + JSON.stringify(error))
+    return result
+  }
+
+  if (!response) {
+    result = { errorCode: errorCode.ERROR_REQUEST, errorMsg: errorMsg.ERROR_REQUEST + 'return response is null' }
+    logUtil.logDebugMsg(funcName, 'get response is null from douban')
+  } else {
+    // Converts getted books.
+    response = JSON.parse(response)
+    response.books.forEach(b => {
+      books.push(types.bookConvertor(b))
+    })
+    result = { errorCode: errorCode.SUCCESS, data: books }
+    // asyn save books to local DB.
+    bookDal.saveBooks(books)
+  }
+
+  return result
+}
+
+/**
+ * Gets books from douban by tag.
+ * @param {*String} hobby
+ */
+async function getBookByTagFromDouBan (hobby, queryCount) {
+  const funcName = 'proxy: managers/book/getBookByTagFromDouBan'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+  let books = []
+
+  if (!hobby) {
+    return books
+  }
+
+  let response = null
+  try {
+    const reqData = {
+      tag: hobby,
+      count: queryCount,
+      start: 0
+    }
+    logUtil.logDebugMsg(funcName, `call douban server: url - ${doubanConfig.searchBooks()}; param - ${hobby}`)
+    response = await commonRequest.get(doubanConfig.searchBooks(), reqData)
+  } catch (error) {
+    result = { errorCode: errorCode.ERROR_REQUEST, errorMsg: errorMsg.ERROR_REQUEST }
+
+    if (error.code === 'ENOENT') {
+      result.errorMsg = 'NetWork errored'
+    }
+    logUtil.logErrorMsg(funcName, result.errorMsg + JSON.stringify(error))
+    return result
+  }
+
+  if (!response) {
+    result = { errorCode: errorCode.ERROR_REQUEST, errorMsg: errorMsg.ERROR_REQUEST + 'return response in null' }
+    logUtil.logDebugMsg(funcName, 'get response is null from douban')
+  } else {
+    // Converts getted books.
+    response = JSON.parse(response)
+    response.books.forEach(b => {
+      books.push(types.bookConvertor(b))
+    })
+    result = { errorCode: errorCode.SUCCESS, data: books }
+  }
+
+  return result
+}
+
+exports.searchBooks = searchBooks
 exports.getBookInfoByISBN = getBookInfoByISBN
+exports.getBookByTagFromDouBan = getBookByTagFromDouBan

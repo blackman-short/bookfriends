@@ -445,6 +445,117 @@
         }
       }
     },
+    "/book/isbn": {
+      "get": {
+        "tags": [
+          "图书"
+        ],
+        "summary": "此接口用于查询一本书的详情",
+        "description": "根据图书ISBN, 查询该书的详情",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "isbn",
+            "in": "query",
+            "description": "图书的ISBN",
+            "required": true,
+            "type": "string",
+            "default": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取图书详情成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "object",
+                  "$ref":"#/definitions/BookInfo",
+                  "description": "图书详情"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/book/search": {
+      "get": {
+        "tags": [
+          "图书"
+        ],
+        "summary": "此接口用于搜索图书 - call proxy(url: 104.194.94.3:3003/bookcircle)",
+        "description": "根据搜索框中的关键字, 进行搜索图书",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "keyWord",
+            "in": "query",
+            "description": "搜索的关键字",
+            "required": true,
+            "type": "string",
+            "default": ""
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "分页的页码",
+            "required": true,
+            "type": "number",
+            "format": "int",
+            "default": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "搜索图书成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref":"#/definitions/BookInfo"
+                  },
+                  "description": "搜索图书的结果列表"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
     "/userbook/storeup": {
       "post": {
         "tags": [

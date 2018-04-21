@@ -3,7 +3,7 @@ const PAGE_SIZE = require('../config/systemConfig').pageSize
 
 async function saveBook (data) {
   if (data) {
-    const find = await BookInfo.find({isbn: data.isbn})
+    const find = await BookInfo.findOne({isbn: data.isbn})
     if (!find) {
       const bookInfo = new BookInfo(data)
 
@@ -49,10 +49,8 @@ async function queryNewBooks (pageIndex, keyWord) {
 async function getNewBooksTotalCount (keyWord) {
   let count = 0
 
-  if (keyWord) {
-    const regEx = new RegExp(keyWord, 'i')
-    count = await BookInfo.find({isNews: true, title: regEx, isActive: true}).count()
-  }
+  const regEx = new RegExp(keyWord, 'i')
+  count = await BookInfo.find({isNews: true, title: regEx, isActive: true}).count()
 
   return count
 }
@@ -82,10 +80,8 @@ async function queryHotBooks (pageIndex, keyWord) {
 async function getHotBooksTotalCount (keyWord) {
   let count = 0
 
-  if (keyWord) {
-    const regEx = new RegExp(keyWord, 'i')
-    count = await BookInfo.find({isHot: true, title: regEx, isActive: true}).count()
-  }
+  const regEx = new RegExp(keyWord, 'i')
+  count = await BookInfo.find({isHot: true, title: regEx, isActive: true}).count()
 
   return count
 }
