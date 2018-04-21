@@ -45,4 +45,14 @@ async function storeUpBook (req, res, next) {
   return res.status(200).send(response)
 }
 
+/**
+ * Gets user's books.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function getUserBooks (req, res, next) {
+
+}
+
 exports.storeUpBook = storeUpBook

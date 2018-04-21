@@ -20,6 +20,22 @@ async function saveBook (data) {
   }
 }
 
+/**
+ * Updates books if isActive is null.
+ */
+async function updateBooksIfIsActiveIsNULL () {
+  const books = await BookInfo.find({isNews: null, isHot: null})
+
+  if (books && books.length) {
+    for (let i = 0; i < books.length; i++) {
+      const b = books[i]
+      b.isNews = false
+      b.isHot = false
+      await BookInfo.update({isbn: b.isbn}, b)
+    }
+  }
+}
+
 // =============================================================================
 // the dev environnment
 // =============================================================================
@@ -140,3 +156,4 @@ exports.queryBookByISBN = queryBookByISBN
 exports.queryRecommendBooks = queryRecommendBooks
 exports.getNewBooksTotalCount = getNewBooksTotalCount
 exports.getHotBooksTotalCount = getHotBooksTotalCount
+exports.updateBooksIfIsActiveIsNULL = updateBooksIfIsActiveIsNULL // test

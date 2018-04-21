@@ -17,6 +17,20 @@ async function queryUserBookInfoByUserId (userId) {
 }
 
 /**
+ * Validates user has stored the book.
+ * @param {*String} isbn
+ */
+async function getUserBookInfoByISBN (isbn) {
+  let data = null
+
+  if (isbn) {
+    data = await UserBookInfo.findOne({isbn: isbn})
+  }
+
+  return data
+}
+
+/**
  * User stores up one book.
  * @param {*String} userId 用户ID
  * @param {*String} isbn 书籍的标识ISBN
@@ -44,4 +58,5 @@ async function storeUpBook (userId, isbn, tags) {
 }
 
 exports.storeUpBook = storeUpBook
+exports.getUserBookInfoByISBN = getUserBookInfoByISBN
 exports.queryUserBookInfoByUserId = queryUserBookInfoByUserId

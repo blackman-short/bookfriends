@@ -4,6 +4,19 @@ const errorMsg = require('../error/errorMsg')
 const errorCode = require('../error/errorCode')
 const bookManager = require('../managers/bookManager')
 
+const bookDal = require('../dal/bookDal')
+
+async function updateBook (req, res, next) {
+  let response = { errorCode: errorCode.SUCCESS }
+  try {
+    await bookDal.updateBooksIfIsActiveIsNULL()
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_DB, errorMsg: JSON.stringify(error) }
+  }
+
+  return res.status(200).send(response)
+}
+
 /**
  * Mock data.
  * @param {*} req
@@ -189,6 +202,7 @@ async function getBookInfoByISBN (req, res, next) {
   return res.status(200).send(response)
 }
 
+exports.updateBook = updateBook // test
 exports.saveBook = saveBook
 exports.getNewBooks = getNewBooks
 exports.getHotBooks = getHotBooks

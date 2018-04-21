@@ -12,12 +12,13 @@ const bookInfoSchema = mongoose.Schema({
   images: { type: JSON }, // 图片路径集合： small, middle, large.
   price: { type: String }, // 价格： douban '89.00元'
   catalog: { type: String }, // 目录
-  isNews: { type: Boolean },
-  isHot: { type: Boolean },
+  isNews: { type: Boolean, default: false },
+  isHot: { type: Boolean, default: false },
   summary: { type: String }, // 综述
   tags: [JSON], // 书的标签
   ebookUrl: { type: String }, // 电子书网址
-  rating: { type: Number, default: 0 } // 评分
+  rating: { type: Number, default: 0 }, // 评分
+  isActive: { type: Boolean, default: true }
 })
 
 mongoose.model('book', bookInfoSchema)

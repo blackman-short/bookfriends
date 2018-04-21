@@ -162,9 +162,10 @@ async function getUserHobbiesByUser (userInfo) {
   }
 
   // Gets hobbies by the user's readed books.
-  const tagsList = await userBookDal.queryUserBookInfoByUserId(userInfo.id)
-  if (tagsList && tagsList.length > 0) {
-    tagsList.forEach(tags => {
+  const readBooks = await userBookDal.queryUserBookInfoByUserId(userInfo.id)
+  if (readBooks && readBooks.length > 0) {
+    readBooks.forEach(b => {
+      const tags = b.tags
       if (tags && tags.length > 0) {
         tags.forEach(tag => {
           if (hobbies.indexOf(tag) < 0) {
@@ -269,17 +270,22 @@ async function queryBookInfoByISBN (isbn) {
   const funcName = 'server: managers/book/queryBookInfoByISBN'
   let result = { errorCode: errorCode.PARAMETER_ERRORMSG, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
-  let bookInfo = null
+  let loadResult = null
   if (isbn) {
     try {
-      bookInfo = await bookDal.queryBookByISBN(isbn)
+      loadResult = await Promise.all([bookDal.queryBookByISBN(isbn), userBookDal.getUserBookInfoByISBN(isbn)]).then()
     } catch (error) {
       result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, result.errorMsg)
     }
   }
 
-  result = { errorCode: errorCode.SUCCESS, data: bookInfo }
+  if (loadResult && loadResult.length === 2) {
+    result = { errorCode: errorCode.SUCCESS, data: loadResult[0], hasStored: false }
+    if (loadResult[1]) {
+      result.hasStored = true
+    }
+  }
 
   return result
 }
