@@ -10,7 +10,7 @@ async function queryUserBookInfoByUserId (userId) {
   let data = null
 
   if (userId) {
-    data = await UserBookInfo.find({id: userId}, '-_id -__v')
+    data = await UserBookInfo.find({userId: userId}, '-_id -__v')
   }
 
   return data
@@ -40,8 +40,11 @@ async function storeUpBook (userId, isbn, tags) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
   if (userId && isbn && tags) {
-    const find = UserBookInfo.find({isbn: isbn, userId: userId})
-    if (!find) {
+    const find = await UserBookInfo.findOne({isbn: isbn, userId: userId})
+
+    if (find) {
+      result = { errorCode: errorCode.ERROR_BOOK_HASSTORED, errorMsg: errorMsg.ERROR_BOOK_HASSTORED }
+    } else {
       const storeBookInfo = new UserBookInfo({
         userId: userId,
         isbn: isbn,
@@ -49,8 +52,6 @@ async function storeUpBook (userId, isbn, tags) {
       })
       await storeBookInfo.save()
       result = { errorCode: errorCode.SUCCESS }
-    } else {
-      result = { errorCode: errorCode.ERROR_BOOK_HASSTORED, errorMsg: errorMsg.ERROR_BOOK_HASSTORED }
     }
   }
 

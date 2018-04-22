@@ -4,5 +4,6 @@ const userBookController = require('../controllers/userBookController')
 
 const routers = router
   .post('/storeup', userBookController.storeUpBook)
+  .get('/mybooks', userBookController.getUserBooks)
 
 module.exports = routers

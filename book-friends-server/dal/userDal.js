@@ -116,7 +116,7 @@ async function queryUserCertainFieldsById (userId) {
   let data = null
 
   if (userId) {
-    data = await UserInfo.findOne({ id: userId, isActive: true }, '-_id -__v -createTime -updateTime')
+    data = await UserInfo.findOne({ id: userId, isActive: true }, '-_id id headIcon nickName description')
   }
 
   return data

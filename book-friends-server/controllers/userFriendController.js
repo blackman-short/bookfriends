@@ -85,7 +85,7 @@ async function deleteFriend (req, res, next) {
       logUtil.logErrorMsg(funcName, response.errorMsg)
     }
   }
-  return response
+  return res.status(200).send(response)
 }
 
 /**
@@ -110,6 +110,7 @@ async function queryFriendsInfo (req, res, next) {
   } catch (error) {
     response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + JSON.stringify(error) }
     logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
   }
 
   // If has no parameter errors.
@@ -122,9 +123,48 @@ async function queryFriendsInfo (req, res, next) {
     }
   }
 
-  return response
+  return res.status(200).send(response)
+}
+
+/**
+ * Querys user's fans' info.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function queryFansInfo (req, res, next) {
+  const funcName = 'server: controllers/userFriend/queryFansInfo'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+  let response = { errorCode: errorCode.SUCCESS }
+
+  // Validates parameters.
+  let userId = req.query.userId
+  try {
+    if (!userId && (userId && !validator.trim(userId))) {
+      throw new Error('Please provide parameter: userId')
+    } else {
+      userId = validator.trim(userId)
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + JSON.stringify(error) }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  // If has no parameter errors.
+  if (response.errorCode === errorCode.SUCCESS) {
+    try {
+      response = await userFriendManager.queryFansInfo(userId)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
+  }
+
+  return res.status(200).send(response)
 }
 
 exports.addFriend = addFriend
 exports.deleteFriend = deleteFriend
+exports.queryFansInfo = queryFansInfo
 exports.queryFriendsInfo = queryFriendsInfo

@@ -71,5 +71,7 @@ var initLogPath = function () {
 }
 
 initLogPath()
-
+app.listen(3002, function () {
+  console.log('server is listenning on 3002')
+})
 module.exports = app

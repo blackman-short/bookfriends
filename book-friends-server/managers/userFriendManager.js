@@ -88,7 +88,7 @@ async function queryFriendsInfo (userId) {
       try {
         for (let i = 0; i < ids.length; i++) {
           const id = ids[i]
-          const friendInfo = await userDal.queryUserInfoById(id)
+          const friendInfo = await userDal.queryUserCertainFieldsById(id)
           if (friendInfo) {
             friendsInfo.push(friendInfo)
           }
@@ -111,7 +111,40 @@ async function queryFriendsInfo (userId) {
  * @param {*String} userId
  */
 async function queryFansInfo (userId) {
+  const funcName = 'server: managers/userfriends/queryFansInfo'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+  if (userId) {
+    // 1. gets the user's fans' ids.
+    let ids = []
+    try {
+      ids = await userFriendDal.queryFanIdsByUserId(userId)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
+      return result
+    }
 
+    // 2. get the fans' info by id.
+    let friendsInfo = []
+    if (ids.length > 0) {
+      try {
+        for (let i = 0; i < ids.length; i++) {
+          const id = ids[i]
+          const friendInfo = await userDal.queryUserCertainFieldsById(id)
+          if (friendInfo) {
+            friendsInfo.push(friendInfo)
+          }
+        }
+        result = { errorCode: errorCode.SUCCESS, data: friendsInfo }
+      } catch (error) {
+        result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+        logUtil.logErrorMsg(funcName, result.errorMsg)
+        return result
+      }
+    }
+  }
+
+  return result
 }
 
 exports.addFriends = addFriends

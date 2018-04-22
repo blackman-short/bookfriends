@@ -148,6 +148,20 @@ async function queryBookByISBN (isbn) {
   return book
 }
 
+/**
+ * Querys the certain fields by isbn.
+ * @param {*String} isbn
+ */
+async function queryCertainFieldsByISBN (isbn) {
+  let book = null
+
+  if (isbn) {
+    book = await BookInfo.findOne({isbn: isbn, isActive: true}, '-_id isbn images')
+  }
+
+  return book
+}
+
 exports.saveBook = saveBook
 exports.queryTopBooks = queryTopBooks
 exports.queryNewBooks = queryNewBooks
@@ -156,4 +170,5 @@ exports.queryBookByISBN = queryBookByISBN
 exports.queryRecommendBooks = queryRecommendBooks
 exports.getNewBooksTotalCount = getNewBooksTotalCount
 exports.getHotBooksTotalCount = getHotBooksTotalCount
+exports.queryCertainFieldsByISBN = queryCertainFieldsByISBN
 exports.updateBooksIfIsActiveIsNULL = updateBooksIfIsActiveIsNULL // test

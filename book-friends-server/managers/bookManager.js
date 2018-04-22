@@ -217,7 +217,6 @@ async function storeUpBook (userId, isbn) {
       logUtil.logDebugMsg(funcName, JSON.stringify(reqData))
       try {
         response = await commonRequest.post(proxyConfig.getBookInfoByISBN(), reqData)
-        console.log(Object.prototype.toString.call(response).toLowerCase())
       } catch (error) {
         result = { errorCode: errorCode.ERROR_REQUEST, errorMsg: errorMsg.ERROR_REQUEST + JSON.stringify(error) }
         logUtil.logErrorMsg(funcName, result.errorMsg)
