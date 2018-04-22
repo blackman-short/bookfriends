@@ -74,7 +74,7 @@ async function queryDynamicInfoByDynamicId (dynamicId) {
   let data = null
 
   if (dynamicId) {
-    data = await UserDynamicInfo.findOne({id: dynamicId, isActive: true}, '-_id id content likeCount createTime')
+    data = await UserDynamicInfo.findOne({id: dynamicId, isActive: true}, '-_id id content likeCount createTime isbn')
   }
 
   return data

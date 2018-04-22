@@ -44,6 +44,10 @@ app.use(function (err, req, res, next) {
   res.render('error')
 })
 
+app.listen(3002, function () {
+  console.log('server is listenning on 3002')
+})
+
 /**
  * 确定目录是否存在, 如果不存在则创建目录.
  * @param {*String} pathStr
@@ -71,7 +75,5 @@ var initLogPath = function () {
 }
 
 initLogPath()
-app.listen(3002, function () {
-  console.log('server is listenning on 3002')
-})
+
 module.exports = app

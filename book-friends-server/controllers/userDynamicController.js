@@ -19,6 +19,8 @@ async function addDynamicInfo (req, res, next) {
   // Validates parameters.
   let userId = req.body.userId
   let content = req.body.content
+  let isbn = req.body.isbn
+
   try {
     if (!userId || (userId && !validator.trim(userId))) {
       throw new Error('Please provide parameter: userId')
@@ -37,7 +39,7 @@ async function addDynamicInfo (req, res, next) {
   // If has no parameter errors.
   if (response.errorCode === errorCode.SUCCESS) {
     try {
-      response = await userDynamicManager.addDynamicInfo(userId, content)
+      response = await userDynamicManager.addDynamicInfo(userId, content, isbn)
     } catch (error) {
       response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, response.errorMsg)

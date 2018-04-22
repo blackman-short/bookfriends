@@ -156,7 +156,7 @@ async function queryCertainFieldsByISBN (isbn) {
   let book = null
 
   if (isbn) {
-    book = await BookInfo.findOne({isbn: isbn, isActive: true}, '-_id isbn images')
+    book = await BookInfo.findOne({isbn: isbn, isActive: true}, '-_id isbn images title author summary')
   }
 
   return book
