@@ -99,11 +99,18 @@ async function queryDynamicInfosByUserId (req, res, next) {
 
   // Validates parameters.
   let userId = req.query.userId
+  let pageIndex = req.query.pageIndex
   try {
     if (!userId || (userId && !validator.trim(userId))) {
       throw new Error('Please provide parameter: userId')
+    } else if (!pageIndex || (pageIndex && !validator.trim(pageIndex))) {
+      throw new Error('Please provide parameter: pageIndex')
     } else {
       userId = validator.trim(userId)
+      pageIndex = parseInt(pageIndex)
+      if (pageIndex < 1) {
+        throw new Error('pageIndex shoule be > 1')
+      }
     }
   } catch (error) {
     response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
@@ -114,7 +121,7 @@ async function queryDynamicInfosByUserId (req, res, next) {
   // If has no parameter errors.
   if (response.errorCode === errorCode.SUCCESS) {
     try {
-      response = await userDynamicManager.queryDynamicInfosByUserId(userId)
+      response = await userDynamicManager.queryDynamicInfosByUserId(userId, pageIndex)
     } catch (error) {
       response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, response.errorMsg)

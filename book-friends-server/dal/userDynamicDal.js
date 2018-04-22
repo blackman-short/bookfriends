@@ -43,7 +43,7 @@ async function queryDynamicIdsByUserId (userId, pageIndex) {
 
   if (userId && pageIndex > 0) {
     const skipCount = (pageIndex - 1) * PAGE_SIZE
-    ids = await UserDynamicInfo.find({userId: userId, isActive: true}, '-_id -__v id createTime').sort({'createTime': -1})
+    ids = await UserDynamicInfo.find({userId: userId, isActive: true}, '-_id id createTime').sort({'createTime': -1})
       .skip(skipCount).limit(PAGE_SIZE)
   }
 

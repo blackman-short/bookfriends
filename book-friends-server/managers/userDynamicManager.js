@@ -85,7 +85,7 @@ async function updateDynamicLikeCount (dynamicId) {
  * Querys the certain user's dynamics.
  * @param {*String} userId
  */
-async function queryDynamicInfosByUserId (userId) {
+async function queryDynamicInfosByUserId (userId, pageIndex) {
   const funcName = 'server: managers/dynamic/queryDynamicInfosByUserId'
   let result = { errroCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
   let dynamicInfos = []
@@ -108,7 +108,7 @@ async function queryDynamicInfosByUserId (userId) {
 
     let idInfos = null
     try {
-      idInfos = await userDynamicDal.queryDynamicIdsByUserId(userId)
+      idInfos = await userDynamicDal.queryDynamicIdsByUserId(userId, pageIndex)
     } catch (error) {
       result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, result.errorMsg)
