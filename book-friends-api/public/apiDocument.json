@@ -602,6 +602,57 @@
         }
       }
     },
+    "/userbook/mybooks": {
+      "get": {
+        "tags": [
+          "图书"
+        ],
+        "summary": "此接口用于搜索用户书架上书籍",
+        "description": "根据用户ID, 获取该用户书架上的所有图书",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户的ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "搜索图书成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref":"#/definitions/BookInfo"
+                  },
+                  "description": "搜索图书的结果列表"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
     "/friend/add": {
       "post": {
         "tags": [
@@ -694,7 +745,7 @@
         }
       }
     },
-    "/friend/query": {
+    "/friend/friends": {
       "get": {
         "tags": [
           "用户好友"
@@ -744,6 +795,56 @@
         }
       }
     },
+    "/friend/fans": {
+      "get": {
+        "tags": [
+          "用户好友"
+        ],
+        "summary": "此接口用于查询某个用户的粉丝列表",
+        "description": "获取用户的粉丝列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户的ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取用户粉丝列表成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref":"#/definitions/UserInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
     "/dynamic/infos": {
       "get": {
         "tags": [
@@ -764,6 +865,14 @@
             "description": "用户的ID",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "分页的页码",
+            "required": true,
+            "type": "number",
+            "format": "int"
           }
         ],
         "responses": {
@@ -814,7 +923,7 @@
             "description": "用户点赞所需的参数",
             "required": true,
             "schema": {
-              "$ref":"#/definitions/LikeParams"
+              "$ref":"#/definitions/LikeDynamicParams"
             }
           }
         ],
@@ -963,6 +1072,52 @@
         "responses": {
           "200": {
             "description": "用户发表评论成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/comment/like": {
+      "post": {
+        "tags": [
+          "用户评论"
+        ],
+        "summary": "此接口用于用户点赞评论",
+        "description": "用户对某一条评论进行点赞",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "对评论点赞是所需的参数",
+            "required": true,
+            "schema": {
+              "$ref":"#/definitions/LikeCommentParams"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户点赞评论成功",
             "schema": {
               "type": "object",
               "properties": {
@@ -1230,7 +1385,7 @@
         "content"
       ]
     },
-    "LikeParams": {
+    "LikeDynamicParams": {
       "type": "object",
       "properties": {
         "userId": {
@@ -1243,7 +1398,20 @@
         }
       },
       "required": [
-        "userId"
+        "userId",
+        "dynamicId"
+      ]
+    },
+    "LikeCommentParams": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "string",
+          "description": "某条评论ID"
+        }
+      },
+      "required": [
+        "commentId"
       ]
     },
     "CommentInfo": {

@@ -18,11 +18,18 @@ async function queryCommentsByDynamicId (req, res, next) {
 
   // Validates parameters.
   let dynamicId = req.query.dynamicId
+  let pageIndex = req.query.pageIndex
   try {
     if (!dynamicId || (dynamicId && !validator.trim(dynamicId))) {
       throw new Error('Please provide parameter: dynamicId')
+    } else if (!pageIndex || (pageIndex && !validator.trim(pageIndex))) {
+      throw new Error('Please provide parameter: pageIndex')
     } else {
       dynamicId = validator.trim(dynamicId)
+      pageIndex = parseInt(pageIndex)
+      if (pageIndex < 1) {
+        throw new Error('pageIndex should be > 0')
+      }
     }
   } catch (error) {
     response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
@@ -33,7 +40,7 @@ async function queryCommentsByDynamicId (req, res, next) {
   // If has no parameter errors.
   if (response.errorCode === errorCode.SUCCESS) {
     try {
-      response = await commentManager.queryCommentsByDynamicId(dynamicId)
+      response = await commentManager.queryCommentsByDynamicId(dynamicId, pageIndex)
     } catch (error) {
       response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, response.errorMsg)
@@ -94,5 +101,44 @@ async function addCommentOfDynamic (req, res, next) {
   return res.status(200).send(response)
 }
 
+/**
+ * Likes one comment.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function likeComment (req, res, next) {
+  const funcName = 'server: controllers/dynamic/updateDynamicLikeCount'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+
+  let response = { errorCode: errorCode.SUCCESS }
+
+  // Validates parameters.
+  let commentId = req.body.commentId
+  try {
+    if (!commentId || (commentId && !validator.trim(commentId))) {
+      throw new Error('Please provide parameter: commentId')
+    } else {
+      commentId = validator.trim(commentId)
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  // If has no parameter errors.
+  if (response.errorCode === errorCode.SUCCESS) {
+    try {
+      response = await commentManager.likeComment(commentId)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
+  }
+  return res.status(200).send(response)
+}
+
+exports.likeComment = likeComment
 exports.addCommentOfDynamic = addCommentOfDynamic
 exports.queryCommentsByDynamicId = queryCommentsByDynamicId

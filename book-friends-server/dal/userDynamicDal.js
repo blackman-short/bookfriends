@@ -1,3 +1,4 @@
+const tools = require('../utils/tools')
 const UserDynamicInfo = require('../models').UserDynamicInfo
 const PAGE_SIZE = require('../config/systemConfig').pageSize
 
@@ -26,7 +27,7 @@ async function updateDynamicLikeCount (dynamicId) {
   if (dynamicId) {
     const find = await UserDynamicInfo.findOne({id: dynamicId, isActive: true})
     if (find) {
-      data = await UserDynamicInfo.update({id: dynamicId}, {likeCount: find.likeCount + 1})
+      data = await UserDynamicInfo.update({id: dynamicId}, {likeCount: find.likeCount + 1, updateTime: tools.getCurrentTime()})
     }
   }
 

@@ -1,31 +1,41 @@
+const userDal = require('../dal/userDal')
 const logUtil = require('../utils/logUtil')
 const errorMsg = require('../error/errorMsg')
 const errorCode = require('../error/errorCode')
 const commentDal = require('../dal/commentDal')
+const dynamicDal = require('../dal/userDynamicDal')
 const userDynamicDal = require('../dal/userDynamicDal')
 
 /**
  * Querys the certain dynamic's comments
  * @param {*String} dynamicId
  */
-async function queryCommentsByDynamicId (dynamicId) {
+async function queryCommentsByDynamicId (dynamicId, pageIndex) {
   const funcName = 'server: managers/dynamic/queryCommentsByDynamicId'
   let result = { errroCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
   if (dynamicId) {
     let data = null
-
+    let find = null
     try {
-      data = await commentDal.queryCommentsByDynamicId(dynamicId)
+      find = await dynamicDal.queryDynamicInfoByDynamicId(dynamicId)
+      data = await commentDal.queryCommentsByDynamicId(dynamicId, pageIndex)
     } catch (error) {
       result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_INSERT_DB + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, result.errorMsg)
       return result
     }
 
+    // Validates the dynamic is valid.
+    if (!find) {
+      result = { errorCode: errorCode.ERROR_DYNAMIC_NOTEXISTED, errorMsg: errorMsg.ERROR_DYNAMIC_NOTEXISTED }
+      logUtil.logDebugMsg(funcName, result.errorMsg + `dynamicId: ${dynamicId}`)
+      return result
+    }
+
     // If save successfully.
     if (data) {
-      result = { errorCode: errorCode.SUCCESS, data: data.comments }
+      result = { errorCode: errorCode.SUCCESS, data: data }
     }
   }
 
@@ -43,15 +53,21 @@ async function addCommentOfDynamic (dynamicId, commentInfo) {
 
   if (dynamicId && commentInfo) {
     let find = null
+    let user = null
     try {
       find = await userDynamicDal.queryDynamicInfoByDynamicId(dynamicId)
+      user = await userDal.queryUserInfoById(commentInfo.userId)
     } catch (error) {
       result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, result.errorMsg)
       return result
     }
 
-    if (!find) {
+    if (!user) {
+      result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED }
+      logUtil.logDebugMsg(funcName, result.errorMsg + `userId: ${commentInfo.userId}`)
+      return result
+    } else if (!find) {
       result = { errorCode: errorCode.ERROR_DYNAMIC_NOTEXISTED, errorMsg: errorMsg.ERROR_DYNAMIC_NOTEXISTED }
       logUtil.logDebugMsg(funcName, result.errorMsg + `dynamicId: ${dynamicId}`)
       return result
@@ -74,5 +90,34 @@ async function addCommentOfDynamic (dynamicId, commentInfo) {
   return result
 }
 
+/**
+ * Likes one comment.
+ * @param {*String} commentId
+ */
+async function likeComment (commentId) {
+  const funcName = 'server: managers/comment/likeComment'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  if (commentId) {
+    let data = null
+    try {
+      data = await commentDal.likeComment(commentId)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_UPDATE_DB }
+      logUtil.logErrorMsg(funcName, result.errorMsg + JSON.stringify(error))
+    }
+
+    // Updates successfully.
+    if (data) {
+      result = { errorCode: errorCode.SUCCESS }
+    } else {
+      result = { errorCode: errorCode.ERROR_COMMENT_NOTEXISTED, errorMsg: errorMsg.ERROR_COMMENT_NOTEXISTED }
+    }
+  }
+
+  return result
+}
+
+exports.likeComment = likeComment
 exports.addCommentOfDynamic = addCommentOfDynamic
 exports.queryCommentsByDynamicId = queryCommentsByDynamicId

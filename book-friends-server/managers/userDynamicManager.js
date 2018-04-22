@@ -70,7 +70,7 @@ async function updateDynamicLikeCount (dynamicId) {
     try {
       updateResult = await userDynamicDal.updateDynamicLikeCount(dynamicId)
     } catch (error) {
-      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_INSERT_DB + JSON.stringify(error) }
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_UPDATE_DB + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, result.errorMsg)
       return result
     }
