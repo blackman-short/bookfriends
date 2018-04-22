@@ -1,4 +1,5 @@
 const UserDynamicInfo = require('../models').UserDynamicInfo
+const PAGE_SIZE = require('../config/systemConfig').pageSize
 
 /**
  * Publishes one dynamic.
@@ -35,12 +36,31 @@ async function updateDynamicLikeCount (dynamicId) {
 /**
  * Querys the certain user's dynamical info.
  * @param {*String} userId
+ * @param {*Number} pageIndex
  */
-async function queryDynamicIdsByUserId (userId) {
+async function queryDynamicIdsByUserId (userId, pageIndex) {
   let ids = []
 
-  if (userId) {
-    ids = await UserDynamicInfo.find({userId: userId, isActive: true}, '-_id id createTime').sort({'createTime': -1})
+  if (userId && pageIndex > 0) {
+    const skipCount = (pageIndex - 1) * PAGE_SIZE
+    ids = await UserDynamicInfo.find({userId: userId, isActive: true}, '-_id -__v id createTime').sort({'createTime': -1})
+      .skip(skipCount).limit(PAGE_SIZE)
+  }
+
+  return ids
+}
+
+/**
+ * Querys the all dynamic infos.
+ * @param {*Number} pageIndex
+ */
+async function queryAllDaynamicInfos (pageIndex) {
+  let ids = null
+
+  if (pageIndex > 0) {
+    const skipCount = (pageIndex - 1) * PAGE_SIZE
+    ids = await UserDynamicInfo.find({isActive: true}, '-_id -__v id createTime').sort({'createTime': -1})
+      .skip(skipCount).limit(PAGE_SIZE)
   }
 
   return ids
@@ -61,6 +81,7 @@ async function queryDynamicInfoByDynamicId (dynamicId) {
 }
 
 exports.addDynamicInfo = addDynamicInfo
+exports.queryAllDaynamicInfos = queryAllDaynamicInfos
 exports.updateDynamicLikeCount = updateDynamicLikeCount
 exports.queryDynamicIdsByUserId = queryDynamicIdsByUserId
 exports.queryDynamicInfoByDynamicId = queryDynamicInfoByDynamicId

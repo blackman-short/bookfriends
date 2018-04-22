@@ -10,7 +10,7 @@ async function queryUserBookInfoByUserId (userId) {
   let data = null
 
   if (userId) {
-    data = await UserBookInfo.find({id: userId})
+    data = await UserBookInfo.find({id: userId}, '-_id -__v')
   }
 
   return data

@@ -69,7 +69,7 @@ async function deleteFriend (userId, friendId) {
  * @param {*String} userId
  */
 async function queryFriendsInfo (userId) {
-  const funcName = 'server: managers/userfriends/deleteFriend'
+  const funcName = 'server: managers/userfriends/queryFriendsInfo'
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
   if (userId) {
     // 1. gets the user's friends' ids.
@@ -105,6 +105,16 @@ async function queryFriendsInfo (userId) {
   return result
 }
 
+/**
+ *
+ * Querys the user's fans.
+ * @param {*String} userId
+ */
+async function queryFansInfo (userId) {
+
+}
+
 exports.addFriends = addFriends
 exports.deleteFriend = deleteFriend
+exports.queryFansInfo = queryFansInfo
 exports.queryFriendsInfo = queryFriendsInfo

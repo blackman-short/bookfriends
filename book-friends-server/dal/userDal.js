@@ -1,3 +1,4 @@
+const tools = require('../utils/tools')
 const logUtil = require('../utils/logUtil')
 const errorMsg = require('../error/errorMsg')
 const UserInfo = require('../models').UserInfo
@@ -46,12 +47,14 @@ async function login (phoneNumber, password) {
 
   // If the parameters is valid.
   if (phoneNumber && password) {
-    const user = await UserInfo.findOne({ phoneNumber: phoneNumber, password: password, isActive: true })
+    const user = await UserInfo.findOne({ phoneNumber: phoneNumber, password: password, isActive: true }, '-__v -_id')
     const account = await UserInfo.findOne({phoneNumber: phoneNumber})
     const pwd = await UserInfo.findOne({phoneNumber: phoneNumber, password: password})
     // If success, return the user's information
     if (user) {
       result = { errorCode: errorCode.SUCCESS, data: user } // login successfully.
+      // async update the user's lastLoginTime.
+      await UserInfo.update({phoneNumber: user.phoneNumber}, {lastLoginTime: tools.getCurrentTime()})
     } else {
       if (!account) {
         result = { errorCode: errorCode.ERROR_USER_NOTEXISTED } // account is not existed.
@@ -99,7 +102,21 @@ async function queryUserInfoById (userId) {
   let data = null
 
   if (userId) {
-    data = await UserInfo.findOne({ id: userId, isActive: true }, '-createTime -updateTime')
+    data = await UserInfo.findOne({ id: userId, isActive: true }, '-_id -__v -createTime -updateTime')
+  }
+
+  return data
+}
+
+/**
+ * Querys user's ceratin fields by userId.
+ * @param {*String} userId
+ */
+async function queryUserCertainFieldsById (userId) {
+  let data = null
+
+  if (userId) {
+    data = await UserInfo.findOne({ id: userId, isActive: true }, '-_id -__v -createTime -updateTime')
   }
 
   return data
@@ -116,7 +133,7 @@ async function searchUsersByKeyword (keyWord, pageIndex) {
   if (keyWord && pageIndex > 0) {
     const regEx = new RegExp(keyWord, 'i')
     const skipCount = (pageIndex - 1) * PAGE_SIZE
-    users = await UserInfo.find({$or: [{nickName: regEx}, {phoneNumber: regEx}], isActive: false})
+    users = await UserInfo.find({$or: [{nickName: regEx}, {phoneNumber: regEx}], isActive: true}, '-_id -__v')
       .skip(skipCount).limit(PAGE_SIZE)
   }
 
@@ -127,4 +144,5 @@ exports.login = login
 exports.register = register
 exports.updateInfo = updateInfo
 exports.queryUserInfoById = queryUserInfoById
+exports.queryUserCertainFieldsById = queryUserCertainFieldsById
 exports.searchUsersByKeyword = searchUsersByKeyword
