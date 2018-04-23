@@ -176,6 +176,7 @@ async function getBookInfoByISBN (req, res, next) {
 
   let response = { errorCode: errorCode.SUCCESS }
   let isbn = req.query.isbn
+  let userId = req.query.userId
 
   // Validates parameters
   try {
@@ -183,6 +184,13 @@ async function getBookInfoByISBN (req, res, next) {
       throw new Error('Please provide parameter: isbn')
     } else {
       isbn = validator.trim(isbn)
+      if (userId) {
+        if (!validator.trim(userId)) {
+          throw new Error('userId should not be emptyString')
+        } else {
+          userId = validator.trim(userId)
+        }
+      }
     }
   } catch (error) {
     response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
@@ -193,7 +201,11 @@ async function getBookInfoByISBN (req, res, next) {
   // If has no parameter errors.
   if (response.errorCode === errorCode.SUCCESS) {
     try {
-      response = await bookManager.queryBookInfoByISBN(isbn)
+      if (userId) {
+        response = await bookManager.queryBookInfoByISBN(isbn, userId)
+      } else {
+        response = await bookManager.queryBookInfoByISBN(isbn, null)
+      }
     } catch (error) {
       response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, response.errorMsg)

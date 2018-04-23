@@ -105,6 +105,40 @@ async function queryFanIdsByUserId (userId) {
   return ids
 }
 
+/**
+ * Validates the another user is the user's friend.
+ * @param {*String} userId
+ * @param {*String} friendId
+ */
+async function isFriend (userId, friendId) {
+  let isFriend = false
+  if (userId && friendId) {
+    const data = await UserFriendInfo.findOne({userId: userId, friendId: friendId, isActive: true})
+    if (data) {
+      isFriend = true
+    }
+  }
+  return isFriend
+}
+
+/**
+ * Validates the another user is the user's fans.
+ * @param {*String} userId
+ * @param {*String} friendId
+ */
+async function isFans (userId, friendId) {
+  let isFans = false
+  if (userId && friendId) {
+    const data = await UserFriendInfo.findOne({userId: userId, friendId: friendId, isActive: true})
+    if (data) {
+      isFans = true
+    }
+  }
+  return isFans
+}
+
+exports.isFans = isFans
+exports.isFriend = isFriend
 exports.addFriend = addFriend
 exports.deleteFriend = deleteFriend
 exports.queryFanIdsByUserId = queryFanIdsByUserId

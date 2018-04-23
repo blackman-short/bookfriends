@@ -147,7 +147,56 @@ async function queryFansInfo (userId) {
   return result
 }
 
+/**
+ * Gets the relationship between the user and friend.
+ * @param {*String} userId
+ * @param {*String} friendId
+ */
+async function getRelationBetweenUsers (userId, friendId) {
+  const funcName = 'server: managers/userfriends/getRelationBetweenUsers'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  if (userId && friendId) {
+    let loadResults = null
+
+    try {
+      const friendInfo = await userDal.queryUserInfoById(friendId)
+      if (!friendInfo) {
+        result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED }
+        logUtil.logDebugMsg(funcName, result.errorMsg + `friendId: ${friendId}`)
+        return result
+      }
+      loadResults = await Promise.all([userFriendDal.isFriend(userId, friendId), userFriendDal.isFans(friendId, userId)]).then()
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
+      return result
+    }
+
+    if (loadResults && loadResults.length === 2) {
+      const isFriend = loadResults[0]
+      const isFans = loadResults[1]
+      if (isFriend) {
+        if (isFans) {
+          result = { errorCode: errorCode.SUCCESS, data: 2 } // 互相关注
+        } else {
+          result = { errorCode: errorCode.SUCCESS, data: 1 } // 已关注
+        }
+      } else {
+        if (isFans) {
+          result = { errorCode: errorCode.SUCCESS, data: -1 } // 已被关注
+        } else {
+          result = { errorCode: errorCode.SUCCESS, data: 0 } // 互相没有关注
+        }
+      }
+    }
+  }
+
+  return result
+}
+
 exports.addFriends = addFriends
 exports.deleteFriend = deleteFriend
 exports.queryFansInfo = queryFansInfo
 exports.queryFriendsInfo = queryFriendsInfo
+exports.getRelationBetweenUsers = getRelationBetweenUsers

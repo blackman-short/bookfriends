@@ -653,7 +653,53 @@
         }
       }
     },
-    "/friend/add": {
+    "/userbook/unstore": {
+      "post": {
+        "tags": [
+          "图书"
+        ],
+        "summary": "此接口用于用户取消收藏的书籍",
+        "description": "用户取消收藏某本书籍",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "收藏的书的信息",
+            "required": true,
+            "schema": {
+              "$ref":"#/definitions/StoredInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户取消收藏某本书籍请求成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                }      
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/friend/follow": {
       "post": {
         "tags": [
           "用户好友"
@@ -699,7 +745,7 @@
         }
       }
     },
-    "/friend/delete": {
+    "/friend/unfollow": {
       "post": {
         "tags": [
           "用户好友"
@@ -835,6 +881,60 @@
                   "items": {
                     "$ref":"#/definitions/UserInfo"
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+    "/friend/relationship": {
+      "get": {
+        "tags": [
+          "用户好友"
+        ],
+        "summary": "此接口用于查询两个用户之间的关系",
+        "description": "获取两个用户之间的关系",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户的ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "friendId",
+            "in": "query",
+            "description": "好友的ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取两个用户之间的关系成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "$ref": "#/definitions/Relationship"
                 }
               }
             }
@@ -1462,7 +1562,17 @@
         2006, // 书籍已被收藏
         2007,  // 用户已被添加为好友
         2008, // 该条动态不存在
-        2009 // 该条评论不存在
+        2009, // 该条评论不存在
+        3000 //该书暂未被收藏
+      ]
+    },
+    "Relationship": {
+      "type": "number",
+      "enum": [
+        0, // 互不关注
+        -1, // 已被关注
+        1, // 已关注
+        2 // 互相关注
       ]
     }
   }

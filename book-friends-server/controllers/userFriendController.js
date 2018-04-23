@@ -164,7 +164,50 @@ async function queryFansInfo (req, res, next) {
   return res.status(200).send(response)
 }
 
+/**
+ * Gets the relationship between the user and friend.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function getRelationBetweenUsers (req, res, next) {
+  const funcName = 'server: controllers/userFriend/getRelationBetweenUsers'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+  let response = { errorCode: errorCode.SUCCESS }
+
+  // Validates parameters.
+  let userId = req.query.userId
+  let friendId = req.query.friendId
+  try {
+    if (!userId && (userId && !validator.trim(userId))) {
+      throw new Error('Please provide parameter: userId')
+    } else if (!friendId && (friendId && !validator.trim(friendId))) {
+      throw new Error('Please provide parameter: friendId')
+    } else {
+      userId = validator.trim(userId)
+      friendId = validator.trim(friendId)
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + JSON.stringify(error) }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  // If has no parameter errors.
+  if (response.errorCode === errorCode.SUCCESS) {
+    try {
+      response = await userFriendManager.getRelationBetweenUsers(userId, friendId)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
+  }
+
+  return res.status(200).send(response)
+}
+
 exports.addFriend = addFriend
 exports.deleteFriend = deleteFriend
 exports.queryFansInfo = queryFansInfo
 exports.queryFriendsInfo = queryFriendsInfo
+exports.getRelationBetweenUsers = getRelationBetweenUsers

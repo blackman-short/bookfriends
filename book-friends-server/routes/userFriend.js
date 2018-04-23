@@ -3,9 +3,10 @@ const router = express.Router()
 const userFriendController = require('../controllers/userFriendController')
 
 const routers = router
-  .post('/add', userFriendController.addFriend)
-  .post('/delete', userFriendController.deleteFriend)
+  .post('/follow', userFriendController.addFriend)
+  .post('/unfollow', userFriendController.deleteFriend)
   .get('/friends', userFriendController.queryFriendsInfo)
   .get('/fans', userFriendController.queryFansInfo)
+  .get('/relationship', userFriendController.getRelationBetweenUsers)
 
 module.exports = routers

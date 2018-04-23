@@ -17,20 +17,6 @@ async function queryUserBookInfoByUserId (userId) {
 }
 
 /**
- * Validates user has stored the book.
- * @param {*String} isbn
- */
-async function getUserBookInfoByISBN (isbn) {
-  let data = null
-
-  if (isbn) {
-    data = await UserBookInfo.findOne({isbn: isbn})
-  }
-
-  return data
-}
-
-/**
  * User stores up one book.
  * @param {*String} userId 用户ID
  * @param {*String} isbn 书籍的标识ISBN
@@ -58,6 +44,37 @@ async function storeUpBook (userId, isbn, tags) {
   return result
 }
 
+/**
+ * User unstores one book.
+ * @param {*String} userId
+ * @param {*String} isbn
+ */
+async function unstore (userId, isbn) {
+  let data = null
+
+  if (userId && isbn) {
+    data = await UserBookInfo.deleteOne({userId: userId, isbn: isbn})
+  }
+
+  return data
+}
+
+/**
+ * Gets userbook by userIdand isbn.
+ * @param {*String} userId
+ * @param {*String} isbn
+ */
+async function getUserBookByUserIdAndISBN (userId, isbn) {
+  let data = null
+
+  if (userId && isbn) {
+    data = await UserBookInfo.findOne({userId: userId, isbn: isbn})
+  }
+
+  return data
+}
+
+exports.unstore = unstore
 exports.storeUpBook = storeUpBook
-exports.getUserBookInfoByISBN = getUserBookInfoByISBN
 exports.queryUserBookInfoByUserId = queryUserBookInfoByUserId
+exports.getUserBookByUserIdAndISBN = getUserBookByUserIdAndISBN

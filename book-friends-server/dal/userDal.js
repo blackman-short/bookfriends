@@ -47,7 +47,7 @@ async function login (phoneNumber, password) {
 
   // If the parameters is valid.
   if (phoneNumber && password) {
-    const user = await UserInfo.findOne({ phoneNumber: phoneNumber, password: password, isActive: true }, '-__v -_id')
+    const user = await UserInfo.findOne({ phoneNumber: phoneNumber, password: password, isActive: true }, '-__v -_id -password')
     const account = await UserInfo.findOne({phoneNumber: phoneNumber})
     const pwd = await UserInfo.findOne({phoneNumber: phoneNumber, password: password})
     // If success, return the user's information
@@ -102,7 +102,7 @@ async function queryUserInfoById (userId) {
   let data = null
 
   if (userId) {
-    data = await UserInfo.findOne({ id: userId, isActive: true }, '-_id -__v -createTime -updateTime')
+    data = await UserInfo.findOne({ id: userId, isActive: true }, '-_id -__v -createTime -updateTime -password')
   }
 
   return data
@@ -133,7 +133,7 @@ async function searchUsersByKeyword (keyWord, pageIndex) {
   if (keyWord && pageIndex > 0) {
     const regEx = new RegExp(keyWord, 'i')
     const skipCount = (pageIndex - 1) * PAGE_SIZE
-    users = await UserInfo.find({$or: [{nickName: regEx}, {phoneNumber: regEx}], isActive: true}, '-_id -__v')
+    users = await UserInfo.find({$or: [{nickName: regEx}, {phoneNumber: regEx}], isActive: true}, '-_id -__v -password')
       .skip(skipCount).limit(PAGE_SIZE)
   }
 
