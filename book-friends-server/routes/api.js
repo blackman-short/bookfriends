@@ -6,6 +6,7 @@ const admin = require('./admin')
 const comment = require('./comment')
 const dynamic = require('./dynamic')
 const userBook = require('./userBook')
+const feedBack = require('./feedback')
 const userFriend = require('./userFriend')
 
 router.use('/user', user)
@@ -15,5 +16,6 @@ router.use('/dynamic', dynamic)
 router.use('/comment', comment)
 router.use('/friend', userFriend)
 router.use('/userbook', userBook)
+router.use('./feedback', feedBack)
 
 module.exports = router

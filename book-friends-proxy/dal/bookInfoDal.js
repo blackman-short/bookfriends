@@ -22,7 +22,6 @@ async function saveBooks (books) {
   if (books && books.length > 0) {
     // await BookInfo.insert(books)
     for (let i = 0; i < books.length; i++) {
-      console.log('00000000')
       const book = books[i]
       const find = await BookInfo.findOne({isbn: book.isbn})
       if (!find) {

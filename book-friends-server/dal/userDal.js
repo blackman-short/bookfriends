@@ -80,10 +80,10 @@ async function updateInfo (userInfo) {
 
   // If the parameters is valid.
   if (userInfo) {
-    const user = await UserInfo.find({ phoneNumber: userInfo.phoneNumber, isActive: true })
+    const user = await UserInfo.findOne({ id: userInfo.userId, isActive: true })
     // If success, return the user's information
-    if (user && user.length > 0) {
-      await UserInfo.update(userInfo)
+    if (user) {
+      await UserInfo.update({id: userInfo.userId}, userInfo)
       result = { errorCode: errorCode.SUCCESS }
     } else {
       result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.ERROR_USER_NOTEXISTED }

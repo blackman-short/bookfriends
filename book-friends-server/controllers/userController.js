@@ -125,12 +125,13 @@ async function login (req, res, next) {
 async function updateInfo (req, res, next) {
   const functionName = 'server: controllers/user/update'
   logUtil.logDebugMsg(functionName, JSON.stringify(req.body))
+  console.log(req.body)
   let responseResult = { errorCode: errorCode.SUCCESS }
   let userInfo = req.body.userInfo
   // If user info is null.
   if (!userInfo) {
-    logUtil.logDebugMsg(functionName, 'the update info is null')
-    return res.status(200).send({errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + 'update info is null'})
+    logUtil.logDebugMsg(functionName, 'the user info is null')
+    return res.status(200).send({errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + 'user info is null'})
   }
 
   // test the birthday is valid pattern. For example: '1995-12-19'.

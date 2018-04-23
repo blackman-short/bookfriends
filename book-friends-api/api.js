@@ -3,6 +3,7 @@ var app = express();
 app.use('/static', express.static('public'));
 app.use('/love', express.static('loveU'));
 app.use('/love/yuhuirong', express.static('loveU/index.html'))
+app.use('/test/image', express.static('loveU/images/small.gif'))
 app.get('/', function (req, res) {
   res.send('Hello World!');
 });

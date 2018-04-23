@@ -1,4 +1,3 @@
-const tools = require('../utils/tools')
 const logUtil = require('../utils/logUtil')
 const errorMsg = require('../error/errorMsg')
 const userInfoDal = require('../dal/userDal')

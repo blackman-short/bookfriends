@@ -466,6 +466,14 @@
             "required": true,
             "type": "string",
             "default": ""
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户ID",
+            "required": true,
+            "type": "string",
+            "default": ""
           }
         ],
         "responses": {
@@ -1236,6 +1244,52 @@
           }
         }
       }
+    },
+    "/feedback/publish": {
+      "post": {
+        "tags": [
+          "用户反馈"
+        ],
+        "summary": "此接口用于用户对该产品发表反馈",
+        "description": "用户对该产品发表反馈",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "发表反馈所需的参数",
+            "required": true,
+            "schema": {
+              "$ref":"#/definitions/FeedBackInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户发表反馈成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1331,9 +1385,13 @@
       "type": "object",
       "description": "用户更新的个人信息",
       "properties": {
-        "phoneNumber": {
+        "userId": {
           "type": "string",
           "description": "用户手机号"
+        },
+        "nickName": {
+          "type": "string",
+          "description": "用户昵称"
         },
         "password": {
           "type": "string",
@@ -1363,10 +1421,14 @@
         "headIcon": {
           "type": "string",
           "description": "个人头像"
+        },
+        "description": {
+          "type": "string",
+          "description": "用户自我描述"
         }
       },
       "required": [
-        "phoneNumber"
+        "userId"
       ]
     },
     "BookInfo": {
@@ -1543,6 +1605,27 @@
       "required": [
         "userId",
         "dynamicId",
+        "content"
+      ]
+    },
+    "FeedBackInfo": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "用户ID"
+        },
+        "content": {
+          "type": "string",
+          "description": "用户反馈内容"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "评论创建时间"
+        }
+      },
+      "required": [
+        "userId",
         "content"
       ]
     },

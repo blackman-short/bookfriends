@@ -93,13 +93,14 @@ async function queryFriendsInfo (userId) {
             friendsInfo.push(friendInfo)
           }
         }
-        result = { errorCode: errorCode.SUCCESS, data: friendsInfo }
       } catch (error) {
         result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
         logUtil.logErrorMsg(funcName, result.errorMsg)
         return result
       }
     }
+
+    result = { errorCode: errorCode.SUCCESS, data: friendsInfo }
   }
 
   return result
@@ -135,13 +136,14 @@ async function queryFansInfo (userId) {
             friendsInfo.push(friendInfo)
           }
         }
-        result = { errorCode: errorCode.SUCCESS, data: friendsInfo }
       } catch (error) {
         result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
         logUtil.logErrorMsg(funcName, result.errorMsg)
         return result
       }
     }
+
+    result = { errorCode: errorCode.SUCCESS, data: friendsInfo }
   }
 
   return result
