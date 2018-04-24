@@ -17,14 +17,20 @@ async function getRecommendBooks (req, res, next) {
   logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
   let response = { errorCode: errorCode.SUCCESS }
   let hobbies = req.body.hobbies
+  let pageIndex = req.body.pageIndex
 
   try {
     if (!hobbies || (hobbies && !validator.trim(hobbies))) {
-      throw new Error('Please provide valid parameter: hobbies')
+      throw new Error('Please provide parameter: hobbies')
+    } else if (!pageIndex || (pageIndex && !validator.trim(pageIndex))) {
+      throw new Error('Please provide parameter: pageIndex')
     } else {
       hobbies = JSON.parse(hobbies)
+      pageIndex = parseInt(pageIndex)
       if (!types.isArray(hobbies)) {
         throw new Error('Please provide valid parameter: (Array)hobbies')
+      } else if (pageIndex < 1) {
+        throw new Error('pageIndex should be > 0')
       }
     }
   } catch (error) {
@@ -34,7 +40,7 @@ async function getRecommendBooks (req, res, next) {
   // If has no parameter errors.
   if (response.errorCode === errorCode.SUCCESS) {
     try {
-      response = await bookManager.queryRecommendBooks(hobbies)
+      response = await bookManager.queryRecommendBooks(hobbies, pageIndex)
     } catch (error) {
       response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + error.message }
       logUtil.logErrorMsg(funcName, response.errorMsg)

@@ -96,7 +96,7 @@ async function searchBooks (keyWord, pageIndex) {
  * Gets books from douban by tag.
  * @param {*String} hobby
  */
-async function getBookByTagFromDouBan (hobby, queryCount) {
+async function getBookByTagFromDouBan (hobby, queryCount, pageIndex) {
   const funcName = 'proxy: managers/book/getBookByTagFromDouBan'
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
   let books = []
@@ -110,7 +110,7 @@ async function getBookByTagFromDouBan (hobby, queryCount) {
     const reqData = {
       tag: hobby,
       count: queryCount,
-      start: 0
+      start: (pageIndex - 1) * queryCount
     }
     logUtil.logDebugMsg(funcName, `call douban server: url - ${doubanConfig.searchBooks()}; param - ${hobby}`)
     response = await commonRequest.get(doubanConfig.searchBooks(), reqData)

@@ -47,7 +47,7 @@ async function login (phoneNumber, password) {
 
   // If the parameters is valid.
   if (phoneNumber && password) {
-    const user = await UserInfo.findOne({ phoneNumber: phoneNumber, password: password, isActive: true }, '-__v -_id -password')
+    const user = await UserInfo.findOne({ phoneNumber: phoneNumber, password: password, isActive: true }, '-__v -password')
     const account = await UserInfo.findOne({phoneNumber: phoneNumber})
     const pwd = await UserInfo.findOne({phoneNumber: phoneNumber, password: password})
     // If success, return the user's information

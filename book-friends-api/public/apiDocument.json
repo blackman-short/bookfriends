@@ -953,6 +953,57 @@
         }
       }
     },
+    "/dynamic/all": {
+      "get": {
+        "tags": [
+          "用户动态"
+        ],
+        "summary": "此接口用于查询所有的动态信息",
+        "description": "查询所有的动态内容",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "分页的页码",
+            "required": true,
+            "type": "number",
+            "format": "int"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取所有的动态信息成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref":"#/definitions/DynamicInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
     "/dynamic/infos": {
       "get": {
         "tags": [
@@ -1531,6 +1582,10 @@
           "type": "string",
           "description": "动态内容"
         },
+        "isbn": {
+          "type": "string",
+          "description": "动态相关书籍的ISBN"
+        },
         "likeCount": {
           "type": "number",
           "description": "点赞数",
@@ -1544,7 +1599,8 @@
       },
       "required": [
         "userId",
-        "content"
+        "content",
+        "isbn"
       ]
     },
     "LikeDynamicParams": {

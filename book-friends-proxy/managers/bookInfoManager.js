@@ -10,7 +10,7 @@ const doubanConfig = require('../config/douban_config')
  * Querys recommend books from douban.
  * @param {*Array} hobbies
  */
-async function queryRecommendBooks (hobbies) {
+async function queryRecommendBooks (hobbies, pageIndex) {
   const funcName = 'proxy: managers/book/queryRecommendBooks'
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
   if (!hobbies || !types.isArray(hobbies)) {
@@ -18,7 +18,7 @@ async function queryRecommendBooks (hobbies) {
   }
 
   try {
-    result = await getBooksByTags(hobbies)
+    result = await getBooksByTags(hobbies, pageIndex)
     // sync operations.
     if (result.errorCode === errorCode.SUCCESS) {
       const books = result.data
@@ -34,7 +34,7 @@ async function queryRecommendBooks (hobbies) {
   return result
 }
 
-async function getBooksByTags (hobbies) {
+async function getBooksByTags (hobbies, pageIndex) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
   let books = []
   if (!hobbies || !types.isArray(hobbies) || hobbies.length <= 0) {
@@ -44,12 +44,14 @@ async function getBooksByTags (hobbies) {
   const divCount = doubanConfig.queryCount / hobbies.length
   const queryCount = divCount < 1 ? 1 : divCount
   for (let i = 0; i < hobbies.length; i++) {
-    let queryResult = await bookProxy.getBookByTagFromDouBan(hobbies[i], queryCount)
+    let queryResult = await bookProxy.getBookByTagFromDouBan(hobbies[i], queryCount, pageIndex)
     if (queryResult.errorCode === errorCode.SUCCESS) {
       const bs = queryResult.data
       if (bs && bs.length > 0) {
         bs.forEach(b => {
-          books.push(b)
+          if (books.indexOf(b) < 0) {
+            books.push(b)
+          }
         })
       }
     } else {

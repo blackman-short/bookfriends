@@ -43,7 +43,7 @@ async function saveBook (req, res, next) {
  */
 async function getNewBooks (req, res, next) {
   const funcName = 'server: controllers/book/getNewBooks'
-  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.query))
   let response = { errorCode: errorCode.SUCCESS }
   let keyWord = req.query.keyWord
   let pageIndex = req.query.pageIndex
@@ -87,7 +87,7 @@ async function getNewBooks (req, res, next) {
  */
 async function getHotBooks (req, res, next) {
   const funcName = 'server: controllers/book/getHotBooks'
-  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.query))
   let response = { errorCode: errorCode.SUCCESS }
   let keyWord = req.query.keyWord
   let pageIndex = req.query.pageIndex
@@ -129,7 +129,7 @@ async function getHotBooks (req, res, next) {
  */
 async function getRecommendBooks (req, res, next) {
   const funcName = 'server: controllers/book/getRecommendBooks'
-  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.query))
   let response = { errorCode: errorCode.SUCCESS }
   let userId = req.query.userId
   let pageIndex = req.query.pageIndex
@@ -149,12 +149,17 @@ async function getRecommendBooks (req, res, next) {
   } catch (error) {
     response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: error.message }
     logUtil.logErrorMsg(funcName, error.message)
+    return res.status(200).send(response)
   }
 
   // If has no parameter errors.
   if (response.errorCode === errorCode.SUCCESS) {
     try {
-      response = await bookManager.queryRecommendBooks(pageIndex, userId)
+      if (pageIndex > 2) {
+        response = { errorCode: errorCode.SUCCESS, data: [] }
+      } else {
+        response = await bookManager.queryRecommendBooks(pageIndex, userId)
+      }
     } catch (error) {
       response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + error.message }
       logUtil.logErrorMsg(funcName, response.errorMsg)
@@ -172,7 +177,7 @@ async function getRecommendBooks (req, res, next) {
  */
 async function getBookInfoByISBN (req, res, next) {
   const funcName = 'server: controllers/book/getBookInfoByISBN'
-  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.query))
 
   let response = { errorCode: errorCode.SUCCESS }
   let isbn = req.query.isbn

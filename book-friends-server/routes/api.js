@@ -16,6 +16,6 @@ router.use('/dynamic', dynamic)
 router.use('/comment', comment)
 router.use('/friend', userFriend)
 router.use('/userbook', userBook)
-router.use('./feedback', feedBack)
+router.use('/feedback', feedBack)
 
 module.exports = router

@@ -133,6 +133,91 @@ async function queryDynamicInfosByUserId (req, res, next) {
   return res.status(200).send(response)
 }
 
+/**
+ * Gets all dynamics.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function getAllDynamics (req, res, next) {
+  const funcName = 'server: controllers/dynamic/getAllDynamics'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.query))
+  let response = { errorCode: errorCode.SUCCESS }
+
+  // Validates parameter errors.
+  let pageIndex = req.query.pageIndex
+  try {
+    if (!pageIndex || (pageIndex && !validator.trim(pageIndex))) {
+      throw new Error('Please provide parameter: pageIdex')
+    } else {
+      pageIndex = parseInt(pageIndex)
+      if (pageIndex < 1) {
+        throw new Error('pageIndex should be > 0')
+      }
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  try {
+    response = await userDynamicManager.queryAllDynamics(pageIndex)
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+  }
+
+  return res.status(200).send(response)
+}
+
+/**
+ * Querys friends' dynamics.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function queryFriendDynamics (req, res, next) {
+  const funcName = 'server: controllers/dynamic/queryFriendDynamics'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.query))
+
+  let response = { errorCode: errorCode.SUCCESS }
+  let userId = req.query.userId
+  let pageIndex = req.query.pageIndex
+  // Validates parameters
+  try {
+    if (!userId || (userId && !validator.trim(userId))) {
+      throw new Error('Please provide parameter: userId')
+    } else if (!pageIndex || (pageIndex && !validator.trim(pageIndex))) {
+      throw new Error('Please provide parameter: pageIndex')
+    } else {
+      userId = validator.trim(userId)
+      pageIndex = parseInt(pageIndex)
+      if (pageIndex < 1) {
+        throw new Error('pageIndex should be > 0')
+      }
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return response
+  }
+
+  // If has no parameter errors
+  if (response.errorCode === errorCode.SUCCESS) {
+    try {
+      response = await userDynamicManager.queryFriendDynamics(userId, pageIndex)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
+  }
+
+  return res.status(200).send(response)
+}
+
+exports.getAllDynamics = getAllDynamics
 exports.addDynamicInfo = addDynamicInfo
+exports.queryFriendDynamics = queryFriendDynamics
 exports.updateDynamicLikeCount = updateDynamicLikeCount
 exports.queryDynamicInfosByUserId = queryDynamicInfosByUserId

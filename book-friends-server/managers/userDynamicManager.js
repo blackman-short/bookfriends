@@ -1,10 +1,11 @@
-const validator = require('validator')
+// const validator = require('validator')
 const userDal = require('../dal/userDal')
 const bookDal = require('../dal/bookDal')
 const logUtil = require('../utils/logUtil')
 const errorMsg = require('../error/errorMsg')
 const errorCode = require('../error/errorCode')
 const commentDal = require('../dal/commentDal')
+const userFriendDal = require('../dal/userFriendsDal')
 const userDynamicDal = require('../dal/userDynamicDal')
 
 /**
@@ -141,7 +142,7 @@ async function queryDynamicInfosByUserId (userId, pageIndex) {
  */
 async function queryDynamicInfoById (dynamicId) {
   let dynamicInfo = null
-  const funcName = 'server: managers/dynamic/queryCommentsByDynamicId'
+  const funcName = 'server: managers/dynamic/queryDynamicInfoById'
   let result = { errroCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
   if (dynamicId) {
     let data = null
@@ -160,10 +161,22 @@ async function queryDynamicInfoById (dynamicId) {
 
         // 动态相关的书籍
         const isbn = data.isbn
-        if (isbn && validator.trim(isbn)) {
-          const bookInfo = await bookDal.queryCertainFieldsByISBN(data.isbn)
+        // 该条动态的用户
+        const userId = data.userId
+
+        let loadResults = null
+        if (userId && isbn) {
+          loadResults = await Promise.all([bookDal.queryCertainFieldsByISBN(isbn), userDal.queryUserCertainFieldsById(userId)]).then()
+        }
+
+        if (loadResults && loadResults.length === 2) {
+          const bookInfo = loadResults[0]
+          const userInfo = loadResults[1]
           if (bookInfo) {
             dynamicInfo.book = bookInfo
+          }
+          if (userInfo) {
+            dynamicInfo.user = userInfo
           }
         }
 
@@ -179,6 +192,91 @@ async function queryDynamicInfoById (dynamicId) {
   return result
 }
 
+/**
+ * Querys all dynamics
+ */
+async function queryAllDynamics (pageIndex) {
+  const funcName = 'server: managers/dynamic/queryAllDynamics'
+  let result = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER }
+
+  let dynamics = []
+  try {
+    const infos = await userDynamicDal.queryAllDynamicInfos(pageIndex)
+    if (infos && infos.length > 0) {
+      for (let i = 0; i < infos.length; i++) {
+        const dynamicId = infos[i].id
+        const d = await queryDynamicInfoById(dynamicId)
+        if (d) {
+          dynamics.push(d)
+        }
+      }
+    }
+
+    result = { errorCode: errorCode.SUCCESS, data: dynamics }
+  } catch (error) {
+    result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+    logUtil.logErrorMsg(funcName, result.errorMsg)
+  }
+
+  return result
+}
+
+/**
+ * Querys friends' dynamics.
+ * @param {*String} userId
+ * @param {*String} pageIndex
+ */
+async function queryFriendDynamics (userId, pageIndex) {
+  const funcName = 'server: managers/dynamic/queryFriendDynamics'
+  let result = { errroCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+  let dynamicInfos = []
+  if (userId) {
+    // Validates user is valid.
+    let user = null
+    try {
+      user = await userDal.queryUserInfoById(userId)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
+      return result
+    }
+
+    if (!user) {
+      result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED }
+      logUtil.logDebugMsg(funcName, result.errorMsg + `userId: ${userId}`)
+      return result
+    }
+
+    let idInfos = null
+    try {
+      const friendIds = await userFriendDal.queryFriendIdsByUserId(userId)
+      if (!friendIds || (friendIds && friendIds.length === 0)) {
+        result = { errorCode: errorCode.SUCCESS, data: [] }
+        return result
+      }
+      idInfos = await userDynamicDal.queryDynamicIdsByUserIds(friendIds, pageIndex)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
+    }
+
+    if (idInfos && idInfos.length > 0) {
+      for (let i = 0; i < idInfos.length; i++) {
+        const loadResult = await queryDynamicInfoById(idInfos[i].id)
+        if (loadResult.errorCode === errorCode.SUCCESS) {
+          dynamicInfos.push(loadResult.data)
+        }
+      }
+    }
+
+    result = { errorCode: errorCode.SUCCESS, data: dynamicInfos }
+  }
+
+  return result
+}
+
 exports.addDynamicInfo = addDynamicInfo
+exports.queryAllDynamics = queryAllDynamics
+exports.queryFriendDynamics = queryFriendDynamics
 exports.updateDynamicLikeCount = updateDynamicLikeCount
 exports.queryDynamicInfosByUserId = queryDynamicInfosByUserId

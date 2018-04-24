@@ -117,7 +117,8 @@ async function queryRecommendBooks (pageIndex, userId) {
   // If user has hobbies.
   if (hobbies.length > 0) {
     const postData = {
-      hobbies: JSON.stringify(hobbies)
+      hobbies: JSON.stringify(hobbies),
+      pageIndex: pageIndex
     }
     try {
       response = await commonRequest.post(proxyConfig.getRecommendBookUrl(), postData)
@@ -168,11 +169,15 @@ async function getUserHobbiesByUser (userInfo) {
     readBooks.forEach(b => {
       const tags = b.tags
       if (tags && tags.length > 0) {
-        tags.forEach(tag => {
-          if (hobbies.indexOf(tag) < 0) {
-            hobbies.push(tag)
-          }
-        })
+        // tags.forEach(tag => {
+        //   if (hobbies.indexOf(tag) < 0) {
+        //     hobbies.push(tag)
+        //   }
+        // })
+        const tag = tags[2]
+        if (hobbies.indexOf(tag) < 0) {
+          hobbies.push(tag)
+        }
       }
     })
   }
