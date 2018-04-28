@@ -36,7 +36,7 @@
         <el-table-column  prop="money" label="账户余额（元）"  width="150"></el-table-column>
         <el-table-column  prop="deadline" label="账户有效期至"  width="130"></el-table-column>
         <el-table-column label="操作">
-              <template scope="scope">
+              <template slot-scope="scope">
                 <el-button size="small" type="success" @click="accountPay(scope.$index, scope.row)"> 账户充值</el-button>
                 <el-button size="small" type="success" @click="account_typeChange(scope.$index, scope.row)"> 类型变更</el-button>
                 <el-button size="small" type="success" @click="familyShare(scope.$index, scope.row)"> 家人共享</el-button>
@@ -108,7 +108,7 @@
         </el-form-item>
 
       <el-form-item class="center">
-      <template scope="scope">
+      <template slot-scope="scope">
         <el-button type="primary" @click="handleSave_moneypayagain(scope.$index, scope.row)" :loading="editLoading">确定</el-button>
         <el-button @click="dialogFormVisible_moneypayagain = false">取消</el-button>
       </template>

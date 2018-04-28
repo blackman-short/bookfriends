@@ -16,7 +16,7 @@
         <el-table-column  prop="date" label="创建时间"  width="180"></el-table-column>
         <el-table-column  prop="edit_date" label="最后编辑时间"  width="180"></el-table-column>
         <el-table-column label="操作">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button size="small" class="font-color" ><i class="fa fa-book" aria-hidden="true"></i>详情</el-button>
             <el-button size="small" class="font-color" @click="add_account_change(scope.$index,scope.row)">修改</el-button>
           </template>

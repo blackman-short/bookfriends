@@ -18,7 +18,7 @@
         <el-table-column  prop="accumulative_integral" label="累计积分"  width="180"></el-table-column>
         <el-table-column  prop="avaliable_integral" label="可用积分"  width="180"></el-table-column>
         <el-table-column label="操作">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button size="small" class="font-color" ><i class="fa fa-book" aria-hidden="true"></i>查看流水</el-button>
               <i class="fa fa-exchange font-color" aria-hidden="true"></i>
             <el-button size="small" class="font-color" @click="cash_register(scope.$index, scope.row)"> 兑换登记</el-button>

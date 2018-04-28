@@ -3,19 +3,19 @@
     <div>
       <el-table :data="drugDatas" border style="width: 100%">
         <el-table-column align="center" label='选择' width="180">
-              <template scope="props">
+              <template slot-scope="props">
                 <el-checkbox v-model="props.row.isactive"></el-checkbox>
             </template>
           </el-table-column>
 
         <el-table-column align="center" label='分类' width="300" >
-              <template scope="props">
+              <template slot-scope="props">
                 {{ props.row.id }}
             </template>
           </el-table-column>
 
           <el-table-column align="center" label='价钱(元)'>
-              <template scope="props">
+              <template slot-scope="props">
                 {{ props.row.costSpend }}
             </template>
           </el-table-column>

@@ -11,32 +11,32 @@
         <el-table-column type="selection" width="50">
         </el-table-column>
         <el-table-column align="center" label='组号' width="100">
-            <template scope="scope">
+            <template slot-scope="scope">
               {{ scope.row.groupIndex}}
           </template>
         </el-table-column>
         <el-table-column align="center" label='名称(规格)' width="150">
-            <template scope="scope">
+            <template slot-scope="scope">
               {{ scope.row.dragName }}
           </template>
         </el-table-column>
         <el-table-column align="center" label='天数' width="100">
-            <template scope="scope">
+            <template slot-scope="scope">
             {{ scope.row.days }}
           </template>
         </el-table-column>
         <el-table-column align="center" label='数量' width="100">
-            <template scope="scope">
+            <template slot-scope="scope">
               {{ scope.row.number }}
           </template>
         </el-table-column>
         <el-table-column align="center" label='单价(元)' width="100">
-            <template scope="scope">
+            <template slot-scope="scope">
               {{ scope.row.price }}
           </template>
         </el-table-column>
         <el-table-column label="操作">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>

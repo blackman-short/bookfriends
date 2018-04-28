@@ -29,7 +29,7 @@
     <div class="content">
       <el-table  :data="tableData"  style="width: 100%" >
         <el-table-column  label="序号"  width="100">
-        <template scope="scope">
+        <template slot-scope="scope">
           {{scope.$index}}
         </template>
         </el-table-column>
@@ -41,7 +41,7 @@
         <el-table-column  prop="usestate" label="启用状态"  width="100"></el-table-column>
 
         <el-table-column label="操作">
-              <template scope="scope">
+              <template slot-scope="scope">
                 <el-button size="small"  @click="handleEdit(scope.$index, scope.row)"> 编辑</el-button>
                 <el-button size="small" type="danger"  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               </template>

@@ -1,8 +1,8 @@
 <template>
   <div class="login">
     <div class="login-container">
-      <el-form :model="loginForm" :rules="loginRules" ref="loginForm" class="card-box login-form">
-          <h1 class="title">百慧云诊所</h1>
+      <el-form :model="loginForm"  ref="loginForm" class="card-box login-form">
+          <h1 class="title">书圈系统</h1>
           <el-form-item prop="userName" class="item userItem">
               <span class="svg-container">
                 <i class="fa fa-user-o" aria-hidden="true"></i>
@@ -71,80 +71,36 @@
 // import Home from '@/view/home'
 import Hello from '@/view/home_content/hello'
 import store from './../store'
+const validator = require('validator')
+import Vue from 'vue'
+const login = require('../services/getData').default.login
+const search = require('../services/getData').default.search
 export default{
-  // mounted:function(){
-  // this.$http.get('../../static/login.json').then(function(response){
-  // this.username=response.data;
-  // console.log("数组",this.username);
-  // });
-  // },
   data () {
-    var validateUserName = (rule, value, callback) => {
-      console.log('aaaa')
-      if (!value) {
-        callback(new Error('请输入用户名'))
-      } else {
-        if (value !== '1111' && value !== 'vuex') {
-          callback(new Error('用户名不存在'))
-        } else {
-          callback()
-        }
-        // this.$http.get('../../static/login.json').then(function(response){
-        // var flag=0;
-        // for(let i=0;i<this.username.length;i++){
-        // if(value === this.username[i].username){
-        // flag=1;
-        // this.loginForm.psw=this.username[i].password;
-        // break;
-        // }
-        // }
-        // if(flag !=1){
-        // callback(new Error("用户名不存在"));
-        // }
-        // });
-      }
-    }
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
-      } else if (value.length < 6) {
-        callback(new Error('密码不能少于6位'))
-      } else if (value !== '123456') {
-      // else if(value != this.loginForm.psw){
-        callback(new Error('密码错误'))
-      // }
-      } else {
-        callback()
-      }
-    }
+    
     return {
       loginForm: store.state.userInfo,
-      // loginForm:{
-      // userName:'',
-      // password:'',
-      // psw:''
-      // },
-      // username:[],
-      loginRules: {
-        userName: [
-          { validator: validateUserName, trigger: 'blur' }
-        ],
-        password: [
-          { validator: validatePass, trigger: 'blur' }
-        ]
-      }
+     
     }
   },
   methods: {
-    handleLogin: function () {
-      this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          this.$router.push({ path: 'home/hello', component: Hello })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+    handleLogin: async function () {
+      const userName = this.loginForm.userName
+      const password = this.loginForm.password
+      console.log(userName + ':::' + password)
+      if (!userName || !validator.trim(userName)) {
+        this.showError('请输入用户名')
+      } else if (!password || !validator.trim(password)) {
+        this.showError('请输入密码')
+      } else {
+        // Call server to validates the account.
+        
+        // const res = await login(userName, password)
+        // console.log(res)
+        const res = await search('000')
+        console.log(res)
+        
+      }
     }
   },
   mounted: function () {

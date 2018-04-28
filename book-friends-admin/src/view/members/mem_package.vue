@@ -18,7 +18,7 @@
       </el-form-item>
 
       <el-form-item >
-        <template scope="scope">
+        <template slot-scope="scope">
         <el-button type="success" class="el-icon-search" @click="onSubmit"></el-button>
         <el-button type="success" @click="add_package(scope.$index,scope.row)">添加套餐</el-button>
         </template>

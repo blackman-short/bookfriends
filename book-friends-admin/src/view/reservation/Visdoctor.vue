@@ -15,13 +15,13 @@
         <template>
           <el-table :data="tableData" border style="width: 100%;">
               <el-table-column label="时间" width="180">
-                <template scope="scope">
+                <template slot-scope="scope">
                     <el-icon name="time"></el-icon>
                     <span style="margin-left: 10px">{{ scope.row.date }}</span>
                   </template>
               </el-table-column>
               <el-table-column label="预约人" width="180">
-                  <template scope="scope">
+                  <template slot-scope="scope">
                       <div slot="reference" class="name-wrapper">
                           <p>姓名: {{ scope.row.name }}</p>
                         <p class="phone-s">手机号码: {{ scope.row.phone }}</p>
@@ -29,7 +29,7 @@
                 </template>
               </el-table-column>
               <el-table-column label="状态更改" style="text-aligin:left;">
-                <template scope="scope">
+                <template slot-scope="scope">
                       <div slot="reference" class="name-span">
                     <span><el-button type="text"><i class="el-icon-time"></i>  签到</el-button></span>
                   <span><el-button type="text"><i class="el-icon-edit"></i>  测量</el-button></span>

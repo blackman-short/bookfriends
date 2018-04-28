@@ -2,3 +2,6 @@ book-friends-server/logs/
 book-friends-server/node-modules/
 book-friends-proxy/logs/
 book-friends-proxy/node-modules/
+book-friends-admin/node_modules/
+book-friends-admin/package-lock.json
+book-friends-admin/yarn.lock

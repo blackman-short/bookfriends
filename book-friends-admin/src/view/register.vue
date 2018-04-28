@@ -14,7 +14,7 @@
         </ul>
       </div>
       <div class="part">
-        <h1>百慧云诊所</h1>
+        <h1>书圈系统</h1>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm form1">
             <el-form-item label="真实姓名：" prop="name">
               <el-input v-model="ruleForm.name"></el-input>

@@ -8,7 +8,7 @@
       <el-table-column prop="deparment" label="项目名称" width="100">
       </el-table-column>
       <el-table-column label="注意事项" width="350">
-        <template scope="props">
+        <template slot-scope="props">
           <el-input v-model="props.row.attention"></el-input>
         </template>
       </el-table-column>
