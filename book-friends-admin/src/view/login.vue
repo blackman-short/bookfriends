@@ -68,37 +68,36 @@
   }
 </style>
 <script>
-// import Home from '@/view/home'
 import Hello from '@/view/home_content/hello'
 import store from './../store'
 const validator = require('validator')
 import Vue from 'vue'
 const login = require('../services/getData').default.login
-const search = require('../services/getData').default.search
+const resultCode = require('../resultCode').default
 export default{
   data () {
     
     return {
       loginForm: store.state.userInfo,
-     
     }
   },
   methods: {
     handleLogin: async function () {
       const userName = this.loginForm.userName
       const password = this.loginForm.password
-      console.log(userName + ':::' + password)
       if (!userName || !validator.trim(userName)) {
         this.showError('请输入用户名')
       } else if (!password || !validator.trim(password)) {
         this.showError('请输入密码')
       } else {
         // Call server to validates the account.
-        
-        // const res = await login(userName, password)
-        // console.log(res)
-        const res = await search('000')
-        console.log(res)
+        const res = await login(userName, password)
+        if (res.errorCode === resultCode.SUCCESS) {
+          store.state.userInfo = res.data
+          this.$router.push('/home/hello')
+        } else {
+          this.showError('用户名或密码错误!')
+        }
         
       }
     }

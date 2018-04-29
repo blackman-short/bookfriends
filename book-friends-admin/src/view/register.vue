@@ -94,17 +94,18 @@
   }
 </style>
 <script>
-// import {api} from '../global/api'
+const register = require('../services/getData').default.register
+const resultCode = require('../resultCode').default
 export default {
   data () {
     var validateName = (rule, value, callback) => {
       if (!value) {
         return callback(new Error('请输入真实名字'))
       } else {
-        if (value.length >= 3 && value.length <= 5) {
+        if (value.length >= 2 && value.length <= 4) {
           callback()
         } else {
-          callback(new Error('长度在3到5个字符之间'))
+          callback(new Error('长度在2到4个字符之间'))
         }
       }
     }
@@ -112,9 +113,9 @@ export default {
       if (!value) {
         return callback(new Error('请输入电话号码'))
       } else {
-        var reg1 = /^[0-9]{11}$/
+        var reg1 = /^1[3|4|5|8][0-9]\d{4,8}$/
         if (!reg1.test(value)) {
-          callback(new Error('请输入数字值'))
+          callback(new Error('请输入正确的手机号码'))
         } else {
           callback()
         }
@@ -138,21 +139,6 @@ export default {
       } else {
         callback()
       }
-      // else{
-      //   console.log("xxxxxxxxxxxxx",api.login)
-      //   this.$http.get(api.login).then(function(response){
-      //      var flag=0;
-      //      for(let i=0;i<response.data.length;i++){
-      //        if(value === response.data[i].username){
-      //          flag=1;
-      //          break;
-      //        }
-      //      }
-      //      if(flag ===1){
-      //        callback(new Error("用户名已存在"));
-      //      }
-      //   });
-      // }
     }
 
     var validatePass = (rule, value, callback) => {
@@ -210,15 +196,34 @@ export default {
     }
   },
   methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
+    submitForm: async function(formName) {
+      const valid = await this.validate(formName)
+      console.log(valid)
+      if (valid) {
+        // realName, adminName, password, phoneNumber, email
+        const realName = this.ruleForm.name
+        const adminName = this.ruleForm.userName
+        const password = this.ruleForm.password
+        const phoneNumber = this.ruleForm.num
+        const email = this.ruleForm.mail
+        const response = await register(realName, adminName, password, phoneNumber, email)
+        
+        if (response.errorCode === resultCode.SUCCESS) {
+          this.$router.push('/')
+        } else if (response.errorCode === resultCode.ERROR_USER_HASEXISTED) {
+          this.showWarning('该账号已被注册!')
         }
+      } else {
+        this.showWarning('注册信息错误!')
+      }
+    },
+    validate: async function (formName) {
+      let isRight = false
+      this.$refs[formName].validate((valid) => {
+        isRight = valid
       })
+
+      return isRight
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()

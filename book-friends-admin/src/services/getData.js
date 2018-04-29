@@ -3,9 +3,21 @@ const get = require('./request').default.get
 const post = require('./request').default.post
 
 const API = {
-  login: async function (userName, password) {
+  register: async function (realName, adminName, password, phoneNumber, email) {
     const postData = {
-      userName: userName,
+      realName: realName,
+      adminName: adminName,
+      password: password,
+      phoneNumber: phoneNumber,
+      email: email
+    }
+
+    const response =  await post(reqUrl.registerUrl(), postData)
+    return response
+  },
+  login: async function (phoneNumber, password) {
+    const postData = {
+      phoneNumber: phoneNumber,
       password: password
     }
 

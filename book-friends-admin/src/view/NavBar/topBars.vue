@@ -10,10 +10,11 @@
         <li>
           <el-dropdown class="dropdown">
               <span class="el-dropdown-link dropdown-link">
-                <i class="Img">
-                  <img src="../../assets/logo.png">
+                <i class="fa fa-user-o img">
+                  <!-- <img src="../../assets/logo.png"> -->
+                  <!-- class="fa fa-user-o" -->
                 </i>
-                <span>{{per.name}}</span>
+                <span>{{user.adminName}}</span>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
@@ -96,7 +97,7 @@ var date = new Date()
 export default {
   data () {
     return {
-      per: store.state.per,
+      user: store.state.userInfo,
       time: {
         month: date.getMonth() + 1,
         day: date.getDate(),

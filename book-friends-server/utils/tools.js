@@ -18,6 +18,22 @@ function isPhoneNumber (phoneNumber) {
   if (phoneNumber && validator.trim(phoneNumber)) {
     isValid = regex.test(phoneNumber)
   }
+
+  return isValid
+}
+
+/**
+ * Validates the email is valid.
+ * @param {*String} email
+ */
+function isEmail (email) {
+  let isValid = false
+  const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+
+  if (email && validator.trim(email)) {
+    isValid = regex.test(email)
+  }
+
   return isValid
 }
 
@@ -67,6 +83,7 @@ function hMd5Decrypt (param) {
   return verifysign
 }
 
+exports.isEmail = isEmail
 exports.isPhoneNumber = isPhoneNumber
 exports.isValidDate = isValidDate
 exports.getCurrentTime = getCurrentTime
