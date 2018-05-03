@@ -49,5 +49,26 @@ async function login (phoneNumber, password) {
   return result
 }
 
+/**
+ * Updates admin info.
+ * @param {*JSON} adminInfo
+ */
+async function update (adminInfo) {
+  const funcName = 'server: controllers/admin/update'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  if (adminInfo) {
+    try {
+      result = adminDal.update(adminInfo)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_UPDATE_DB + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
+    }
+  }
+
+  return result
+}
+
 exports.login = login
+exports.update = update
 exports.register = register

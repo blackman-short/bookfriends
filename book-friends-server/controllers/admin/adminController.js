@@ -105,5 +105,46 @@ async function login (req, res, next) {
   return res.status(200).send(response)
 }
 
+/**
+ * Updates admin info.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function update (req, res, next) {
+  const funcName = 'server: controllers/admin/update'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+  let response = { errorCode: errorCode.SUCCESS }
+
+  let adminInfo = req.body
+
+  try {
+    if (!adminInfo) {
+      throw new Error('Please provide admin info')
+    } else {
+      const phoneNumber = adminInfo.phoneNumber
+      if (!phoneNumber || (phoneNumber && !validator.trim(phoneNumber))) {
+        throw new Error('Please provide parameter: phoneNumber')
+      }
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  if (response.errorCode === errorCode.SUCCESS) {
+    try {
+      response = await adminManger.update(adminInfo)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
+  }
+
+  return res.status(200).send(response)
+}
+
 exports.login = login
+exports.update = update
 exports.register = register

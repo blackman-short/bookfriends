@@ -125,7 +125,6 @@ async function login (req, res, next) {
 async function updateInfo (req, res, next) {
   const functionName = 'server: controllers/user/update'
   logUtil.logDebugMsg(functionName, JSON.stringify(req.body))
-  console.log(req.body)
   let responseResult = { errorCode: errorCode.SUCCESS }
   let userInfo = req.body.userInfo
   // If user info is null.

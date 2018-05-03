@@ -3,7 +3,7 @@
       <div class="todayReservation">
           <!-- <p>今日预约</p> -->
           <el-table :data="tableData" style="width: 100%">
-              <el-table-column prop="date" label="今日预约"> </el-table-column>
+              <el-table-column prop="date" label="阅读Top"> </el-table-column>
               <el-table-column prop="name" label="" ></el-table-column>
               <el-table-column prop="phone" label=""></el-table-column>
               <el-table-column>
@@ -16,7 +16,7 @@
       </div>
       <div class="todayArrange">
           <p class="title">
-            <span class="arr">今日排班</span>
+            <span class="arr">今日图书新增</span>
             <router-link to="/home/arrange">
               <span class="more">更多</span>
             </router-link>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="echart">
-          <p>上周看病人数统计</p>
+          <p>上周看书数统计</p>
           <div :style="{height:height,width:width}" ref="myEchart">
           </div>
       </div>

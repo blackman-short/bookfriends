@@ -9,31 +9,31 @@
       <!-- <el-menu-item index="2">
           <i class="fa fa-search icon" aria-hidden="true"></i>查询
       </el-menu-item> -->
-      <el-menu-item index="3">
+      <!-- <el-menu-item index="3">
         <router-link to="/home/arrange">
             <i class="fa fa-calendar icon" aria-hidden="true"></i>排班
           </router-link>
-      </el-menu-item>
+      </el-menu-item> -->
       <el-menu-item index="4">
         <router-link to="/home/reservation">
-            <i class="fa fa-clock-o icon" aria-hidden="true"></i>预约
+            <i class="fa fa-clock-o icon" aria-hidden="true"></i>信息汇总
           </router-link>
       </el-menu-item>
-      <el-menu-item index="5">
+      <!-- <el-menu-item index="5">
         <router-link to="/home/Inquiry">
             <i class="fa fa-plus-square icon" aria-hidden="true"></i>问诊
           </router-link>
-      </el-menu-item>
+      </el-menu-item> -->
       <el-menu-item index="6">
         <router-link to="/home/project">
-            <i class="fa fa-folder-open-o icon" aria-hidden="true"></i>项目
+            <i class="fa fa-folder-open-o icon" aria-hidden="true"></i>信息管理
           </router-link>
       </el-menu-item>
-      <el-menu-item index="7">
+      <!-- <el-menu-item index="7">
         <router-link to="/home/members">
             <i class="fa fa-user-circle icon" aria-hidden="true"></i>会员
           </router-link>
-      </el-menu-item>
+      </el-menu-item> -->
     </el-menu>
     <topBars class="topbar"></topBars>
     <!-- <span class="topbar"> 当前位置:</span> -->

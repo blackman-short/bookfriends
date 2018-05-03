@@ -83,23 +83,24 @@ export default{
   },
   methods: {
     handleLogin: async function () {
-      const userName = this.loginForm.userName
-      const password = this.loginForm.password
-      if (!userName || !validator.trim(userName)) {
-        this.showError('请输入用户名')
-      } else if (!password || !validator.trim(password)) {
-        this.showError('请输入密码')
-      } else {
-        // Call server to validates the account.
-        const res = await login(userName, password)
-        if (res.errorCode === resultCode.SUCCESS) {
-          store.state.userInfo = res.data
-          this.$router.push('/home/hello')
-        } else {
-          this.showError('用户名或密码错误!')
-        }
+      this.$router.push('/home/hello')
+      // const userName = this.loginForm.userName
+      // const password = this.loginForm.password
+      // if (!userName || !validator.trim(userName)) {
+      //   this.showError('请输入用户名')
+      // } else if (!password || !validator.trim(password)) {
+      //   this.showError('请输入密码')
+      // } else {
+      //   // Call server to validates the account.
+      //   const res = await login(userName, password)
+      //   if (res.errorCode === resultCode.SUCCESS) {
+      //     store.state.userInfo = res.data
+      //     this.$router.push('/home/hello')
+      //   } else {
+      //     this.showError('用户名或密码错误!')
+      //   }
         
-      }
+      // }
     }
   },
   mounted: function () {

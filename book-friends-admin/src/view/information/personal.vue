@@ -19,7 +19,7 @@
             <el-dialog title="编辑个人信息" :visible.sync="dialogFormVisible" >
                 <el-form :model="form" :rules="rules" ref="form">
                   <el-form-item label="用户类型:" :label-width="formLabelWidth">
-                      医生
+                      管理员
                   </el-form-item>
                   <el-form-item label="所属科室:" :label-width="formLabelWidth">
                       <el-select v-model="form.subordinate" placeholder="请选择所属科室" style="width:220px">
@@ -130,17 +130,17 @@
         </div>
         <div class="personal-info special">
           <div class="title">
-            <span>医生信息</span>
+            <span>管理员信息</span>
             <el-button type="text" class="editor" @click="editorDialogForm2">
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               编辑
             </el-button>
-            <el-dialog title="编辑医生信息" :visible.sync="dialogFormVisible2">
+            <el-dialog title="编辑管理员信息" :visible.sync="dialogFormVisible2">
               <el-form :model="form2">
                   <el-form-item label="姓名:" :label-width="formLabelWidth">
                     {{ per.name }}
                   </el-form-item>
-                  <el-form-item label="挂号类型:" :label-width="formLabelWidth">
+                  <el-form-item label="管理类型:" :label-width="formLabelWidth">
                     {{ptype }}
                   </el-form-item>
                   <el-form-item label="出诊科室:" :label-width="formLabelWidth">
@@ -305,15 +305,15 @@ export default {
     return {
       // 姓名
       per: store.state.per,
-      name1: '',
+      user: store.state.userInfo,
       // 个人信息
       personal: {
-        // name:store.state.name,
+        name:this.user.adminName,
         sex: '',
         age: '',
         subordinate: '',
         job: '',
-        phone: ''
+        phone: this.user.phoneNumber
       },
       ptype: '',
       // 医生信息

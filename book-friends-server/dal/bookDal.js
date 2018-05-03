@@ -162,7 +162,59 @@ async function queryCertainFieldsByISBN (isbn) {
   return book
 }
 
+async function getTotalCount () {
+  let count = 0
+
+  count = await BookInfo.find({}).count()
+
+  return count
+}
+
+/**
+ * Querys all books.
+ */
+async function queryAll (pageIndex) {
+  let books = []
+  if (pageIndex > 0) {
+    const skipCount = (pageIndex - 1) * PAGE_SIZE
+    books = await BookInfo.find({}).skip(skipCount).limit(PAGE_SIZE)
+  }
+  return books
+}
+
+/**
+ *
+ * @param {*Array} isbns
+ */
+async function deleteBooks (isbns) {
+  let result = null
+
+  if (isbns) {
+    result = await BookInfo.deleteMany({isbn: {$in: isbns}})
+  }
+
+  return result
+}
+
+/**
+ * Updates one book
+ * @param {*JSON} bookParams
+ */
+async function updateBook (bookParams) {
+  let result = null
+
+  if (bookParams && bookParams.isbn) {
+    result = await BookInfo.update({isbn: bookParams.isbn}, bookParams)
+  }
+
+  return result
+}
+
+exports.queryAll = queryAll
 exports.saveBook = saveBook
+exports.updateBook = updateBook
+exports.deleteBooks = deleteBooks
+exports.getTotalCount = getTotalCount
 exports.queryTopBooks = queryTopBooks
 exports.queryNewBooks = queryNewBooks
 exports.queryHotBooks = queryHotBooks

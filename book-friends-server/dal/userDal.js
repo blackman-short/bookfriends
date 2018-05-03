@@ -140,9 +140,56 @@ async function searchUsersByKeyword (keyWord, pageIndex) {
   return users
 }
 
+/**
+ * Querys all uers.
+ */
+async function queryAll (pageIndex) {
+  let users = []
+
+  if (pageIndex > 0) {
+    const skipCount = (pageIndex - 1) * PAGE_SIZE
+    users = await UserInfo.find({}).skip(skipCount).limit(PAGE_SIZE)
+  }
+  return users
+}
+
+async function queryTotalCount () {
+  let count = 0
+
+  count = await UserInfo.find({}).count()
+
+  return count
+}
+
+/**
+ * Deletes one user by id.
+ * @param {*String} userId
+ */
+async function deleteOne (userId) {
+  let result = null
+
+  if (userId) {
+    const find = await UserInfo.findOne({id: userId, isActive: true})
+
+    if (!find) {
+      result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED }
+    } else {
+      const data = await UserInfo.deleteOne({id: userId})
+      if (data) {
+        result = { errorCode: errorCode.SUCCESS }
+      }
+    }
+  }
+
+  return result
+}
+
 exports.login = login
 exports.register = register
+exports.queryAll = queryAll
+exports.deleteOne = deleteOne
 exports.updateInfo = updateInfo
+exports.queryTotalCount = queryTotalCount
 exports.queryUserInfoById = queryUserInfoById
 exports.queryUserCertainFieldsById = queryUserCertainFieldsById
 exports.searchUsersByKeyword = searchUsersByKeyword
