@@ -198,7 +198,6 @@ export default {
   methods: {
     submitForm: async function(formName) {
       const valid = await this.validate(formName)
-      console.log(valid)
       if (valid) {
         // realName, adminName, password, phoneNumber, email
         const realName = this.ruleForm.name

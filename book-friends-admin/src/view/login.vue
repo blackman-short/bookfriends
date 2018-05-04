@@ -16,7 +16,7 @@
               <el-input name="password" type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" placeholder="密码" class="input-content"></el-input>
           </el-form-item>
           <el-form-item>
-            测试账号：1111/vuex  密码：123456
+            测试账号：18206296760  密码：123456
           </el-form-item>
           <el-form-item>
               <el-button type="primary" @click="handleLogin">
@@ -70,8 +70,8 @@
 <script>
 import Hello from '@/view/home_content/hello'
 import store from './../store'
-const validator = require('validator')
 import Vue from 'vue'
+const validator = require('validator')
 const login = require('../services/getData').default.login
 const resultCode = require('../resultCode').default
 export default{

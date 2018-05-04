@@ -70,11 +70,11 @@ export default new Router({
                   {path: '/', redirect: 'account' }//在子路由定向到account
                 ]
             },
-            {path:'project',component: project,name:'项目',
+            {path:'project',component: project,name:'信息管理',
                 children:[
-                  {path:'smallproject',component: smallproject,name:'子项目'},
-                  {path:'package',component: Package,name:'套餐'},
-                  {path:'registration',component: registration,name:'挂号费'},
+                  {path:'smallproject',component: smallproject,name:'用户'},
+                  {path:'package',component: Package,name:'图书'},
+                  {path:'registration',component: registration,name:'管理员'},
                   {path: '/', redirect: 'smallproject' }//在子路由定向到smallproject
                 ]
             },

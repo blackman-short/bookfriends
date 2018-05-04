@@ -2,47 +2,45 @@
   <div class="smallproject" >
     <!-- <br> -->
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="项目分类">
+      <el-form-item label="用户分类">
         <el-select v-model="formInline.region" placeholder="请选择">
-          <el-option label="检查费" value="检查费"></el-option>
-          <el-option label="检验费" value="检验费"></el-option>
+          <el-option label="会员" value="会员"></el-option>
+          <el-option label="普通用户" value="普通用户"></el-option>
           <el-option label="其他" value="其他"></el-option>
-          <el-option label="治疗费" value="治疗费"></el-option>
-          <el-option label="材料费" value="材料费"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="项目名称">
+      <el-form-item label="用户名">
         <el-input v-model="formInline.user" placeholder="请输入姓名/手机"></el-input>
       </el-form-item>
-      <el-form-item label="启用状态">
+      <el-form-item label="在线状态">
         <el-select v-model="formInline.state" placeholder="请选择">
-          <el-option label="启用" value="ture"></el-option>
-          <el-option label="禁止" value="false"></el-option>
+          <el-option label="在线" value="ture"></el-option>
+          <el-option label="离线" value="false"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="success" class="el-icon-search" @click="onSubmit"></el-button>
       </el-form-item>
-      <el-button class="filter-item" type="primary" @click="handleCreate()"  icon="edit">添加</el-button>
+      <el-button class="filter-item" type="primary" @click="handleCreate()"  icon="edit" :disabled="true">添加</el-button>
     </el-form>
 
     <div class="content">
-      <el-table  :data="tableData"  style="width: 100%" >
+      <el-table  :data="tableData"  style="width: 100%" stripe>
         <el-table-column  label="序号"  width="100">
         <template slot-scope="scope">
-          {{scope.$index}}
+          {{scope.$index + 1}}
         </template>
         </el-table-column>
-        <el-table-column  prop="style" label="项目分类"  width="100"></el-table-column>
-        <el-table-column  prop="name" label="项目名称"  width="100"></el-table-column>
-        <el-table-column  prop="company" label="单位"  width="100"></el-table-column>
-        <el-table-column  prop="price" label="单价（元）"  width="130"></el-table-column>
-        <el-table-column  prop="department" label="执行科室"  width="100"></el-table-column>
-        <el-table-column  prop="usestate" label="启用状态"  width="100"></el-table-column>
+        <el-table-column  prop="phoneNumber" label="手机号"  width="150"></el-table-column>
+        <el-table-column  prop="nickName" label="用户名"  width="150"></el-table-column>
+        <el-table-column  prop="sex" label="性别"  width="100"></el-table-column>
+        <el-table-column  prop="age" label="年龄(岁)"  width="100"></el-table-column>
+        <el-table-column  prop="location" label="所在地"  width="150"></el-table-column>
+        <el-table-column  prop="isActive" label="账号状态"  width="100"></el-table-column>
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="small"  @click="handleEdit(scope.$index, scope.row)"> 编辑</el-button>
+            <el-button size="small"  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button size="small" type="danger"  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -50,27 +48,24 @@
 
     </div>
     <!-- 点击编辑出现的弹窗 -->
-    <el-dialog title="修改个人信息" v-model="dialogFormVisible" size="tiny" >
+    <el-dialog title="修改用户信息" v-model="dialogFormVisible" size="tiny" >
       <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="项目类型">
-          <el-input v-model="form.style"></el-input>
+        <el-form-item label="手机号">
+          <el-input v-model="form.phoneNumber" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="项目名称">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="昵称">
+          <el-input v-model="form.nickName" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="单位">
-          <el-input v-model="form.company"></el-input>
+        <el-form-item label="性别">
+          <el-input v-model="form.sex" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="单价">
-          <el-input v-model="form.price"></el-input>
+        <el-form-item label="所在地">
+          <el-input v-model="form.location" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="执行科室">
-          <el-input v-model="form.department"></el-input>
-        </el-form-item>
-        <el-form-item label="启用状态">
-        <el-select v-model="form.usestate" placeholder="请选择">
-          <el-option label="ture" value="ture"></el-option>
-          <el-option label="false" value="false"></el-option>
+        <el-form-item label="可用状态">
+        <el-select v-model="form.isActive" placeholder="请选择">
+          <el-option label="可用" value="可用"></el-option>
+          <el-option label="不可用" value="不可用"></el-option>
         </el-select>
         </el-form-item>
         <el-form-item class="center">
@@ -80,25 +75,22 @@
       </el-form>
     </el-dialog>
     <!-- 点击添加项目出现的弹窗 -->
-    <el-dialog title="添加项目信息" v-model="dialogFormVisibleadd" size="tiny">
+    <el-dialog title="添加用户" v-model="dialogFormVisibleadd" size="tiny">
       <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="项目类型">
-          <el-input v-model="form.style"></el-input>
+        <el-form-item label="手机号">
+          <el-input v-model="form.phoneNumber"></el-input>
         </el-form-item>
-        <el-form-item label="项目名称">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="用户名">
+          <el-input v-model="form.nickName"></el-input>
         </el-form-item>
-        <el-form-item label="单位">
-          <el-input v-model="form.company"></el-input>
+        <el-form-item label="性别">
+          <el-input v-model="form.sex"></el-input>
         </el-form-item>
-        <el-form-item label="单价">
-          <el-input v-model="form.price"></el-input>
+        <el-form-item label="所在地">
+          <el-input v-model="form.location"></el-input>
         </el-form-item>
-        <el-form-item label="执行科室">
-          <el-input v-model="form.department"></el-input>
-        </el-form-item>
-        <el-form-item label="启用状态">
-          <el-input v-model="form.usestate"></el-input>
+        <el-form-item label="可用状态">
+          <el-input v-model="form.isActive"></el-input>
         </el-form-item>
         <el-form-item class="center">
           <el-button type="primary" @click="handleSaveadd" :loading="editLoading">修改</el-button>
@@ -115,13 +107,14 @@
         :page-sizes="[10, 20, 30, 40]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.length">
+        :total="totalCount">
       </el-pagination>
     </div>
   </div>
 </template>
 <script >
-import {api} from '../../global/api'
+const API = require('../../services/getData').default
+const userConvertor = require('../../global/objectConvert').userConvertor
 export default {
   name: 'smallproject',
   data () {
@@ -138,34 +131,42 @@ export default {
         state: ''
       },
       form: {
-        style: '',
-        name: '',
-        company: '',
-        price: '',
-        department: '',
-        usestate: ''
+        phoneNumber: '',
+        nickName: '',
+        sex: '',
+        age: '',
+        location: '',
+        isActive: ''
       },
       tableData: [{
-
-        style: '',
-        name: '',
-        company: '',
-        price: '',
-        department: '',
-        usestate: ''
-      }]
+        phoneNumber: '',
+        nickName: '',
+        sex: '',
+        age: '',
+        location: '',
+        isActive: ''
+      }],
+      totalCount: 0
     }
   }, // 实例化就获取数据
-  mounted: function () {
-    this.$http.get(api.smallproject).then(function (response) {
-      this.tableData = response.data.tableData
-    })
+  mounted: async function () {
+    const response = await API.getUsers(1)
+    if (response.errorCode === 0) {
+      let data = []
+      const users = response.data.users
+      // console.log(users)
+      // this.tableData = users
+      this.tableData = userConvertor(users)
+      this.totalCount = response.data.totalCount
+    } else {
+      this.showWarning('加载失败。。。请重试 !')
+    }
   },
   methods: {
     onSubmit () {
-      this.$http.get(api.smallproject_search, {params: this.formInline}).then(function (response) {
-        this.tableData = response.data.tableData
-      })
+      // this.$http.get(api.smallproject_search, {params: this.formInline}).then(function (response) {
+      //   this.tableData = response.data.tableData
+      // })
     },
     handleEdit (index, row) {
       this.dialogFormVisible = true
@@ -182,6 +183,7 @@ export default {
         this.editLoading = true// 显示正在修改，圆圈跑起来
         this.tableData[this.table_index] = this.form
         this.tableData.splice(this.table_index, 1, this.form)
+        API.updateUser()
         this.$message({
           message: '操作成功！',
           type: 'success'
@@ -209,10 +211,20 @@ export default {
     },
 
     handleDelete (index, row) {
-      this.tableData.splice(index, 1)
-      this.$message({
-        message: '操作成功！',
-        type: 'success'
+      this.$confirm('确认删除该用户？', '确认', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const phoneNumber = this.tableData[index].phoneNumber
+        API.deleteUser(phoneNumber).then((response) => {
+          if (response && 0 === response.errorCode) {
+          this.tableData.splice(index, 1)
+          this.showSuccess()
+        } else {
+          this.showError('操作失败。。。请重试 !')
+        }
+        })        
       })
     },
 

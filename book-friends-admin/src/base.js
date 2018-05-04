@@ -15,5 +15,11 @@ module.exports = function (Vue, options) {
       showCancelButton: false,
       center: true
     }).then()
+  },
+  Vue.prototype.showSuccess = function () {
+    this.$message({
+      message: '操作成功！',
+      type: 'success'
+      })
   }
 }

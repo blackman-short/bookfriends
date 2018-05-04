@@ -7,7 +7,27 @@ module.exports = {
   loginUrl: function () {
     return this.baseUrl + '/admin/login'
   },
-  searchUrl: function () {
-    return this.baseUrl + '/admin/search'
+  // #region User operations
+  usersUrl: function () {
+    return this.baseUrl + '/admin/user/all'
+  },
+  updateUser: function () {
+    return this.baseUrl + '/admin/user/update' 
+  },
+  deleteUser: function () {
+    return this.baseUrl + '/admin/user/delete'
+  },
+  // #endregion
+
+  // #region Book operations
+  booksUrl: function () {
+    return this.baseUrl + '/admin/book/all'
+  },
+  updateBook: function () {
+    return this.baseUrl + '/admin/book/update'
+  },
+  deleteBook: function () {
+    return this.baseUrl + '/admin/book/delete'
   }
+  // #endregion
 }

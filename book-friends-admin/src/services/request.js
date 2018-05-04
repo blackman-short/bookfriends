@@ -20,7 +20,6 @@ const request = {
     }
 
     url = url.substring(0, url.lastIndexOf('&'))
-    console.log(url)
     const response = await Vue.http.get(url, null)
     if (!response || (response && !response.data)) {
       return { errorCode: '101', errorMsg: 'request is errored or response.data is null' }

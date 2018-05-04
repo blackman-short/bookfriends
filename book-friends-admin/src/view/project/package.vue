@@ -2,74 +2,102 @@
   <div class="package">
     <!-- <br> -->
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="套餐分类">
+      <el-form-item label="图书分类">
         <el-select v-model="formInline.region" placeholder="请选择">
-          <el-option label="A套餐" value="A套餐"></el-option>
-          <el-option label="B套餐" value="B套餐"></el-option>
-          <el-option label="C套餐" value="C套餐"></el-option>
-          <el-option label="D套餐" value="D套餐"></el-option>
-          <el-option label="E套餐" value="E套餐"></el-option>
+          <el-option label="文学" value="文学"></el-option>
+          <el-option label="小说" value="小说"></el-option>
+          <el-option label="科幻" value="科幻"></el-option>
+          <el-option label="历史" value="历史"></el-option>
+          <el-option label="其他" value="其他"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="套餐名称">
-        <el-input v-model="formInline.user" placeholder="请输入套餐名称"></el-input>
+      <el-form-item label="图书名称">
+        <el-input v-model="formInline.user" placeholder="请输入图书名称"></el-input>
       </el-form-item>
-      <el-form-item label="启用状态">
-        <el-select v-model="formInline.state" placeholder="请选择">
-          <el-option label="启用" value="ture"></el-option>
-          <el-option label="禁止" value="false"></el-option>
-        </el-select>
+      <el-form-item label="ISBN">
+         <el-input v-model="formInline.user" placeholder="请输入图书ISBN"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="success" class="el-icon-search" @click="onSubmit"></el-button>
       </el-form-item>
-      <el-button class="filter-item" type="primary" @click="handleCreate()"  icon="edit">添加套餐</el-button>
+      <el-button class="filter-item" type="primary" @click="handleCreate()"  icon="edit">添加图书</el-button>
     </el-form>
 
     <div class="content">
-      <el-table  :data="tableData"  style="width: 100%" >
-        <el-table-column  label="序号"  width="100">
-        <template slot-scope="scope">
-          {{scope.$index}}
-        </template>
+      <el-table  :data="tableData"  style="width: 100%" max-height="400" stripe>
+        <el-table-column type="expand">
+          <template slot-scope="scope">
+           <div>
+             <div style="float: left; width:15%">
+               <img v-bind:src="scope.row.images.small" referrer="no-referrer|origin|unsafe-url" style="height:120px; width:80px"/>
+             </div>
+             <div style="float: left;width: 30%;height:120px">
+              <div><label>出版社</label>{{scope.row.publisher}}</div>
+              <div><label>出版时间</label>{{scope.row.pubdate}}</div>
+              <div>
+                <label>当前评分</label>
+                <el-rate
+                  v-model="scope.row.rating"
+                  disabled
+                  show-score
+                  text-color="#ff9900"
+                  score-template="{value}"
+                  >
+                </el-rate>
+              </div>
+             </div>
+           </div>
+          </template>
         </el-table-column>
-        <el-table-column  prop="style" label="套餐分类"  width="100"></el-table-column>
-        <el-table-column  prop="name" label="套餐名称"  width="100"></el-table-column>
-        <el-table-column  prop="relate" label="关联的项目"  width="180"></el-table-column>
-        <el-table-column  prop="price" label="单价（元）"  width="130"></el-table-column>
-        <el-table-column  prop="department" label="执行科室"  width="100"></el-table-column>
-        <el-table-column  prop="usestate" label="启用状态"  width="100"></el-table-column>
+        <el-table-column type="selection" width="55"></el-table-column>
+        <!-- <el-table-column  label="序号"  width="55" style="display:none">
+          <template slot-scope="scope">{{scope.$index}}</template>
+        </el-table-column> -->
+        
+        <el-table-column  prop="title" label="书名"  width="150"></el-table-column>
+        <el-table-column  prop="isbn" label="ISBN"  width="150"></el-table-column>
+        <el-table-column  prop="price" label="单价(元)"  width="100"></el-table-column>
+        <el-table-column label="作者"  width="200">
+          <template slot-scope="scope">
+            {{scope.row.author.toString()}}
+          </template>
+        </el-table-column>
+        <el-table-column  label="可用状态"  width="100">
+          <template slot-scope="scope">
+            {{scope.row.isActive===true? '可用' : '不可用'}}
+          </template>
+        </el-table-column>
 
         <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button size="small"  @click="handleEdit(scope.$index, scope.row)"> 编辑</el-button>
+                <el-button size="small"  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                 <el-button size="small" type="danger"  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               </template>
             </el-table-column>
       </el-table>
     </div>
     <!-- 点击编辑出现的弹窗 -->
-    <el-dialog title="修改个人信息" v-model="dialogFormVisible" size="tiny" >
+    <el-dialog title="修改图书信息" v-model="dialogFormVisible" size="tiny" >
       <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="套餐类型">
-          <el-input v-model="form.style"></el-input>
+        <el-form-item label="ISBN">
+          <el-input v-model="form.isbn" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="套餐名称">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="书名">
+          <el-input v-model="form.title"></el-input>
         </el-form-item>
-        <el-form-item label="关联的项目">
-          <el-input v-model="form.relate"></el-input>
+        <el-form-item label="作者">
+          <el-input v-model="form.author"></el-input>
         </el-form-item>
         <el-form-item label="单价">
           <el-input v-model="form.price"></el-input>
         </el-form-item>
-        <el-form-item label="执行科室">
-          <el-input v-model="form.department"></el-input>
+        <el-form-item label="电子书网址">
+          <el-input v-model="form.ebookUrl"></el-input>
         </el-form-item>
-        <el-form-item label="启用状态">
-        <el-select v-model="form.usestate" placeholder="请选择">
-          <el-option label="ture" value="ture"></el-option>
-          <el-option label="false" value="false"></el-option>
+        <el-form-item label="可用状态">
+        <el-select v-model="form.isActive" placeholder="请选择">
+          <el-option label="可用" value="true"></el-option>
+          <el-option label="不可用" value="false"></el-option>
         </el-select>
         </el-form-item>
         <el-form-item class="center">
@@ -79,22 +107,22 @@
       </el-form>
     </el-dialog>
     <!-- 点击添加项目出现的弹窗 -->
-    <el-dialog title="添加项目信息" v-model="dialogFormVisibleadd" size="tiny">
+    <el-dialog title="添加图书信息" v-model="dialogFormVisibleadd" size="tiny">
       <el-form ref="form" :model="form" label-width="100px">
-        <el-form-item label="套餐类型">
-          <el-input v-model="form.style"></el-input>
+        <el-form-item label="ISBN">
+          <el-input v-model="form.isbn"></el-input>
         </el-form-item>
-        <el-form-item label="套餐名称">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="书名">
+          <el-input v-model="form.title"></el-input>
         </el-form-item>
-        <el-form-item label="关联的项目">
-          <el-input v-model="form.relate"></el-input>
+        <el-form-item label="作者">
+          <el-input v-model="form.author"></el-input>
         </el-form-item>
         <el-form-item label="单价">
           <el-input v-model="form.price"></el-input>
         </el-form-item>
-        <el-form-item label="执行科室">
-          <el-input v-model="form.department"></el-input>
+        <el-form-item label="电子书地址">
+          <el-input v-model="form.ebookUrl"></el-input>
         </el-form-item>
         <el-form-item label="启用状态">
           <el-input v-model="form.usestate"></el-input>
@@ -114,13 +142,13 @@
         :page-sizes="[10, 20, 30, 40]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.length">
+        :total="totalCount">
       </el-pagination>
     </div>
   </div>
 </template>
 <script >
-import {api} from '../../global/api'
+const API = require('../../services/getData').default
 export default {
   name: 'package',
   data () {
@@ -129,7 +157,7 @@ export default {
       dialogFormVisible: false,
       dialogFormVisibleadd: false,
       editLoading: false, // 是否显示修改状态
-      currentPage1: 5,
+      currentPage1: 1,
       activeIndex: '1',
       formInline: {
         user: '',
@@ -137,38 +165,51 @@ export default {
         state: ''
       },
       form: {
-        style: '',
-        name: '',
-        relate: '',
+        isbn: '',
+        title: '',
+        author: '',
         price: '',
-        department: '',
-        usestate: ''
+        ebookUrl: '',
+        isActive: ''
       },
       tableData: [{
-
-        style: '',
-        name: '',
-        relate: '',
+        isbn: '',
+        title: '',
+        author: '',
         price: '',
-        department: '',
-        usestate: ''
-      }]
+        ebookUrl: '',
+        isActive: ''
+      }],
+      totalCount: 0,
+      rating: 2
     }
   },
   // 实例化就获取数据
-  mounted: function () {
-    this.$http.get(api.package).then(function (response) {
-      this.tableData = response.data.tableData
-    })
+  mounted: async function () {
+    // this.$http.get(api.package).then(function (response) {
+    //   this.tableData = response.data.tableData
+    // })
+   await this.getBooks(1)
   },
   methods: {
+    getBooks: async function (index) {
+      const response = await API.getBooks(index)
+      if (response.errorCode === 0) {
+        console.log(response.data.books)
+        this.tableData = []
+        this.tableData = response.data.books
+        this.totalCount = response.data.totalCount
+      }
+    },
     onSubmit () {
-      this.$http.get(api.package_search, {params: this.formInline}).then(function (response) {
-        this.tableData = response.data.tableData
-      })
+      // this.$http.get(api.package_search, {params: this.formInline}).then(function (response) {
+      //   this.tableData = response.data.tableData
+      // })
     },
     handleEdit (index, row) {
       this.dialogFormVisible = true
+      console.log(row)
+      row.isActive = row.isActive === true? '可用': '不可用'
       this.form = Object.assign({}, row)
       this.table_index = index
     },
@@ -237,8 +278,9 @@ export default {
       console.log(`每页 ${val} 条`)
     },
 
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+    handleCurrentChange: async function (index) {
+      console.log(`当前页: ${index}`)
+      await this.getBooks(index)
     },
     handleSelect (key, keyPath) {
       console.log(key, keyPath)

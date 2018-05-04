@@ -33,13 +33,13 @@ async function queryAll (pageIndex) {
  * Deletes one user by userId.
  * @param {*String} userId
  */
-async function deleteUser (userId) {
+async function deleteUser (phoneNumber) {
   const funcName = 'server: managers/user/deleteUser'
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.ERROR_CALL_MANAGER }
 
-  if (userId) {
+  if (phoneNumber) {
     try {
-      const data = await userInfoDal.deleteOne(userId)
+      const data = await userInfoDal.deleteOne(phoneNumber)
       if (data) {
         result = { errorCode: errorCode.SUCCESS }
       } else {

@@ -79,11 +79,24 @@ async function updateInfo (userInfo) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
   // If the parameters is valid.
+  let user = null
   if (userInfo) {
-    const user = await UserInfo.findOne({ id: userInfo.userId, isActive: true })
+    if (userInfo.userId) {
+      user = await UserInfo.findOne({ id: userInfo.userId, isActive: true })
+    } else {
+      user = await UserInfo.findOne({ phoneNumber: userInfo.phoneNumber, isActive: true })
+    }
+
     // If success, return the user's information
     if (user) {
-      await UserInfo.update({id: userInfo.userId}, userInfo)
+      if (userInfo.userId) {
+        await UserInfo.update({id: userInfo.userId}, userInfo)
+      } else if (userInfo.phoneNumber) {
+        await UserInfo.update({phoneNumber: userInfo.phoneNumber}, userInfo)
+      } else {
+        // Nothing to do.
+      }
+
       result = { errorCode: errorCode.SUCCESS }
     } else {
       result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.ERROR_USER_NOTEXISTED }
@@ -165,16 +178,16 @@ async function queryTotalCount () {
  * Deletes one user by id.
  * @param {*String} userId
  */
-async function deleteOne (userId) {
+async function deleteOne (phoneNumber) {
   let result = null
 
-  if (userId) {
-    const find = await UserInfo.findOne({id: userId, isActive: true})
+  if (phoneNumber) {
+    const find = await UserInfo.findOne({phoneNumber: phoneNumber, isActive: true})
 
     if (!find) {
       result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED }
     } else {
-      const data = await UserInfo.deleteOne({id: userId})
+      const data = await UserInfo.deleteOne({phoneNumber: phoneNumber})
       if (data) {
         result = { errorCode: errorCode.SUCCESS }
       }

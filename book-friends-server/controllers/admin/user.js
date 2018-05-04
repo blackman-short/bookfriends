@@ -55,12 +55,12 @@ async function deleteUser (req, res, next) {
   logUtil.logDebugMsg(functionName, JSON.stringify(req.query))
   let responseResult = { errorCode: errorCode.SUCCESS }
 
-  let userId = req.body.userId
+  let phoneNumber = req.body.phoneNumber
   try {
-    if (!userId || (userId && !validator.trim(userId))) {
+    if (!phoneNumber || (phoneNumber && !validator.trim(phoneNumber))) {
       throw new Error('Please provide parameter: userId')
     } else {
-      userId = validator.trim(userId)
+      phoneNumber = validator.trim(phoneNumber)
     }
   } catch (error) {
     responseResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
@@ -69,7 +69,7 @@ async function deleteUser (req, res, next) {
   }
 
   try {
-    // responseResult = await userManager.queryAll()
+    responseResult = await userManager.deleteUser(phoneNumber)
   } catch (error) {
     responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
     logUtil.logErrorMsg(functionName, responseResult.errorMsg)
