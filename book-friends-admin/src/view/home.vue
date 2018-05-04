@@ -15,8 +15,8 @@
           </router-link>
       </el-menu-item> -->
       <el-menu-item index="4">
-        <router-link to="/home/reservation">
-            <i class="fa fa-clock-o icon" aria-hidden="true"></i>信息汇总
+        <router-link to="/home/infochart">
+            <i class="fa fa-bar-chart-o icon" aria-hidden="true"></i>信息汇总
           </router-link>
       </el-menu-item>
       <!-- <el-menu-item index="5">
@@ -25,7 +25,7 @@
           </router-link>
       </el-menu-item> -->
       <el-menu-item index="6">
-        <router-link to="/home/project">
+        <router-link to="/home/infomanager">
             <i class="fa fa-folder-open-o icon" aria-hidden="true"></i>信息管理
           </router-link>
       </el-menu-item>

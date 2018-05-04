@@ -4,22 +4,23 @@
       <div class="content-left" >
           <el-form :inline="true" :model="formInline" class="demo-form-inline" style="    text-align: left;margin-left: 4%;margin-top: 11%;}">
             <el-form-item >
-              <el-select v-model="formInline.region" placeholder="全部科室">
-                <el-option label="科室一" value="shanghai"></el-option>
-                <el-option label="科室二" value="beijing"></el-option>
+              <el-select v-model="formInline.region" placeholder="全部图书">
+                <el-option label="文学" value="文学"></el-option>
+                <el-option label="小说" value="小说"></el-option>
+                <el-option label="科幻" value="科幻"></el-option>
               </el-select>
             </el-form-item>
         </el-form>
           <el-menu default-active="1" class="el-menu-vertical-demo" style="background-color: #ffffff;" >
-            <router-link to="/home/reservation/Mrliu/Visdoctor" style="text-decoration:none;color:#48576a;">
-                <el-menu-item index="1">出诊医生</el-menu-item>
+            <router-link to="/home/infochart/book/kinds" style="text-decoration:none;color:#48576a;">
+                <el-menu-item index="1">图书类别</el-menu-item>
             </router-link>
-            <router-link to="/home/reservation/Mrliu/liuContent" style="text-decoration:none;color:#48576a;">
-              <el-menu-item index="2">刘医生</el-menu-item>
+            <router-link to="/home/infochart/book/visits" style="text-decoration:none;color:#48576a;">
+              <el-menu-item index="2">图书访问量</el-menu-item>
             </router-link>
-              <el-menu-item index="3">李医生</el-menu-item>
+              <!-- <el-menu-item index="3">李医生</el-menu-item>
               <el-menu-item index="4">张医生</el-menu-item>
-              <el-menu-item index="5">王医生</el-menu-item>
+              <el-menu-item index="5">王医生</el-menu-item> -->
           </el-menu>
 
       </div>

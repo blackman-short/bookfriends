@@ -70,27 +70,33 @@ export default new Router({
                   {path: '/', redirect: 'account' }//在子路由定向到account
                 ]
             },
-            {path:'project',component: project,name:'信息管理',
+            {path:'infomanager',component: project,name:'信息管理',
                 children:[
-                  {path:'smallproject',component: smallproject,name:'用户'},
-                  {path:'package',component: Package,name:'图书'},
-                  {path:'registration',component: registration,name:'管理员'},
-                  {path: '/', redirect: 'smallproject' }//在子路由定向到smallproject
+                  {path:'users',component: smallproject,name:'用户'},
+                  {path:'books',component: Package,name:'图书'},
+                  {path:'admins',component: registration,name:'管理员'},
+                  {path: '/', redirect: 'users' }//在子路由定向到smallproject
                 ]
             },
-            {path:'reservation',component: Reservation,name:'预约',
+            {path:'infochart',component: Reservation,name:'信息汇总',
                 children:[
-                  {path:'Mrliu',component: Mrliu,name:'今日预约',
-                      children:[
-                        {path:'Visdoctor',component: Visdoctor,name:'出诊医生'},
-                        {path:'liuContent',component: LiuContent,name:'刘医生'},
-                        {path: '/', redirect: 'Visdoctor' }
-                      ]
+                  {path:'book',component: Mrliu,name:'图书分析',
+                    children:[
+                      {path:'kinds',component: Visdoctor,name:'图书类别'},
+                      {path:'visits',component: LiuContent,name:'图书访问量'},
+                      {path: '/', redirect: 'kinds' }
+                    ]
 
                   },
                   {path:'Vdetails',component: Vdetails,name:'详情页'},
-                  {path: '/', redirect: 'Mrliu' },
-                  {path: 'appointreport', component: Appointreport,name:'预约报备' }
+                  {path: '/', redirect: 'book' },
+                  {path: 'user', component: Appointreport,name:'用户分析',
+                    children:[
+                      {path:'kinds',component: Visdoctor,name:'用户类别'},
+                      {path:'details',component: LiuContent,name:'用户详情'},
+                      {path: '/', redirect: 'kinds' }
+                    ]
+                  }
                 ]
             },
             

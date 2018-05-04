@@ -17,9 +17,9 @@
       <div class="todayArrange">
           <p class="title">
             <span class="arr">今日图书新增</span>
-            <router-link to="/home/arrange">
+            <!-- <router-link to="/home/arrange"> -->
               <span class="more">更多</span>
-            </router-link>
+            <!-- </router-link> -->
           </p>
           <div class="content">
             <p v-for="item in dataArrange[0].todos" class="todayArrange-content" v-bind:key="item">
@@ -30,8 +30,7 @@
 
       <div class="echart">
           <p>上周看书数统计</p>
-          <div :style="{height:height,width:width}" ref="myEchart">
-          </div>
+          <div :style="{height:height,width:width}" ref="myEchart"></div>
       </div>
       <div class="news">
         <p>
@@ -176,6 +175,7 @@ export default {
     initChart () {
       // 对图表进行初始化
       this.chart = echarts.init(this.$refs.myEchart)
+
       // 把配置和数据放这里
       this.chart.setOption({
         color: ['#3398DB'],

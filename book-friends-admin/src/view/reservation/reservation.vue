@@ -2,12 +2,12 @@
   <div class="reservation">
     <div class="h-header-bottom">
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" style="background-color: #ffffff;">
-        <router-link to="/home/reservation/Mrliu">
-              <el-menu-item index="1">今日预约</el-menu-item>
+        <router-link to="/home/infochart/book">
+              <el-menu-item index="1">图书分析</el-menu-item>
           </router-link>
 
-          <router-link to="/home/reservation/appointreport">
-              <el-menu-item index="2">预约报备</el-menu-item>
+          <router-link to="/home/infochart/user">
+              <el-menu-item index="2">用户分析</el-menu-item>
           </router-link>
   <!--
           <router-link to="">

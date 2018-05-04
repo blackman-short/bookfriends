@@ -2,48 +2,12 @@
   <div class="Visdoctor">
     <div class="h-content">
       <div class="content-right"  >
-        <div class="content-right-top">
-                  <el-row style="line-height:50px;">
-              <span class="p1-name">刘医生</span>
-              <el-radio-button >出诊</el-radio-button>
-              <el-time-picker is-range v-model="value3" placeholder="选择时间范围">
-              </el-time-picker>
-            </el-row>
-  <!-- <el-button class="filter-item" type="primary" @click="handleCreate()"  icon="edit">新增报备</el-button>    -->
+        <div v-if="1 > 2" class="content-right-bottom">
+          <img src="../../assets/40.png" class="bells" style="margin-left: 40%;margin-top: 16%;" >
+          <p style="margin-left: 45%;opacity: 0.6;">暂无统计信息</p>
         </div>
-        <div class="content-right-bottom" style="padding-top: 0">
-        <template>
-          <el-table :data="tableData" border style="width: 100%;">
-              <el-table-column label="时间" width="180">
-                <template slot-scope="scope">
-                    <el-icon name="time"></el-icon>
-                    <span style="margin-left: 10px">{{ scope.row.date }}</span>
-                  </template>
-              </el-table-column>
-              <el-table-column label="预约人" width="180">
-                  <template slot-scope="scope">
-                      <div slot="reference" class="name-wrapper">
-                          <p>姓名: {{ scope.row.name }}</p>
-                        <p class="phone-s">手机号码: {{ scope.row.phone }}</p>
-                      </div>
-                </template>
-              </el-table-column>
-              <el-table-column label="状态更改" style="text-aligin:left;">
-                <template slot-scope="scope">
-                      <div slot="reference" class="name-span">
-                    <span><el-button type="text"><i class="el-icon-time"></i>  签到</el-button></span>
-                  <span><el-button type="text"><i class="el-icon-edit"></i>  测量</el-button></span>
-                  <span>
-                  <router-link to="/home/reservation/Vdetails">
-                  <el-button type="text"><i class="el-icon-document"></i>  详情</el-button>
-                  </router-link>
-                  </span>
-                  <span><el-button type="text"  @click="handleDelete(scope.$index, scope.row)"><i class="el-icon-close"></i>  取消</el-button></span>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
-        </template>
+        <div class="echart">
+          <div :style="{height:height,width:width}" ref="myEchart"></div>
         </div>
       </div>
     </div>
@@ -51,10 +15,10 @@
 
 </template>
 <script>
+import echarts from 'echarts'
 import '../../assets/css/style1.css'
 import {api} from '../../global/api'
-// npm i element-ui -S 等同于
-// npm install element-ui --save
+
 export default {
   name: 'home',
   data: function () {
@@ -71,6 +35,64 @@ export default {
   },
 
   methods: {
+    initChart () {
+    const option = {
+      title : {
+          text: '书圈系统图书分类',
+          subtext: '',
+          x:'center'
+      },
+      tooltip : {
+          trigger: 'item',
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+      },
+      legend: {
+          orient : 'vertical',
+          x : 'left',
+          data:['历史文学','休闲娱乐','科幻科技','计算机技术','少儿读物']
+      },
+      toolbox: {
+          show : true,
+          feature : {
+              mark : {show: true},
+              dataView : {show: true, readOnly: false},
+              magicType : {
+                  show: true, 
+                  type: ['pie', 'funnel'],
+                  option: {
+                      funnel: {
+                          x: '25%',
+                          width: '50%',
+                          funnelAlign: 'left',
+                          max: 1548
+                      }
+                  }
+              },
+              restore : {show: true},
+              saveAsImage : {show: true}
+          }
+      },
+      calculable : true,
+      series : [
+          {
+              name:'访问来源',
+              type:'pie',
+              radius : '55%',
+              center: ['50%', '60%'],
+              data:[
+                  {value:335, name:'历史文学'},
+                  {value:310, name:'休闲娱乐'},
+                  {value:234, name:'科幻科技'},
+                  {value:135, name:'计算机技术'},
+                  {value:1548, name:'少儿读物'}
+              ]
+          }
+      ]
+    };
+      // 对图表进行初始化
+      this.chart = echarts.init(this.$refs.myEchart)
+      this.chart.setOption(option)
+    },
     getData: function () {
       // 这里可以写ajax方法
       // let me = this
@@ -95,7 +117,29 @@ export default {
 
   mounted () {
     this.getData()
-  }
+    this.initChart()
+  },
+   // 图表部分
+  // props接收父组件的数据
+  props: {
+    // 设置图表的宽度
+    width: {
+      type: String,
+      default: '500px'
+    },
+    // 设置图表的高度
+    height: {
+      type: String,
+      default: '500px'
+    }
+  },
+  beforeDestroy () {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
 
 }
 </script>
@@ -105,7 +149,7 @@ export default {
     /*background-color: #333;*/
     background-color: #F6F6F6;
   }
-  .Visdoctor .name-span span{
+  /* .Visdoctor .name-span span{
     margin-left: 25px;
   }
   .Visdoctor .name-wrapper{
@@ -113,5 +157,5 @@ export default {
   }
   .Visdoctor .phone-s{
     width: 175px;
-  }
+  } */
 </style>

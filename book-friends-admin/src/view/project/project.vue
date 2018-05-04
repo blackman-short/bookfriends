@@ -2,13 +2,13 @@
   <div class="project" >
 
   <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-    <router-link to="/home/project/smallproject">
+    <router-link to="/home/infomanager/users">
       <el-menu-item index="1">用户</el-menu-item>
       </router-link>
-    <router-link to="/home/project/package">
+    <router-link to="/home/infomanager/books">
       <el-menu-item index="2">图书</el-menu-item>
       </router-link>
-    <router-link to="/home/project/registration">
+    <router-link to="/home/infomanager/admins">
       <el-menu-item index="3">管理员</el-menu-item>
       </router-link>
   </el-menu> 

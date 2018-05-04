@@ -150,19 +150,19 @@ export default {
     }
   }, // 实例化就获取数据
   mounted: async function () {
-    const response = await API.getUsers(1)
-    if (response.errorCode === 0) {
-      let data = []
-      const users = response.data.users
-      // console.log(users)
-      // this.tableData = users
-      this.tableData = userConvertor(users)
-      this.totalCount = response.data.totalCount
-    } else {
-      this.showWarning('加载失败。。。请重试 !')
-    }
+    await this.getUsers(1)
   },
   methods: {
+    getUsers: async function (index) {
+      const response = await API.getUsers(index)
+      if (response.errorCode === 0) {
+        const users = response.data.users
+        this.tableData = userConvertor(users)
+        this.totalCount = response.data.totalCount
+      } else {
+        this.showWarning('加载失败。。。请重试 !')
+      }
+    },
     onSubmit () {
       // this.$http.get(api.smallproject_search, {params: this.formInline}).then(function (response) {
       //   this.tableData = response.data.tableData
@@ -249,8 +249,8 @@ export default {
       console.log(`每页 ${val} 条`)
     },
 
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+    handleCurrentChange: async function (index) {
+      await this.getUsers(index)
     },
     handleSelect (key, keyPath) {
       console.log(key, keyPath)

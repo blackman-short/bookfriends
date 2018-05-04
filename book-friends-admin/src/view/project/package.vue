@@ -29,22 +29,51 @@
           <template slot-scope="scope">
            <div>
              <div style="float: left; width:15%">
-               <img v-bind:src="scope.row.images.small" referrer="no-referrer|origin|unsafe-url" style="height:120px; width:80px"/>
+               <img v-bind:src="scope.row.images.small" referrer="no-referrer|origin|unsafe-url" style="height:150px; width:100px"/>
              </div>
-             <div style="float: left;width: 30%;height:120px">
-              <div><label>出版社</label>{{scope.row.publisher}}</div>
-              <div><label>出版时间</label>{{scope.row.pubdate}}</div>
-              <div>
-                <label>当前评分</label>
-                <el-rate
-                  v-model="scope.row.rating"
-                  disabled
-                  show-score
-                  text-color="#ff9900"
-                  score-template="{value}"
-                  >
-                </el-rate>
-              </div>
+             <div style="float: left;width: 20%;height:120px">
+               <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item>
+                  <span style="font-size:25px">{{ scope.row.title }}</span>
+                </el-form-item>
+                <el-form-item label="出版商:">
+                  <span>{{ scope.row.publisher }}</span>
+                </el-form-item>
+                <el-form-item label="出版时间:">
+                  <span>{{ scope.row.pubdate }}</span>
+                </el-form-item>
+               </el-form>
+             </div>
+
+             <div style="float: left;width: 20%;height:120px">
+               <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="翻译:">
+                  <span>{{ scope.row.translator.length === 0? '无' : scope.row.translator.toString() }}</span>
+                </el-form-item>
+                <el-form-item label="电子书:">
+                  <span>暂无数据</span>
+                </el-form-item>
+                <el-form-item label="关键词: ">
+                  <span>{{ scope.row.tags[1].name + ',' +  scope.row.tags[2].name }}</span>
+                </el-form-item>
+               </el-form>
+             </div>
+             <div style="float: left;width: 40%;height:120px">
+               <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="评分:">
+                  <template>
+                    <el-rate style="padding-top:6px;float:left"
+                      v-model="scope.row.rating / 2"
+                      disabled
+                      text-color="#ff9900">
+                    </el-rate> 
+                    <label style="float:left; color:#F15A24; padding-left:10px">{{ scope.row.rating }}</label>
+                  </template>
+                </el-form-item>
+                <el-form-item label="综述:">
+                  <span style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;">{{scope.row.summary}}</span>
+                </el-form-item>
+               </el-form>
              </div>
            </div>
           </template>
@@ -186,9 +215,6 @@ export default {
   },
   // 实例化就获取数据
   mounted: async function () {
-    // this.$http.get(api.package).then(function (response) {
-    //   this.tableData = response.data.tableData
-    // })
    await this.getBooks(1)
   },
   methods: {
@@ -208,8 +234,9 @@ export default {
     },
     handleEdit (index, row) {
       this.dialogFormVisible = true
-      console.log(row)
+      row.author = row.author.toString()
       row.isActive = row.isActive === true? '可用': '不可用'
+      row.ebookUrl = row.ebookUrl == false? '暂无数据' : row.ebookUrl
       this.form = Object.assign({}, row)
       this.table_index = index
     },
@@ -250,10 +277,20 @@ export default {
     },
 
     handleDelete (index, row) {
-      this.tableData.splice(index, 1)
-      this.$message({
-        message: '操作成功！',
-        type: 'success'
+       this.$confirm('确认删除这本书？', '确认', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const isbn = this.tableData[index].isbn
+        API.deleteBook(isbn).then((response) => {
+          if (response && 0 === response.errorCode) {
+            this.tableData.splice(index, 1)
+            this.showSuccess()
+          } else {
+            this.showError('操作失败。。。请重试 !')
+          }
+        })        
       })
     },
 

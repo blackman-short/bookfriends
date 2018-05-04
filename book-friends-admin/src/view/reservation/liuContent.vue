@@ -1,17 +1,17 @@
 <template >
   <div class="liuContent">
     <div class="content-right" style="height:700px;"  >
-      <div class="content-right-top"  style="margin-top:1.25%;">
+      <!-- <div class="content-right-top"  style="margin-top:1.25%;">
             <el-row style="line-height:50px;">
           <span class="p1-name">刘医生</span>
           <el-radio-button>出诊</el-radio-button>
           <el-time-picker is-range v-model="value3" placeholder="选择时间范围">
           </el-time-picker>
         </el-row>
-      </div>
-      <div class="content-right-bottom" style="padding-top: 2%">
+      </div> -->
+      <div class="content-right-bottom">
         <img src="../../assets/40.png" class="bells" style="margin-left: 40%;margin-top: 16%;" >
-        <p style="margin-left: 45%;opacity: 0.6;">暂无预约信息</p>
+        <p style="margin-left: 45%;opacity: 0.6;">暂无统计信息</p>
       </div>
     </div>
   </div>
