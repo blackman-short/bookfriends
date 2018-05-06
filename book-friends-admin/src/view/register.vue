@@ -173,23 +173,23 @@ export default {
       },
       rules: {
         name: [
-          { validator: validateName, trigger: 'blur' }
+          { validator: validateName, trigger: 'blur', required: true }
         ],
         num: [
-          { validator: validateNum, trigger: 'blur' }
+          { validator: validateNum, trigger: 'blur', required: true }
         ],
         mail: [
-          { validator: validateMail, trigger: 'blur' }
+          { validator: validateMail, trigger: 'blur', required: true }
         ],
         userName: [
-          { validator: validateUserName, trigger: 'blur' }
+          { validator: validateUserName, trigger: 'blur', required: true }
 
         ],
         password: [
-          { validator: validatePass, trigger: 'blur' }
+          { validator: validatePass, trigger: 'blur', required: true }
         ],
         dbpassword: [
-          { validator: validatedbPass, trigger: 'blur' }
+          { validator: validatedbPass, trigger: 'blur', required: true }
         ]
 
       }
@@ -208,6 +208,7 @@ export default {
         const response = await register(realName, adminName, password, phoneNumber, email)
         
         if (response.errorCode === resultCode.SUCCESS) {
+          this.success('注册成功， 返回登录界面。。。')
           this.$router.push('/')
         } else if (response.errorCode === resultCode.ERROR_USER_HASEXISTED) {
           this.showWarning('该账号已被注册!')

@@ -7,6 +7,9 @@ module.exports = {
   loginUrl: function () {
     return this.baseUrl + '/admin/login'
   },
+  adminsUrl: function () {
+    return this.baseUrl + '/admin/all'
+  },
   // #region User operations
   usersUrl: function () {
     return this.baseUrl + '/admin/user/all'

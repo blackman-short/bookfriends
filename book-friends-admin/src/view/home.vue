@@ -22,6 +22,7 @@
       <!-- <el-menu-item index="5">
         <router-link to="/home/Inquiry">
             <i class="fa fa-plus-square icon" aria-hidden="true"></i>问诊
+            <i class="fa fa-arrow-up icon" aria-hidden="true">
           </router-link>
       </el-menu-item> -->
       <el-menu-item index="6">

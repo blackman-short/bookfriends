@@ -1,19 +1,25 @@
 	
 			[
-			{
-		         "date": "09:00~10.00",
-	             "name": "李春华 ", 
-	    		 "phone": "13012312311"
+			  {
+          "images": "https://img3.doubanio.com/view/subject/s/public/s1727290.jpg",
+          "bookName": "追风筝的人",
+          "readCount": "1314521 次", 
+          "rating": "9.5",
+          "riseCount": 21
 	    	},
 	    		 
-            {
-	            "date": "10:00~11.00",
-	            "name": "傻子", 
-	    		"phone": "13012312311"
-        	},         
-	        {
-		        "date": "11:00~12.00",
-	            "name": "李春华 ", 
-	    		"phone": "13012312311"
-	        }
-	        ]          
+        {
+          "images": "https://img1.doubanio.com/view/subject/s/public/s1237549.jpg",
+          "bookName": "小王子",
+          "readCount": "1314521 次", 
+          "rating": "8.8",
+          "riseCount": -10
+        },         
+        {
+          "images": "https://img1.doubanio.com/view/subject/s/public/s1237549.jpg",
+          "bookName": "解忧杂货店",
+          "readCount": "1314521 次", 
+          "rating": "8.5",
+          "riseCount": 10
+        }
+	    ]          

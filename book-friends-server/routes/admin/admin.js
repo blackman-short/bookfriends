@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const loginController = require('../../controllers/admin/adminController')
+const adminController = require('../../controllers/admin/adminController')
 
 const routers = router
-  .post('/login', loginController.login)
-  .post('/register', loginController.register)
+  .get('/all', adminController.queryAll)
+  .post('/login', adminController.login)
+  .post('/register', adminController.register)
 
 module.exports = routers

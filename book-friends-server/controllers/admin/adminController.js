@@ -145,6 +145,54 @@ async function update (req, res, next) {
   return res.status(200).send(response)
 }
 
+/**
+ * Querys all admins
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function queryAll (req, res, next) {
+  const funcName = 'server: controllers/admin/queryAll'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.query))
+  let response = { errorCode: errorCode.SUCCESS }
+
+  let pageIndex = req.query.pageIndex
+  let pageSize = req.query.pageSize
+
+  try {
+    if (!pageIndex || (pageIndex && !validator.trim(pageIndex))) {
+      throw new Error('Please provide parameter: pageIndex')
+    } else if (!pageSize || (pageIndex && !validator.trim(pageSize))) {
+      throw new Error('Please provide parameter: pageSize')
+    } else {
+      pageIndex = parseInt(pageIndex)
+      pageSize = parseInt(pageSize)
+
+      if (pageIndex < 1) {
+        throw new Error('pageIndex should be > 0')
+      } else if (pageSize < 1) {
+        throw new Error('pageSize should be > 0')
+      }
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  if (response.errorCode === errorCode.SUCCESS) {
+    try {
+      response = await adminManger.queryAll(pageIndex, pageSize)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
+  }
+
+  return res.status(200).send(response)
+}
+
 exports.login = login
 exports.update = update
+exports.queryAll = queryAll
 exports.register = register

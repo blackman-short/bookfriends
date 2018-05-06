@@ -69,6 +69,37 @@ async function update (adminInfo) {
   return result
 }
 
+/**
+ * Querys all admins.
+ * @param {*Number} pageIndex
+ * @param {*Number} pageSize
+ */
+async function queryAll (pageIndex, pageSize) {
+  const funcName = 'server: controllers/admin/queryAll'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  if (pageIndex) {
+    try {
+      const loadResults = await Promise.all([adminDal.queryAll(pageIndex, pageSize), adminDal.getTotalCount()]).then()
+
+      if (loadResults && loadResults.length === 2) {
+        const data = {
+          admins: loadResults[0],
+          totalCount: loadResults[1]
+        }
+        result = { errorCode: errorCode.SUCCESS, data: data }
+      } else {
+        result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA }
+      }
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
+    }
+  }
+  return result
+}
+
 exports.login = login
 exports.update = update
+exports.queryAll = queryAll
 exports.register = register

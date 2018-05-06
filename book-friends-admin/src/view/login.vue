@@ -7,7 +7,7 @@
               <span class="svg-container">
                 <i class="fa fa-user-o" aria-hidden="true"></i>
               </span>
-              <el-input name="userName" type="text" v-model="loginForm.userName"  placeholder="用户名" class="input-content"></el-input>
+              <el-input name="userName" type="text" v-model="loginForm.userName"  placeholder="手机号" class="input-content"></el-input>
           </el-form-item>
           <el-form-item prop="password" class="item">
               <span class="svg-container">

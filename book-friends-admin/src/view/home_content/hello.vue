@@ -1,43 +1,59 @@
 <template>
   <div class="smallhome">
-      <div class="todayReservation">
-          <!-- <p>今日预约</p> -->
-          <el-table :data="tableData" style="width: 100%">
-              <el-table-column prop="date" label="阅读Top"> </el-table-column>
-              <el-table-column prop="name" label="" ></el-table-column>
-              <el-table-column prop="phone" label=""></el-table-column>
-              <el-table-column>
-                  <template>
-                  <!-- <template scope="scope"> -->
-                      <router-link to="/home/reservation/Vdetails">查看</router-link>
-                  </template>
-              </el-table-column>
-          </el-table>
-      </div>
-      <div class="todayArrange">
-          <p class="title">
-            <span class="arr">今日图书新增</span>
-            <!-- <router-link to="/home/arrange"> -->
-              <span class="more">更多</span>
-            <!-- </router-link> -->
-          </p>
-          <div class="content">
-            <p v-for="item in dataArrange[0].todos" class="todayArrange-content" v-bind:key="item">
-              <span v-if="item.text !== '暂无排班'">{{ item.time_start}}~{{ item.time_end}}&nbsp;&nbsp;{{ item.text}}</span>
-            </p>
-          </div>
-      </div>
-
-      <div class="echart">
-          <p>上周看书数统计</p>
-          <div :style="{height:height,width:width}" ref="myEchart"></div>
-      </div>
-      <div class="news">
-        <p>
-          <span class="new">最新动态</span>
+    <div class="todayReservation">
+      <el-table :data="tableData" style="width: 100%" stripe>
+          <el-table-column prop="bookName" label="阅读Top"></el-table-column>
+          <el-table-column prop="readCount" label="" ></el-table-column>
+          <el-table-column label="" width="200">
+            <template slot-scope="scope">
+              <el-rate style="float:left"
+                v-model="scope.row.rating / 2"
+                disabled
+                text-color="#ff9900">
+              </el-rate> 
+              <label style="float:left; color:#F15A24; padding-left:10px">{{ scope.row.rating + '分' }}</label>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <i v-if="scope.row.riseCount > 0" class="fa fa-arrow-up icon" aria-hidden="true">{{scope.row.riseCount}}</i>
+              <i v-else class="fa fa-arrow-down icon" aria-hidden="true">{{scope.row.riseCount - 2 * scope.row.riseCount}}</i>
+            </template>
+          </el-table-column>
+      </el-table>
+    </div>
+    <div class="todayArrange">
+      <p v-if="newAddedBooks.length === 0" class="title">
+        <span class="arr">今日图书新增</span>
+        <!-- <router-link to="/home/arrange">
           <span class="more">更多</span>
-        </p>
+        </router-link> -->
+      </p>
+      <div v-if="newAddedBooks.length === 0" class="content">
+        <img src="../../assets/40.png" class="bells" style="margin-left: 35%;width:80px" >
+        <p style="margin-left: 30%;opacity: 0.6;">今日暂无新增图书</p>
       </div>
+      <el-table v-if="newAddedBooks.length > 0" :data="newAddedBooks" style="width: 100%" stripe>
+        <el-table-column label="今日图书新增">
+          <template slot-scope="scope">
+            <i class="fa fa-plus icon" aria-hidden="true"></i>
+          </template>
+        </el-table-column>
+        <el-table-column prop="bookName"></el-table-column>
+        <el-table-column prop="createAt"></el-table-column>
+      </el-table>
+    </div>
+
+    <div class="echart">
+      <p>上周看书数统计</p>
+      <div :style="{height:height,width:width}" ref="myEchart"></div>
+    </div>
+    <div class="news">
+      <p>
+        <span class="new">最新动态</span>
+        <span class="more">更多</span>
+      </p>
+    </div>
   </div>
 </template>
 <style type="text/css" scoped>
@@ -45,6 +61,11 @@
       margin-left:15px;
       text-align: center;
       float: left;
+      width: 50%;
+    }
+    .smallhome .todayReservation .title {
+      line-height: 40px;
+      background-color: #eef1f6;
       width: 50%;
     }
     .smallhome .todayReservation p{
@@ -62,7 +83,7 @@
       margin-left: 15px;
       border: 1px solid #dfe6ec;
       float: left;
-      width: 30%;
+      width: 35%;
       background: #fff;
     }
     .smallhome .todayArrange .title{
@@ -120,13 +141,22 @@
       margin-left: 15px;
       margin-top: 15px;
       background: #fff;
-      width: 30%;
+      width: 35%;
       height: 540px;
       border: 1px solid #dfe6ec;
     }
     .smallhome .news p{
       line-height: 40px;
       background-color: #eef1f6;
+    }
+    .fa-arrow-up {
+      color: #CD3700
+    }
+    .fa-arrow-down {
+      color: #228B22
+    }
+    .fa-plus {
+      color: #409EFF
     }
 </style>
 <script>
@@ -136,6 +166,7 @@ import {api} from '../../global/api'
 export default {
   data () {
     return {
+      newAddedBooks: [],
       tableData: [],
       chart: null,
       dataArrange: store.state.weeks_content
@@ -143,7 +174,6 @@ export default {
   },
   mounted: function () {
     this.$http.get(api.testData).then(function (response) {
-      console.log('首页的值response', response.data)
       this.tableData = response.data
     })
 

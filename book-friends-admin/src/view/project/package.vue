@@ -3,13 +3,21 @@
     <!-- <br> -->
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="图书分类">
-        <el-select v-model="formInline.region" placeholder="请选择">
+        <!-- <el-select v-model="formInline.region" placeholder="请选择">
           <el-option label="文学" value="文学"></el-option>
           <el-option label="小说" value="小说"></el-option>
           <el-option label="科幻" value="科幻"></el-option>
           <el-option label="历史" value="历史"></el-option>
           <el-option label="其他" value="其他"></el-option>
-        </el-select>
+          <el-option label="新增" value="新增"></el-option>
+          <el-option label="Top" value="Top"></el-option>
+        </el-select> -->
+        <el-cascader
+          expand-trigger="hover"
+          :options="options"
+          v-model="selectedOptions"
+          @change="handleSelect">
+        </el-cascader>
       </el-form-item>
       <el-form-item label="图书名称">
         <el-input v-model="formInline.user" placeholder="请输入图书名称"></el-input>
@@ -67,7 +75,7 @@
                       disabled
                       text-color="#ff9900">
                     </el-rate> 
-                    <label style="float:left; color:#F15A24; padding-left:10px">{{ scope.row.rating }}</label>
+                    <label style="float:left; color:#F15A24; padding-left:10px">{{ scope.row.rating + '分' }}</label>
                   </template>
                 </el-form-item>
                 <el-form-item label="综述:">
@@ -167,9 +175,9 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage1"
+        :current-page="currentPage"
         :page-sizes="[10, 20, 30, 40]"
-        :page-size="100"
+        :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="totalCount">
       </el-pagination>
@@ -186,8 +194,8 @@ export default {
       dialogFormVisible: false,
       dialogFormVisibleadd: false,
       editLoading: false, // 是否显示修改状态
-      currentPage1: 1,
-      activeIndex: '1',
+      currentPage: 1,
+      pageSize: 10,
       formInline: {
         user: '',
         region: '',
@@ -209,6 +217,41 @@ export default {
         ebookUrl: '',
         isActive: ''
       }],
+      options: [
+        {
+          value: 'category',
+          label: '类型',
+          children: [
+            {
+              value: '文学',
+              label: '文学'
+            },
+            {
+              value: '科幻',
+              label: '科幻'
+            },
+            {
+              value: '计算机',
+              label: '计算机'
+            }
+          ]
+        },
+        {
+          value: 'operations',
+          label: '其他',
+          children: [
+            {
+              value: 'TOP',
+              label: '排行榜'
+            },
+            {
+              value: 'NEW',
+              label: '新增图书'
+            }
+          ]
+        }
+      ],
+      selectedOptions: [],
       totalCount: 0,
       rating: 2
     }
@@ -218,8 +261,8 @@ export default {
    await this.getBooks(1)
   },
   methods: {
-    getBooks: async function (index) {
-      const response = await API.getBooks(index)
+    getBooks: async function () {
+      const response = await API.getBooks(this.currentPage, this.pageSize)
       if (response.errorCode === 0) {
         console.log(response.data.books)
         this.tableData = []
@@ -311,16 +354,17 @@ export default {
       }
     },
 
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
+    handleSizeChange: async function (val) {
+      this.pageSize = val
+      await this.getBooks()
     },
 
     handleCurrentChange: async function (index) {
-      console.log(`当前页: ${index}`)
-      await this.getBooks(index)
+      this.currentPage = index
+      await this.getBooks()
     },
-    handleSelect (key, keyPath) {
-      console.log(key, keyPath)
+    handleSelect (option) {
+      console.log('---' + option)
     }
   }
 }

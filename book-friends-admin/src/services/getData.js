@@ -25,12 +25,21 @@ const API = {
     const response =  await post(reqUrl.loginUrl(), postData)
     return response
   },
+  getAdmins: async function (pageIndex, pageSize) {
+    const getData = {
+      pageIndex: pageIndex,
+      pageSize: pageSize
+    }
+    const response = await get(reqUrl.adminsUrl(), getData)
+    return response
+  },
   // #endregion
 
   // #region User operations
-  getUsers: async function (index) {
+  getUsers: async function (index, pageSize) {
     const getData = {
-      pageIndex: index
+      pageIndex: index,
+      pageSize: pageSize
     }
     const response = await get(reqUrl.usersUrl(), getData)
     return response
@@ -52,9 +61,10 @@ const API = {
   // #endregion
 
   // #region Book operations
-  getBooks: async function (index) {
+  getBooks: async function (index, pageSize) {
     const getData = {
-      pageIndex: index
+      pageIndex: index,
+      pageSize: pageSize
     } 
 
     const response = await get(reqUrl.booksUrl(), getData)

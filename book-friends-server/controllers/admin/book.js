@@ -17,14 +17,20 @@ async function queryAll (req, res, next) {
   let responseResult = { errorCode: errorCode.SUCCESS }
 
   let pageIndex = req.query.pageIndex
+  let pageSize = req.query.pageSize
 
   try {
     if (!pageIndex || (pageIndex && !validator.trim(pageIndex))) {
-      throw new Error('Please provide parameter: page index')
+      throw new Error('Please provide parameter: pageIndex')
+    } else if (!pageSize || (pageSize && !validator.trim(pageSize))) {
+      throw new Error('Please provide parameter: pageSize')
     } else {
       pageIndex = parseInt(pageIndex)
+      pageSize = parseInt(pageSize)
       if (pageIndex <= 0) {
-        throw new Error('Please provide valid number parameter: page index > 0')
+        throw new Error('Please provide valid number parameter: pageIndex > 0')
+      } else if (pageSize <= 0) {
+        throw new Error('Please provide valid number parameter: pageSize > 0')
       }
     }
   } catch (error) {
@@ -34,7 +40,7 @@ async function queryAll (req, res, next) {
   }
 
   try {
-    responseResult = await bookManager.queryAll(pageIndex)
+    responseResult = await bookManager.queryAll(pageIndex, pageSize)
   } catch (error) {
     responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
     logUtil.logErrorMsg(functionName, responseResult.errorMsg)

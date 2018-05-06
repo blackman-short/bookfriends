@@ -2,6 +2,7 @@ const tools = require('../../utils/tools')
 const errorMsg = require('../../error/errorMsg')
 const errorCode = require('../../error/errorCode')
 const AdminInfo = require('../../models').AdminInfo
+const PAGE_SIZE = require('../../config/systemConfig').pageSize
 
 /**
  * Admin registers account.
@@ -80,6 +81,39 @@ async function update (adminInfo) {
   return result
 }
 
+/**
+ * Querys all admins.
+ * @param {*Number} pageIndex
+ * @param {*Number} pageSize
+ */
+async function queryAll (pageIndex, pageSize) {
+  let admins = null
+
+  if (!pageSize) {
+    pageSize = PAGE_SIZE
+  }
+
+  if (pageIndex) {
+    const skipCount = (pageIndex - 1) * pageSize
+    admins = await AdminInfo.find({}).skip(skipCount).limit(pageSize)
+  }
+
+  return admins
+}
+
+/**
+ * Gets admin's total count.
+ */
+async function getTotalCount () {
+  let count = 0
+
+  count = await AdminInfo.find({}).count()
+
+  return count
+}
+
 exports.login = login
 exports.update = update
+exports.queryAll = queryAll
 exports.register = register
+exports.getTotalCount = getTotalCount

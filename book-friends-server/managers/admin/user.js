@@ -6,12 +6,12 @@ const errorCode = require('../../error/errorCode')
 /**
  * Querys all users
  */
-async function queryAll (pageIndex) {
+async function queryAll (pageIndex, pageSize) {
   const funcName = 'server: managers/user/queryAll'
   let result = null
 
   try {
-    const loadResults = await Promise.all([userInfoDal.queryAll(pageIndex), userInfoDal.queryTotalCount()])
+    const loadResults = await Promise.all([userInfoDal.queryAll(pageIndex, pageSize), userInfoDal.queryTotalCount()])
     if (loadResults && loadResults.length === 2) {
       const data = {
         users: loadResults[0],

@@ -156,12 +156,15 @@ async function searchUsersByKeyword (keyWord, pageIndex) {
 /**
  * Querys all uers.
  */
-async function queryAll (pageIndex) {
+async function queryAll (pageIndex, pageSize) {
   let users = []
 
   if (pageIndex > 0) {
-    const skipCount = (pageIndex - 1) * PAGE_SIZE
-    users = await UserInfo.find({}).skip(skipCount).limit(PAGE_SIZE)
+    if (!pageSize) {
+      pageSize = PAGE_SIZE
+    }
+    const skipCount = (pageIndex - 1) * pageSize
+    users = await UserInfo.find({}).skip(skipCount).limit(pageSize)
   }
   return users
 }

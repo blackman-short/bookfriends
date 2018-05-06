@@ -6,12 +6,12 @@ const errorCode = require('../../error/errorCode')
 /**
  * Querys all books.
  */
-async function queryAll (pageIndex) {
+async function queryAll (pageIndex, pageSize) {
   const funcName = 'server: managers/admin/book/queryAll'
   let result = null
 
   try {
-    const loadResults = await Promise.all([bookDal.queryAll(pageIndex), bookDal.getTotalCount()])
+    const loadResults = await Promise.all([bookDal.queryAll(pageIndex, pageSize), bookDal.getTotalCount()])
     if (loadResults && loadResults.length === 2) {
       const data = {
         books: loadResults[0],

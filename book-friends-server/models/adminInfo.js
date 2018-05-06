@@ -8,9 +8,9 @@ const AdminSchema = new mongoose.Schema({
   password: { type: String },
   phoneNumber: { type: String },
   email: { type: String },
-  createAt: { type: Date, default: tools.getCurrentTime() },
-  updateAt: { type: Date, default: tools.getCurrentTime() },
-  loginAt: { type: Date, default: tools.getCurrentTime() }
+  createAt: { type: String, default: tools.getCurrentTime() },
+  updateAt: { type: String, default: tools.getCurrentTime() },
+  loginAt: { type: String, default: tools.getCurrentTime() }
 })
 
 mongoose.model('admin', AdminSchema)

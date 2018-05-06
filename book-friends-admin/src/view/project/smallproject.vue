@@ -148,7 +148,8 @@ export default {
       }],
       totalCount: 0
     }
-  }, // 实例化就获取数据
+  }, 
+  // 实例化就获取数据
   mounted: async function () {
     await this.getUsers(1)
   },
@@ -190,6 +191,8 @@ export default {
         })
         this.editLoading = false
         this.dialogFormVisible = false
+      }).catch (() => {
+        // Nothing to do.
       })
     },
 
@@ -207,6 +210,8 @@ export default {
           type: 'success'
         })
         this.dialogFormVisibleadd = false
+      }).catch (() => {
+        // Nothing to do.
       })
     },
 
@@ -225,6 +230,8 @@ export default {
           this.showError('操作失败。。。请重试 !')
         }
         })        
+      }).catch (() => {
+        // Nothing to do.
       })
     },
 
