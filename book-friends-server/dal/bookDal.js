@@ -223,4 +223,4 @@ exports.queryRecommendBooks = queryRecommendBooks
 exports.getNewBooksTotalCount = getNewBooksTotalCount
 exports.getHotBooksTotalCount = getHotBooksTotalCount
 exports.queryCertainFieldsByISBN = queryCertainFieldsByISBN
-exports.updateBooksIfIsActiveIsNULL = updateBooksIfIsActiveIsNULL // test
+exports.updateBooksIfIsActiveIsNULL = updateBooksIfIsActiveIsNULL //  for test
