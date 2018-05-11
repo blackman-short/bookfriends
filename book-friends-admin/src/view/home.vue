@@ -32,7 +32,7 @@
       </el-menu-item>
       <!-- <el-menu-item index="7">
         <router-link to="/home/members">
-            <i class="fa fa-user-circle icon" aria-hidden="true"></i>会员
+            <i class="fa fa-user-circle icon" aria-hidden="true"></i>会员fa fa-commenting-o icon 
           </router-link>
       </el-menu-item> -->
     </el-menu>

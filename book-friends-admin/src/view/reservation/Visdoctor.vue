@@ -38,7 +38,7 @@ export default {
     initChart () {
     const option = {
       title : {
-          text: '书圈系统图书分类',
+          text: '书圈系统用户分类',
           subtext: '',
           x:'center'
       },
@@ -49,7 +49,7 @@ export default {
       legend: {
           orient : 'vertical',
           x : 'left',
-          data:['历史文学','休闲娱乐','科幻科技','计算机技术','少儿读物']
+          data:['普通用户','VIP用户','游客']
       },
       toolbox: {
           show : true,
@@ -80,11 +80,9 @@ export default {
               radius : '55%',
               center: ['50%', '60%'],
               data:[
-                  {value:335, name:'历史文学'},
-                  {value:310, name:'休闲娱乐'},
-                  {value:234, name:'科幻科技'},
-                  {value:135, name:'计算机技术'},
-                  {value:1548, name:'少儿读物'}
+                  {value:600, name:'普通用户'},
+                  {value:100, name:'VIP用户'},
+                  {value:300, name:'游客'}
               ]
           }
       ]

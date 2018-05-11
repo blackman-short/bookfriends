@@ -5,7 +5,7 @@
       <!-- <el-button class="barsBtn">
         <i class="fa fa-bars" aria-hidden="true"></i>
       </el-button> -->
-      <span class="font-time">今天&nbsp;{{ time.month }}&nbsp;月{{ time.day }}&nbsp;日&nbsp;&nbsp;{{ todos[time.Day] }}&nbsp;&nbsp;{{ time.hours }}:{{ time.minutes }}</span>
+      <span class="font-time">今天&nbsp;{{ time.month }}&nbsp;月{{ time.day }}&nbsp;日&nbsp;&nbsp;{{ todos[time.Day] }}&nbsp;&nbsp;{{ time.hours }}:{{ time.minutes }}:{{time.seconds}}</span>
       <ul class="menu2">
         <li>
           <el-dropdown class="dropdown">
@@ -93,24 +93,34 @@
 </style>
 <script>
 import store from '../../store'
-var date = new Date()
 export default {
   data () {
     return {
       user: store.state.userInfo,
-      time: {
-        month: date.getMonth() + 1,
-        day: date.getDate(),
-        Day: date.getDay(),
-        hours: date.getHours(),
-        minutes: date.getMinutes()
-      },
+      date: new Date(),
       todos: ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+    }
+  },
+  methods: {
+    updateTime: function () {
+      this.date = new Date()
+    }
+  },
+  mounted () {
+    var timerID = setInterval(this.updateTime, 1000);
+    this.updateTime();
+  },
+  computed: {
+    time: function () {
+      return {
+          month: this.date.getMonth() + 1,
+          day: this.date.getDate(),
+          Day: this.date.getDay(),
+          hours: this.date.getHours(),
+          minutes: this.date.getMinutes(),
+          seconds: this.date.getSeconds()
+      }
     }
   }
 }
-// var cla=document.getElementsByClassName("barsBtn");
-// cla.onclick=function(){
-// this.toggle("aa")
-// }
 </script>

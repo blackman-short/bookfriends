@@ -24,23 +24,23 @@
     </div>
     <div class="todayArrange">
       <p v-if="newAddedBooks.length === 0" class="title">
-        <span class="arr">今日图书新增</span>
+        <span class="arr">今日新增</span>
         <!-- <router-link to="/home/arrange">
           <span class="more">更多</span>
         </router-link> -->
       </p>
       <div v-if="newAddedBooks.length === 0" class="content">
         <img src="../../assets/40.png" class="bells" style="margin-left: 35%;width:80px" >
-        <p style="margin-left: 30%;opacity: 0.6;">今日暂无新增图书</p>
+        <p style="margin-left: 30%;opacity: 0.6;background-color: white">今日暂无新增图书</p>
       </div>
-      <el-table v-if="newAddedBooks.length > 0" :data="newAddedBooks" style="width: 100%" stripe>
-        <el-table-column label="今日图书新增">
+      <el-table v-if="newAddedBooks.length > 0" :data="newAddedBooks" style="width: 100%; text-align:center" stripe>
+        <el-table-column label="今日新增">
           <template slot-scope="scope">
             <i class="fa fa-plus icon" aria-hidden="true"></i>
           </template>
         </el-table-column>
-        <el-table-column prop="bookName"></el-table-column>
-        <el-table-column prop="createAt"></el-table-column>
+        <el-table-column prop="bookName" width="120"></el-table-column>
+        <el-table-column prop="createAt" width="180"></el-table-column>
       </el-table>
     </div>
 
@@ -49,10 +49,19 @@
       <div :style="{height:height,width:width}" ref="myEchart"></div>
     </div>
     <div class="news">
-      <p>
+      <p v-if="dynamicData.length === 0">
         <span class="new">最新动态</span>
-        <span class="more">更多</span>
+        <!-- <span class="more">更多</span> -->
       </p>
+      <div v-if="dynamicData.length === 0" class="content" style="margin-top:20%">
+        <img src="../../assets/40.png" class="bells" style="margin-left: 25%;width:200px" >
+        <p style="margin-left: 30%;opacity: 0.3; background-color:white; font-size:30px">暂无最新动态</p>
+      </div>
+      <el-table v-if="dynamicData.length > 0">
+        <el-table-column label="用户最新动态"></el-table-column>
+        <el-table-column prop="userName"></el-table-column>
+        <el-table-column prop="content"></el-table-column>
+      </el-table>
     </div>
   </div>
 </template>
@@ -83,7 +92,7 @@
       margin-left: 15px;
       border: 1px solid #dfe6ec;
       float: left;
-      width: 35%;
+      width: 38%;
       background: #fff;
     }
     .smallhome .todayArrange .title{
@@ -141,7 +150,7 @@
       margin-left: 15px;
       margin-top: 15px;
       background: #fff;
-      width: 35%;
+      width: 38%;
       height: 540px;
       border: 1px solid #dfe6ec;
     }
@@ -166,15 +175,17 @@ import {api} from '../../global/api'
 export default {
   data () {
     return {
-      newAddedBooks: [],
-      tableData: [],
+      newAddedBooks: [], // 新增的图书列表
+      tableData: [], // 阅读Top榜
+      dynamicData: [], //用户最新动态
       chart: null,
       dataArrange: store.state.weeks_content
     }
   },
   mounted: function () {
     this.$http.get(api.testData).then(function (response) {
-      this.tableData = response.data
+      this.tableData = response.data.top
+      this.newAddedBooks = response.data.newAdded
     })
 
     this.initChart()

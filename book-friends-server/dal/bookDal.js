@@ -173,11 +173,15 @@ async function getTotalCount () {
 /**
  * Querys all books.
  */
-async function queryAll (pageIndex) {
+async function queryAll (pageIndex, pageSize) {
   let books = []
   if (pageIndex > 0) {
-    const skipCount = (pageIndex - 1) * PAGE_SIZE
-    books = await BookInfo.find({}).skip(skipCount).limit(PAGE_SIZE)
+    if (!pageSize) {
+      pageSize = PAGE_SIZE
+    }
+
+    const skipCount = (pageIndex - 1) * pageSize
+    books = await BookInfo.find({}).skip(skipCount).limit(pageSize)
   }
   return books
 }

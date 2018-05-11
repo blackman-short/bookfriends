@@ -103,9 +103,9 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage1"
+        :current-page="currentPage"
         :page-sizes="[10, 20, 30, 40]"
-        :page-size="100"
+        :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="totalCount">
       </el-pagination>
@@ -123,7 +123,8 @@ export default {
       dialogFormVisible: false,
       dialogFormVisibleadd: false,
       editLoading: false, // 是否显示修改状态
-      currentPage1: 5,
+      currentPage: 1,
+      pageSize: 10,
       activeIndex: '1',
       formInline: {
         user: '',
@@ -151,11 +152,11 @@ export default {
   }, 
   // 实例化就获取数据
   mounted: async function () {
-    await this.getUsers(1)
+    await this.getUsers()
   },
   methods: {
-    getUsers: async function (index) {
-      const response = await API.getUsers(index)
+    getUsers: async function () {
+      const response = await API.getUsers(this.currentPage, this.pageSize)
       if (response.errorCode === 0) {
         const users = response.data.users
         this.tableData = userConvertor(users)
@@ -252,12 +253,15 @@ export default {
       }
     },
 
-    handleSizeChange (val) {
+    handleSizeChange: async function (val) {
       console.log(`每页 ${val} 条`)
+      this.pageSize = val
+      await this.getUsers()
     },
 
     handleCurrentChange: async function (index) {
-      await this.getUsers(index)
+      this.currentPage = index
+      await this.getUsers()
     },
     handleSelect (key, keyPath) {
       console.log(key, keyPath)

@@ -102,7 +102,7 @@ async function deleteBooks (req, res, next) {
   logUtil.logDebugMsg(functionName, JSON.stringify(req.body))
   let responseResult = { errorCode: errorCode.SUCCESS }
 
-  let isbns = req.body.sibn
+  let isbns = req.body.isbns
 
   try {
     if (!isbns || (isbns && !validator.trim(isbns))) {

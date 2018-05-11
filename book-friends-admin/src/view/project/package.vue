@@ -326,7 +326,7 @@ export default {
         type: 'warning'
       }).then(() => {
         const isbn = this.tableData[index].isbn
-        API.deleteBook(isbn).then((response) => {
+        API.deleteBook([isbn]).then((response) => {
           if (response && 0 === response.errorCode) {
             this.tableData.splice(index, 1)
             this.showSuccess()
@@ -355,6 +355,7 @@ export default {
     },
 
     handleSizeChange: async function (val) {
+      console.log(val)
       this.pageSize = val
       await this.getBooks()
     },

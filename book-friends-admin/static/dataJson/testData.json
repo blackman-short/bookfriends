@@ -1,25 +1,44 @@
 	
-			[
-			  {
-          "images": "https://img3.doubanio.com/view/subject/s/public/s1727290.jpg",
-          "bookName": "追风筝的人",
-          "readCount": "1314521 次", 
-          "rating": "9.5",
-          "riseCount": 21
-	    	},
-	    		 
-        {
-          "images": "https://img1.doubanio.com/view/subject/s/public/s1237549.jpg",
-          "bookName": "小王子",
-          "readCount": "1314521 次", 
-          "rating": "8.8",
-          "riseCount": -10
-        },         
-        {
-          "images": "https://img1.doubanio.com/view/subject/s/public/s1237549.jpg",
-          "bookName": "解忧杂货店",
-          "readCount": "1314521 次", 
-          "rating": "8.5",
-          "riseCount": 10
-        }
-	    ]          
+			{
+        "top" : [
+          {
+            "images": "https://img3.doubanio.com/view/subject/s/public/s1727290.jpg",
+            "bookName": "追风筝的人",
+            "readCount": "1314521 次", 
+            "rating": "9.5",
+            "riseCount": 21
+          },
+             
+          {
+            "images": "https://img1.doubanio.com/view/subject/s/public/s1237549.jpg",
+            "bookName": "小王子",
+            "readCount": "1314521 次", 
+            "rating": "8.8",
+            "riseCount": -10
+          },         
+          {
+            "images": "https://img1.doubanio.com/view/subject/s/public/s1237549.jpg",
+            "bookName": "解忧杂货店",
+            "readCount": "1314521 次", 
+            "rating": "8.5",
+            "riseCount": 10
+          }
+        ],
+        "newAdded": [
+          {
+            "bookName": "追风筝的人",
+            "createAt": "2018-05-07 12:00:00"
+          },
+          {
+            "bookName": "小王子",
+            "createAt": "2018-05-07 12:00:00"
+          },
+          {
+            "bookName": "围城",
+            "createAt": "2018-05-07 12:00:00"
+          }
+        ],
+        "dynamics": [
+          
+        ]         
+      }

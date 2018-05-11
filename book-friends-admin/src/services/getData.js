@@ -70,16 +70,14 @@ const API = {
     const response = await get(reqUrl.booksUrl(), getData)
     return response
   },
-  updateBook: async function (isbn) {
-    const getData = {
-      isbn: isbn
-    }
+  updateBook: async function (bookInfo) {
+    const getData = bookInfo
     const response = await post(reqUrl.updateBook(), getData)
     return response
   },
-  deleteBook: async function (isbn) {
+  deleteBook: async function (isbns) {
     const getData = {
-      isbn: isbn
+      isbns: JSON.stringify(isbns)
     }
     const response = await post(reqUrl.deleteBook(), getData)
     return response
