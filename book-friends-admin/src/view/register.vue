@@ -96,6 +96,7 @@
 <script>
 const register = require('../services/getData').default.register
 const resultCode = require('../resultCode').default
+const validator = require('validator')
 export default {
   data () {
     var validateName = (rule, value, callback) => {
@@ -205,6 +206,14 @@ export default {
         const password = this.ruleForm.password
         const phoneNumber = this.ruleForm.num
         const email = this.ruleForm.mail
+
+        if (!validator.trim(realName) || !validator.trim(adminName) || !validator.trim(password) ||
+            !validator.trim(phoneNumber) || !validator.trim(email)) {
+          this.showWarning('所填写必选项(*)不能为空字符串。。。')
+          return  
+        }
+
+
         const response = await register(realName, adminName, password, phoneNumber, email)
         
         if (response.errorCode === resultCode.SUCCESS) {
@@ -214,7 +223,7 @@ export default {
           this.showWarning('该账号已被注册!')
         }
       } else {
-        this.showWarning('注册信息错误!')
+        // this.showWarning('注册信息错误!')
       }
     },
     validate: async function (formName) {

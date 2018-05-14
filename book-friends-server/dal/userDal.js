@@ -23,6 +23,7 @@ async function register (phoneNumber, password, nickName) {
         password: password,
         nickName: nickName
       })
+      userInfo.id = userInfo.id + tools.decrypt(phoneNumber)
       // creates one account.
       await userInfo.save()
       result = { errorCode: errorCode.SUCCESS }
@@ -90,9 +91,9 @@ async function updateInfo (userInfo) {
     // If success, return the user's information
     if (user) {
       if (userInfo.userId) {
-        await UserInfo.update({id: userInfo.userId}, userInfo)
+        await UserInfo.updateOne({id: userInfo.userId}, userInfo)
       } else if (userInfo.phoneNumber) {
-        await UserInfo.update({phoneNumber: userInfo.phoneNumber}, userInfo)
+        await UserInfo.updateOne({phoneNumber: userInfo.phoneNumber}, userInfo)
       } else {
         // Nothing to do.
       }

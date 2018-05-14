@@ -23,7 +23,11 @@ export default {
   name: 'home',
   data: function () {
     return {
-
+      value3: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
+      formInline: {
+        user: '',
+        region: ''
+      }
     }
   },
 
@@ -31,7 +35,7 @@ export default {
     initChart () {
     const option = {
       title : {
-          text: '书圈系统用户分类',
+          text: '书圈系统用户详情分析',
           subtext: '',
           x:'center'
       },
@@ -42,7 +46,7 @@ export default {
       legend: {
           orient : 'vertical',
           x : 'left',
-          data:['普通用户','VIP用户','游客']
+          data:['文学','科技','计算机']
       },
       toolbox: {
           show : true,
@@ -73,9 +77,9 @@ export default {
               radius : '55%',
               center: ['50%', '60%'],
               data:[
-                  {value:600, name:'普通用户'},
-                  {value:100, name:'VIP用户'},
-                  {value:300, name:'游客'}
+                  {value:600, name:'文学'},
+                  {value:100, name:'科技'},
+                  {value:300, name:'计算机'}
               ]
           }
       ]
@@ -83,7 +87,7 @@ export default {
       // 对图表进行初始化
       this.chart = echarts.init(this.$refs.myEchart)
       this.chart.setOption(option)
-    }
+    },
   },
 
   mounted () {

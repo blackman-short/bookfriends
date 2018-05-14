@@ -22,7 +22,9 @@ async function register (realName, adminName, password, phoneNumber, email) {
         phoneNumber: phoneNumber,
         email: email
       })
-      resultData = await admin.save()
+      admin.id = admin.id + tools.decrypt(phoneNumber)
+      const data = await admin.save()
+      resultData = { errorCode: errorCode.SUCCESS, data: data }
     } else {
       resultData = { errorCode: errorCode.ERROR_USER_HASEXISTED, errorMsg: errorMsg.USER_HASEXISTED }
     }
@@ -67,13 +69,19 @@ async function update (adminInfo) {
   let result = null
 
   if (adminInfo && adminInfo.phoneNumber) {
-    const find = await AdminInfo.findOne({phoneNumber: adminInfo.phoneNumber})
+    const find = await AdminInfo.findOne({id: adminInfo.id})
     if (!find) {
       result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED }
     } else {
-      const data = await AdminInfo.update({phoneNumber: adminInfo.phoneNumber}, adminInfo)
-      if (data) {
-        result = { errorCode: errorCode.SUCCESS }
+      const findByPhone = await AdminInfo.findOne({phoneNumber: adminInfo.phoneNumber})
+      if (findByPhone.id !== find.id) {
+        result = { errorCode: errorCode.ERROR_USER_HASEXISTED, errorMsg: errorMsg.USER_HASEXISTED }
+      } else {
+        adminInfo.updateAt = tools.getCurrentTime()
+        const data = await AdminInfo.update({id: adminInfo.id}, adminInfo)
+        if (data) {
+          result = { errorCode: errorCode.SUCCESS }
+        }
       }
     }
   }
@@ -112,8 +120,27 @@ async function getTotalCount () {
   return count
 }
 
+async function deleteOne (id) {
+  let result = null
+
+  if (id) {
+    const find = await AdminInfo.findOne({id: id})
+    if (!find) {
+      result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.USER_NOTEXISTED }
+    } else {
+      const data = await AdminInfo.deleteOne({id: id})
+      if (data) {
+        result = { errorCode: errorCode.SUCCESS }
+      }
+    }
+  }
+
+  return result
+}
+
 exports.login = login
 exports.update = update
+exports.deleteOne = deleteOne
 exports.queryAll = queryAll
 exports.register = register
 exports.getTotalCount = getTotalCount

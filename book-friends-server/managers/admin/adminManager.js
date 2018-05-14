@@ -13,10 +13,7 @@ async function register (realName, adminName, password, phoneNumber, email) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
   try {
-    const data = await adminDal.register(realName, adminName, password, phoneNumber, email)
-    if (data) {
-      result = { errorCode: errorCode.SUCCESS, data: data }
-    }
+    result = await adminDal.register(realName, adminName, password, phoneNumber, email)
   } catch (error) {
     result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
     logUtil.logErrorMsg(funcName, result.errorMsg)
@@ -59,7 +56,7 @@ async function update (adminInfo) {
 
   if (adminInfo) {
     try {
-      result = adminDal.update(adminInfo)
+      result = await adminDal.update(adminInfo)
     } catch (error) {
       result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_UPDATE_DB + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, result.errorMsg)
@@ -99,7 +96,24 @@ async function queryAll (pageIndex, pageSize) {
   return result
 }
 
+async function deleteOne (id) {
+  const funcName = 'server: controllers/admin/delete'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  if (id) {
+    try {
+      result = await adminDal.deleteOne(id)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_UPDATE_DB + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
+    }
+  }
+
+  return result
+}
+
 exports.login = login
 exports.update = update
+exports.deleteOne = deleteOne
 exports.queryAll = queryAll
 exports.register = register

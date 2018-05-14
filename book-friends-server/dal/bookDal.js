@@ -52,7 +52,7 @@ async function queryNewBooks (pageIndex, keyWord) {
   if (pageIndex > 0) {
     const skipCount = PAGE_SIZE * (pageIndex - 1)
     const regEx = new RegExp(keyWord, 'i')
-    data = await BookInfo.find({isNews: true, title: regEx, isActive: true}).skip(skipCount).limit(PAGE_SIZE)
+    data = await BookInfo.find({isNews: true, title: regEx, isActive: true}, '-_id __v').skip(skipCount).limit(PAGE_SIZE)
   }
 
   return data
@@ -83,7 +83,7 @@ async function queryHotBooks (pageIndex, keyWord) {
   if (pageIndex > 0) {
     const skipCount = PAGE_SIZE * (pageIndex - 1)
     const regEx = new RegExp(keyWord, 'i')
-    data = await BookInfo.find({isHot: true, title: regEx}).skip(skipCount).limit(PAGE_SIZE)
+    data = await BookInfo.find({isHot: true, title: regEx}, '-_id __v').skip(skipCount).limit(PAGE_SIZE)
   }
 
   return data
@@ -128,7 +128,7 @@ async function queryTopBooks (pageIndex) {
 
   if (pageIndex > 0) {
     const skipCount = PAGE_SIZE * (pageIndex - 1)
-    data = await BookInfo.find({isNews: false, isHot: false}).skip(skipCount).limit(PAGE_SIZE)
+    data = await BookInfo.find({isNews: false, isHot: false}, '-_id __v').skip(skipCount).limit(PAGE_SIZE)
   }
 
   return data
@@ -181,7 +181,7 @@ async function queryAll (pageIndex, pageSize) {
     }
 
     const skipCount = (pageIndex - 1) * pageSize
-    books = await BookInfo.find({}).skip(skipCount).limit(pageSize)
+    books = await BookInfo.find({}, '-_id -__v -catalog').skip(skipCount).limit(pageSize)
   }
   return books
 }
@@ -208,7 +208,7 @@ async function updateBook (bookParams) {
   let result = null
 
   if (bookParams && bookParams.isbn) {
-    result = await BookInfo.update({isbn: bookParams.isbn}, bookParams)
+    result = await BookInfo.updateOne(({isbn: bookParams.isbn}, bookParams))
   }
 
   return result

@@ -1,7 +1,7 @@
 <template>
   <div class="package">
     <!-- <br> -->
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="formInline" class="demo-form-inline" style="padding: 0px">
       <el-form-item label="图书分类">
         <!-- <el-select v-model="formInline.region" placeholder="请选择">
           <el-option label="文学" value="文学"></el-option>
@@ -26,13 +26,19 @@
          <el-input v-model="formInline.user" placeholder="请输入图书ISBN"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="success" class="el-icon-search" @click="onSubmit"></el-button>
+        <el-button type="success" class="el-icon-search" @click="onSubmit" title="搜索"></el-button>
       </el-form-item>
-      <el-button class="filter-item" type="primary" @click="handleCreate()"  icon="edit">添加图书</el-button>
+      <el-button class="filter-item" type="primary" @click="handleCreate()"  icon="edit" title="添加图书"></el-button>
+      <el-button type="danger" class="el-icon-delete" @click="batchDelete()" title="批量删除"></el-button>
+      <el-button type="info" class="el-icon-caret-bottom" @click="download()" title="下载"></el-button>
     </el-form>
 
     <div class="content">
-      <el-table  :data="tableData"  style="width: 100%" max-height="400" stripe>
+      <el-table  :data="tableData"
+      style="width: 100%" max-height="400"
+      row-key="isbn"
+      @selection-change="handleSelectionChange"
+      stripe>
         <el-table-column type="expand">
           <template slot-scope="scope">
            <div>
@@ -53,7 +59,7 @@
                </el-form>
              </div>
 
-             <div style="float: left;width: 20%;height:120px">
+             <div style="float: left;width: 21%;height:120px">
                <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="翻译:">
                   <span>{{ scope.row.translator.length === 0? '无' : scope.row.translator.toString() }}</span>
@@ -66,7 +72,7 @@
                 </el-form-item>
                </el-form>
              </div>
-             <div style="float: left;width: 40%;height:120px">
+             <div style="float: left;width: 42%;height:120px">
                <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="评分:">
                   <template>
@@ -79,7 +85,7 @@
                   </template>
                 </el-form-item>
                 <el-form-item label="综述:">
-                  <span style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;">{{scope.row.summary}}</span>
+                  <span style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 4;overflow: hidden; line-height:20px">{{scope.row.summary}}</span>
                 </el-form-item>
                </el-form>
              </div>
@@ -87,10 +93,6 @@
           </template>
         </el-table-column>
         <el-table-column type="selection" width="55"></el-table-column>
-        <!-- <el-table-column  label="序号"  width="55" style="display:none">
-          <template slot-scope="scope">{{scope.$index}}</template>
-        </el-table-column> -->
-        
         <el-table-column  prop="title" label="书名"  width="150"></el-table-column>
         <el-table-column  prop="isbn" label="ISBN"  width="150"></el-table-column>
         <el-table-column  prop="price" label="单价(元)"  width="100"></el-table-column>
@@ -101,7 +103,7 @@
         </el-table-column>
         <el-table-column  label="可用状态"  width="100">
           <template slot-scope="scope">
-            {{scope.row.isActive===true? '可用' : '不可用'}}
+            {{(scope.row.isActive.toString() === "true" || scope.row.isActive.toString() === "可用")? '可用':'不可用'}}
           </template>
         </el-table-column>
 
@@ -138,7 +140,7 @@
         </el-select>
         </el-form-item>
         <el-form-item class="center">
-          <el-button type="primary" @click="handleSave" :loading="editLoading">修改</el-button>
+          <el-button type="primary" @click="saveEdit" :loading="editLoading">修改</el-button>
           <el-button @click="dialogFormVisible = false">取消</el-button>
         </el-form-item>
       </el-form>
@@ -253,18 +255,18 @@ export default {
       ],
       selectedOptions: [],
       totalCount: 0,
-      rating: 2
+      selectedISBNS: [],
+      disBatchable: true // 批量删除
     }
   },
   // 实例化就获取数据
   mounted: async function () {
-   await this.getBooks(1)
+   await this.getBooks()
   },
   methods: {
     getBooks: async function () {
       const response = await API.getBooks(this.currentPage, this.pageSize)
       if (response.errorCode === 0) {
-        console.log(response.data.books)
         this.tableData = []
         this.tableData = response.data.books
         this.totalCount = response.data.totalCount
@@ -277,31 +279,43 @@ export default {
     },
     handleEdit (index, row) {
       this.dialogFormVisible = true
-      row.author = row.author.toString()
-      row.isActive = row.isActive === true? '可用': '不可用'
-      row.ebookUrl = row.ebookUrl == false? '暂无数据' : row.ebookUrl
+      
       this.form = Object.assign({}, row)
+      this.form.author =  row.author.toString()
+      this.form.ebookUrl = row.ebookUrl == false? '暂无数据' : row.ebookUrl,
+      this.form.isActive = row.isActive === true? '可用': '不可用'
       this.table_index = index
     },
 
-    handleSave () {
-      this.$confirm('确认提交吗？', '提示', {
+    // edit one book.
+    saveEdit () {
+      this.$confirm('确认提交修改吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         cancelButtonClass: 'cancel'
       }).then(() => {
         this.editLoading = true// 显示正在修改，圆圈跑起来
-        this.tableData[this.table_index] = this.form
-        this.tableData.splice(this.table_index, 1, this.form)
-        this.$message({
-          message: '操作成功！',
-          type: 'success'
+        this.form.tags = JSON.stringify(this.form.tags)
+        this.form.images = JSON.stringify(this.form.images)
+        API.updateBook(this.form).then((response) => {
+          if (response.errorCode === 0) {
+            this.tableData[this.table_index] = this.form
+            this.tableData.splice(this.table_index, 1, this.form)
+            this.showSuccess()
+            this.editLoading = false
+            this.dialogFormVisible = false
+          }
+        }).catch (() => {
+          this.showError('操作失败。。。请重试 !')
         })
-        this.editLoading = false
-        this.dialogFormVisible = false
+        
+      }).catch (() => {
+        // Nothing to do.
+        this.showError('操作失败。。。请重试 !')
       })
     },
 
+    // adds one book.
     handleSaveadd () {
       this.$confirm('确认提交吗？', '提示', {
         confirmButtonText: '确定',
@@ -310,17 +324,20 @@ export default {
       }).then(() => {
         // this.editLoading = true;//显示正在修改，圆圈跑起来
         let vm = this
+        console.log(vm.form)
         vm.tableData.push(vm.form)
         this.$message({
           message: '操作成功！',
           type: 'success'
         })
         this.dialogFormVisibleadd = false
+      }).catch (() => {
+        // Nothing to do.
       })
     },
 
     handleDelete (index, row) {
-       this.$confirm('确认删除这本书？', '确认', {
+      this.$confirm('确认删除这本书？', '确认', {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
         type: 'warning'
@@ -334,7 +351,53 @@ export default {
             this.showError('操作失败。。。请重试 !')
           }
         })        
+      }).catch (() => {
+        // Nothing to do.
+        this.showError('操作失败。。。请重试 !')
       })
+    },
+
+    // 多选
+    async handleSelectionChange (selections) {
+      this.selectedISBNS = [] // clear one.
+      if (selections && selections.length > 0) {
+        this.disBatchable = false
+        selections.forEach(s => {
+          this.selectedISBNS.push(s.isbn)
+        })
+        console.log(this.selectedISBNS)
+      } else {
+        // Nothing to do.
+      }
+    },
+
+    // batch delete books.
+    async batchDelete () {
+      if (this.selectedISBNS.length < 1) {
+        this.showWarning('请勾选要删除的项。。。')
+      } else {
+        this.$confirm('确认删除已勾选的图书？', '确认', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+        }).then(() => {
+          API.deleteBook(this.selectedISBNS).then((response) => {
+            if (response && 0 === response.errorCode) {
+              this.getBooks().then(() => {
+                this.showSuccess()
+              })
+            } else {
+              this.showError('操作失败。。。请重试 !')
+            }
+          })        
+        }).catch (() => {
+          // Nothing to do.
+        })
+      }
+    },
+
+    download() {
+      console.log('download----')
     },
 
     handleCreate () {
@@ -355,7 +418,6 @@ export default {
     },
 
     handleSizeChange: async function (val) {
-      console.log(val)
       this.pageSize = val
       await this.getBooks()
     },

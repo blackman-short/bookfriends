@@ -10,7 +10,7 @@ const AdminSchema = new mongoose.Schema({
   email: { type: String },
   createAt: { type: String, default: tools.getCurrentTime() },
   updateAt: { type: String, default: tools.getCurrentTime() },
-  loginAt: { type: String, default: tools.getCurrentTime() }
+  loginAt: { type: String }
 })
 
 mongoose.model('admin', AdminSchema)

@@ -122,8 +122,8 @@ async function update (req, res, next) {
     if (!adminInfo) {
       throw new Error('Please provide admin info')
     } else {
-      const phoneNumber = adminInfo.phoneNumber
-      if (!phoneNumber || (phoneNumber && !validator.trim(phoneNumber))) {
+      const id = adminInfo.id
+      if (!id || (id && !validator.trim(id))) {
         throw new Error('Please provide parameter: phoneNumber')
       }
     }
@@ -192,7 +192,39 @@ async function queryAll (req, res, next) {
   return res.status(200).send(response)
 }
 
+async function deleteOne (req, res, next) {
+  const funcName = 'server: controllers/admin/delete'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.body))
+  let response = { errorCode: errorCode.SUCCESS }
+
+  let id = req.body.id
+
+  try {
+    if (!id || (id && !validator.trim(id))) {
+      throw new Error('Please provide parameter: id')
+    } else {
+      id = validator.trim(id)
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  if (response.errorCode === errorCode.SUCCESS) {
+    try {
+      response = await adminManger.deleteOne(id)
+    } catch (error) {
+      response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, response.errorMsg)
+    }
+  }
+
+  return res.status(200).send(response)
+}
+
 exports.login = login
 exports.update = update
+exports.deleteOne = deleteOne
 exports.queryAll = queryAll
 exports.register = register

@@ -10,6 +10,12 @@ module.exports = {
   adminsUrl: function () {
     return this.baseUrl + '/admin/all'
   },
+  updateAdmin: function () {
+    return this.baseUrl + '/admin/update'
+  },
+  deleteAdmin: function () {
+    return this.baseUrl + '/admin/delete'
+  },
   // #region User operations
   usersUrl: function () {
     return this.baseUrl + '/admin/user/all'

@@ -9,7 +9,7 @@ module.exports = function (Vue, options) {
   },
 
   Vue.prototype.showWarning = function (warning) {
-    this.$confirm(warning, '提示', {
+    this.$confirm(`^_^  ${warning}`, '提示', {
       confirmButtonText: '确定',
       type: 'warning',
       showCancelButton: false,
@@ -24,10 +24,24 @@ module.exports = function (Vue, options) {
       center: true
     }).then()
   },
-  Vue.prototype.showSuccess = function () {
+  Vue.prototype.showSuccess = function (msg, operationName) {
+    const message = msg  || '操作成功！'
+    let type = 'success'
+    switch (operationName) {
+      case 'add':
+        break
+      case 'delete':
+        type = 'error'
+        break
+      case 'update':
+        type = 'warning'
+        break
+      default: 
+        break
+    }
     this.$message({
-      message: '操作成功！',
-      type: 'success'
-      })
+      message: message,
+      type: type
+    })
   }
 }

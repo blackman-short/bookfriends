@@ -33,6 +33,18 @@ const API = {
     const response = await get(reqUrl.adminsUrl(), getData)
     return response
   },
+  updateAdmin: async function (adminInfo) {
+    const postData = adminInfo
+    const response =  await post(reqUrl.updateAdmin(), postData)
+    return response
+  },
+  deleteAdmin: async function (id) {
+    const postData = {
+      id: id
+    }
+    const response =  await post(reqUrl.deleteAdmin(), postData)
+    return response
+  },
   // #endregion
 
   // #region User operations

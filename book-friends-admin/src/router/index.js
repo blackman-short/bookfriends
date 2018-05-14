@@ -39,6 +39,8 @@ import Reservation from '@/view/reservation/reservation'
 import Mrliu from '@/view/reservation/Mrliu'
 import Vdetails from '@/view/reservation/Vdetails'
 import Visdoctor from '@/view/reservation/Visdoctor'
+import BookKinds from '@/view/reservation/bookKinds'
+import UserDetail from '@/view/reservation/userDetail'
 import Appointreport from '@/view/reservation/appointreport'
 import LiuContent from '@/view/reservation/liuContent'
 
@@ -82,7 +84,7 @@ export default new Router({
                 children:[
                   {path:'book',component: Mrliu,name:'图书分析',
                     children:[
-                      {path:'kinds',component: Visdoctor,name:'图书类别'},
+                      {path:'kinds',component: BookKinds,name:'图书类别'},
                       {path:'visits',component: LiuContent,name:'图书访问量'},
                       {path: '/', redirect: 'kinds' }
                     ]
@@ -93,7 +95,7 @@ export default new Router({
                   {path: 'user', component: Appointreport,name:'用户分析',
                     children:[
                       {path:'kinds',component: Visdoctor,name:'用户类别'},
-                      {path:'details',component: LiuContent,name:'用户详情'},
+                      {path:'details',component: UserDetail,name:'用户详情'},
                       {path: '/', redirect: 'kinds' }
                     ]
                   }

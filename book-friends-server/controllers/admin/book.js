@@ -62,7 +62,6 @@ async function update (req, res, next) {
   let responseResult = { errorCode: errorCode.SUCCESS }
 
   let bookInfo = req.body
-
   try {
     if (!bookInfo) {
       throw new Error('Please provide parameter: bookInfo')
@@ -72,6 +71,13 @@ async function update (req, res, next) {
         throw new Error('Please provide parameter: isbn')
       } else {
         isbn = validator.trim(isbn)
+      }
+
+      if (bookInfo.tags) {
+        bookInfo.tags = JSON.parse(bookInfo.tags)
+      }
+      if (bookInfo.images) {
+        bookInfo.images = JSON.parse(bookInfo.images)
       }
     }
   } catch (error) {
