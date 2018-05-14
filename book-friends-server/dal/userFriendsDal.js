@@ -79,7 +79,7 @@ async function queryFriendIdsByUserId (userId) {
     const userFriends = await UserFriendInfo.find({userId: userId, isActive: true}, '-_id friendId')
     if (userFriends && userFriends.length > 0) {
       userFriends.forEach(item => {
-        if (ids.indexOf(item.friendId) < 0) {
+        if (ids.indexOf(item.friendId) < 0 && userId !== item.friendId) {
           ids.push(item.friendId)
         }
       })
@@ -100,7 +100,7 @@ async function queryFanIdsByUserId (userId) {
     const userFriends = await UserFriendInfo.find({friendId: userId, isActive: true}, '-_id userId')
     if (userFriends && userFriends.length > 0) {
       userFriends.forEach(item => {
-        if (ids.indexOf(item.userId) < 0) {
+        if (ids.indexOf(item.userId) < 0 && userId !== item.userId) {
           ids.push(item.userId)
         }
       })

@@ -52,7 +52,7 @@ async function queryNewBooks (pageIndex, keyWord) {
   if (pageIndex > 0) {
     const skipCount = PAGE_SIZE * (pageIndex - 1)
     const regEx = new RegExp(keyWord, 'i')
-    data = await BookInfo.find({isNews: true, title: regEx, isActive: true}, '-_id __v').skip(skipCount).limit(PAGE_SIZE)
+    data = await BookInfo.find({isNews: true, title: regEx, isActive: true}, '-_id -__v').skip(skipCount).limit(PAGE_SIZE)
   }
 
   return data
@@ -83,7 +83,7 @@ async function queryHotBooks (pageIndex, keyWord) {
   if (pageIndex > 0) {
     const skipCount = PAGE_SIZE * (pageIndex - 1)
     const regEx = new RegExp(keyWord, 'i')
-    data = await BookInfo.find({isHot: true, title: regEx}, '-_id __v').skip(skipCount).limit(PAGE_SIZE)
+    data = await BookInfo.find({isHot: true, title: regEx}, '-_id -__v').skip(skipCount).limit(PAGE_SIZE)
   }
 
   return data
@@ -128,7 +128,7 @@ async function queryTopBooks (pageIndex) {
 
   if (pageIndex > 0) {
     const skipCount = PAGE_SIZE * (pageIndex - 1)
-    data = await BookInfo.find({isNews: false, isHot: false}, '-_id __v').skip(skipCount).limit(PAGE_SIZE)
+    data = await BookInfo.find({isNews: false, isHot: false}, '-_id -__v').skip(skipCount).limit(PAGE_SIZE)
   }
 
   return data
@@ -142,7 +142,7 @@ async function queryBookByISBN (isbn) {
   let book = null
 
   if (isbn) {
-    book = await BookInfo.findOne({isbn: isbn, isActive: true})
+    book = await BookInfo.findOne({isbn: isbn, isActive: true}, '-_id -__v')
   }
 
   return book
@@ -170,6 +170,7 @@ async function getTotalCount () {
   return count
 }
 
+// #region For admin.
 /**
  * Querys all books.
  */
@@ -214,10 +215,22 @@ async function updateBook (bookParams) {
   return result
 }
 
+/**
+ * Gets top 3 according to the count of comments
+ */
+async function queryTopByComments () {
+
+}
+// #endregion
+
+// For admins.
 exports.queryAll = queryAll
 exports.saveBook = saveBook
 exports.updateBook = updateBook
 exports.deleteBooks = deleteBooks
+exports.queryTopByComments = queryTopByComments
+
+// For users.
 exports.getTotalCount = getTotalCount
 exports.queryTopBooks = queryTopBooks
 exports.queryNewBooks = queryNewBooks
