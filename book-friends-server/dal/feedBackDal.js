@@ -8,10 +8,16 @@ async function save (userId, content) {
   let data = null
 
   if (userId && content) {
-    const feedbackInfo = new FeedBackInfo({
+    let feedbackInfo = new FeedBackInfo({
       userId: userId,
       content: content
     })
+
+    const findId = await FeedBackInfo.findOne({id: feedbackInfo.id})
+    if (findId) {
+      feedbackInfo.id = findId.id + '1'
+    }
+
     data = await feedbackInfo.save()
   }
 

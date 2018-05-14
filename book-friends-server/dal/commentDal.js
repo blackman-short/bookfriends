@@ -2,6 +2,7 @@ const tools = require('../utils/tools')
 const CommentInfo = require('../models').CommentInfo
 const UserDynamicInfo = require('../models').UserDynamicInfo
 const PAGE_SIZE = require('../config/systemConfig').pageSize
+
 /**
  * Adds comment of one dynamic.
  * @param {*String} dynamicId
@@ -14,7 +15,11 @@ async function addComment (dynamicId, comment) {
     const find = await UserDynamicInfo.findOne({id: dynamicId, isActive: true})
     if (find) {
       comment.dynamicId = dynamicId
-      const commentInfo = new CommentInfo(comment)
+      let commentInfo = new CommentInfo(comment)
+      const findId = await CommentInfo.findOne({id: commentInfo.id})
+      if (findId) {
+        commentInfo.id = findId.id + '1'
+      }
       data = await commentInfo.save()
     }
   }

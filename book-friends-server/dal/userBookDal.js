@@ -31,11 +31,16 @@ async function storeUpBook (userId, isbn, tags) {
     if (find) {
       result = { errorCode: errorCode.ERROR_BOOK_HASSTORED, errorMsg: errorMsg.ERROR_BOOK_HASSTORED }
     } else {
-      const storeBookInfo = new UserBookInfo({
+      let storeBookInfo = new UserBookInfo({
         userId: userId,
         isbn: isbn,
         tags: tags
       })
+
+      const findId = await UserBookInfo.findOne({id: storeBookInfo.id})
+      if (findId) {
+        storeBookInfo.id = findId.id + '1'
+      }
       await storeBookInfo.save()
       result = { errorCode: errorCode.SUCCESS }
     }

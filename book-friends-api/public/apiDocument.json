@@ -1062,6 +1062,65 @@
         }
       }
     },
+    "/dynamic/friends": {
+      "get": {
+        "tags": [
+          "用户动态"
+        ],
+        "summary": "此接口用于查询用户好友的动态信息",
+        "description": "查询用户好友动态内容",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户的ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageIndex",
+            "in": "query",
+            "description": "分页的页码",
+            "required": true,
+            "type": "number",
+            "format": "int"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取用户好友动态信息成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errorCode": {
+                  "$ref": "#/definitions/ResultCode"
+                },
+                "errorMsg": {
+                  "type": "string",
+                  "description": "返回描述"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref":"#/definitions/DynamicInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "请求错误"
+          }
+        }
+      }
+    },
+
     "/dynamic/like": {
       "post": {
         "tags": [

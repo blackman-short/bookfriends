@@ -10,7 +10,11 @@ async function addDynamicInfo (dynamicInfo) {
   let result = null
 
   if (dynamicInfo) {
-    const userDynamicInfo = new UserDynamicInfo(dynamicInfo)
+    let userDynamicInfo = new UserDynamicInfo(dynamicInfo)
+    const findId = await UserDynamicInfo.findOne({id: userDynamicInfo.id})
+    if (findId) {
+      userDynamicInfo.id = findId.id + '1'
+    }
     result = await userDynamicInfo.save()
   }
 

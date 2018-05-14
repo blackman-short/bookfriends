@@ -23,10 +23,15 @@ async function addFriend (userId, friendId) {
         await UserFriendInfo.update({userId: userId, friendId: friendId}, {isActive: true})
         result = { errorCode: errorCode.SUCCESS }
       } else {
-        const userFriendInfo = new UserFriendInfo({
+        let userFriendInfo = new UserFriendInfo({
           userId: userId,
           friendId: friendId
         })
+
+        const findId = await UserFriendInfo.findOne({id: userFriendInfo.id})
+        if (findId) {
+          userFriendInfo.id = findId + '1'
+        }
 
         await userFriendInfo.save()
         result = { errorCode: errorCode.SUCCESS }

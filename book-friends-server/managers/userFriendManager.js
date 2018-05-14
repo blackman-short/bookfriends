@@ -76,6 +76,8 @@ async function queryFriendsInfo (userId) {
     let ids = []
     try {
       ids = await userFriendDal.queryFriendIdsByUserId(userId)
+      // 自己也是自己的好友.
+      ids.push(userId)
     } catch (error) {
       result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, result.errorMsg)
@@ -119,6 +121,8 @@ async function queryFansInfo (userId) {
     let ids = []
     try {
       ids = await userFriendDal.queryFanIdsByUserId(userId)
+      // 自己也是自己的关注.
+      ids.push(userId)
     } catch (error) {
       result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, result.errorMsg)
