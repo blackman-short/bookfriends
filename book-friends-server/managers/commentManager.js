@@ -15,11 +15,9 @@ async function queryCommentsByDynamicId (dynamicId, pageIndex) {
   let result = { errroCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
   if (dynamicId) {
-    let comments = null
     let find = null
     try {
       find = await dynamicDal.queryDynamicInfoByDynamicId(dynamicId)
-      comments = await commentDal.queryCommentsByDynamicId(dynamicId, pageIndex)
     } catch (error) {
       result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_INSERT_DB + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, result.errorMsg)
@@ -34,9 +32,19 @@ async function queryCommentsByDynamicId (dynamicId, pageIndex) {
     }
 
     // If save successfully.
+    let comments = null
+    try {
+      comments = await commentDal.queryCommentsByDynamicId(dynamicId, pageIndex)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+      logUtil.logErrorMsg(funcName, result.errorMsg)
+    }
+
     if (comments) {
       for (let i = 0; i < comments.length; i++) {
         let comment = comments[i]
+        comment.nickName = '匿名'
+        comment.headIcon = 'm_01'
         let userId = comment.userId
         let user = await userDal.queryUserInfoById(userId)
         if (!user) {
@@ -51,7 +59,6 @@ async function queryCommentsByDynamicId (dynamicId, pageIndex) {
       result = { errorCode: errorCode.SUCCESS, data: comments }
     }
   }
-
   return result
 }
 

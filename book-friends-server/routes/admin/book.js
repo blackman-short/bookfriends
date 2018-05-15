@@ -4,6 +4,7 @@ const bookController = require('../../controllers/admin/book')
 
 const routers = router
   .get('/all', bookController.queryAll)
+  .get('/top', bookController.getTop3ByVisitCount)
   .post('/update', bookController.update)
   .post('/delete', bookController.deleteBooks)
 

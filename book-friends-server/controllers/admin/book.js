@@ -132,6 +132,29 @@ async function deleteBooks (req, res, next) {
   return res.status(200).send(responseResult)
 }
 
+/**
+ * Gets TOP 3 according to the count of visiting.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function getTop3ByVisitCount (req, res, next) {
+  const functionName = 'server: controllers/admin/book/getTop3ByVisitCount'
+  // logs request info.
+  logUtil.logDebugMsg(functionName, JSON.stringify(req.query))
+  let responseResult = { errorCode: errorCode.SUCCESS }
+
+  try {
+    responseResult = await bookManager.queryTopByVisitCount()
+  } catch (error) {
+    responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+    logUtil.logErrorMsg(functionName, responseResult.errorMsg)
+  }
+
+  return res.status(200).send(responseResult)
+}
+
 exports.update = update
 exports.queryAll = queryAll
 exports.deleteBooks = deleteBooks
+exports.getTop3ByVisitCount = getTop3ByVisitCount

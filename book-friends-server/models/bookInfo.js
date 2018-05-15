@@ -18,6 +18,7 @@ const bookInfoSchema = mongoose.Schema({
   tags: [JSON], // 书的标签
   ebookUrl: { type: String }, // 电子书网址
   rating: { type: Number, default: 0 }, // 评分
+  visitCount: { type: Number, default: 1000 }, // 访问量
   isActive: { type: Boolean, default: true }
 })
 

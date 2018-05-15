@@ -38,6 +38,10 @@ async function saveBook () {
 
   return { errorCode: errorCode.SUCCESS }
 }
+
+async function addVisitCountForBook () {
+  await bookDal.addVisitCountForBook()
+}
 // #endregion
 
 // =============================================================================
@@ -205,6 +209,8 @@ async function queryBookInfoByISBN (isbn, userId) {
   }
 
   if (loadResult && loadResult.length === 2) {
+    // async to updates visit count.
+    bookDal.addVisitCount(isbn)
     result = { errorCode: errorCode.SUCCESS, data: loadResult[0], hasStored: false }
     if (loadResult[1]) {
       result.hasStored = true
@@ -215,6 +221,7 @@ async function queryBookInfoByISBN (isbn, userId) {
 }
 
 exports.saveBook = saveBook
+exports.addVisitCountForBook = addVisitCountForBook // for test
 exports.queryNewBooks = queryNewBooks
 exports.queryHotBooks = queryHotBooks
 exports.queryBookInfoByISBN = queryBookInfoByISBN

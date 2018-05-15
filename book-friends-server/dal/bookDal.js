@@ -36,6 +36,15 @@ async function updateBooksIfIsActiveIsNULL () {
   }
 }
 
+async function addVisitCountForBook () {
+  const books = await BookInfo.find({})
+  for (let i = 0; i < books.length; i++) {
+    let b = books[i]
+    b.visitCount = b.visitCount + 1
+    await BookInfo.updateOne({isbn: b.isbn}, b)
+  }
+}
+
 // =============================================================================
 // the dev environnment
 // =============================================================================
@@ -148,6 +157,17 @@ async function queryBookByISBN (isbn) {
   return book
 }
 
+// Adds visit count.
+async function addVisitCount (isbn) {
+  if (isbn) {
+    const book = await BookInfo.findOne({isbn: isbn, isActive: true}, '-_id -__v')
+    if (book) {
+      book.visitCount = book.visitCount + 10
+      await BookInfo.updateOne({isbn: isbn}, book)
+    }
+  }
+}
+
 /**
  * Querys the certain fields by isbn.
  * @param {*String} isbn
@@ -216,11 +236,13 @@ async function updateBook (bookParams) {
 }
 
 /**
- * Gets top 3 according to the count of comments
+ * Querys TOP 3.
  */
-async function queryTopByComments () {
-
+async function queryTopByVisitCount () {
+  const books = await BookInfo.find({}).sort({'visitCount': -1}).limit(3)
+  return books
 }
+
 // #endregion
 
 // For admins.
@@ -228,9 +250,10 @@ exports.queryAll = queryAll
 exports.saveBook = saveBook
 exports.updateBook = updateBook
 exports.deleteBooks = deleteBooks
-exports.queryTopByComments = queryTopByComments
+exports.queryTopByVisitCount = queryTopByVisitCount
 
 // For users.
+exports.addVisitCount = addVisitCount
 exports.getTotalCount = getTotalCount
 exports.queryTopBooks = queryTopBooks
 exports.queryNewBooks = queryNewBooks
@@ -241,3 +264,4 @@ exports.getNewBooksTotalCount = getNewBooksTotalCount
 exports.getHotBooksTotalCount = getHotBooksTotalCount
 exports.queryCertainFieldsByISBN = queryCertainFieldsByISBN
 exports.updateBooksIfIsActiveIsNULL = updateBooksIfIsActiveIsNULL //  for test
+exports.addVisitCountForBook = addVisitCountForBook // for test

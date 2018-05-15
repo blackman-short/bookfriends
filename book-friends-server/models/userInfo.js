@@ -8,9 +8,10 @@ const userInfoSchema = mongoose.Schema({
   nickName: { type: String }, // 昵称
   sex: { type: Number }, // 性别: 0: '女'; 1: 男'
   birthday: { type: String }, // 生日
-  provinceName: { type: String }, // 所在省
-  cityName: { type: String }, // 所在城市
+  provinceName: { type: String, default: '江苏' }, // 所在省
+  cityName: { type: String, default: '南通' }, // 所在城市
   univercity: { type: String }, // 所在大学
+  educationBackground: { type: String }, // 学历
   headIcon: { type: String, default: 'm_01' }, // 头像
   description: { type: String }, // 自我描述
   QRCode: { type: String }, // 二维码

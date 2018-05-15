@@ -102,7 +102,22 @@ async function queryDynamicInfoByDynamicId (dynamicId) {
   return data
 }
 
+/**
+ * Querys the certain book's dynamics
+ * @param {*String} isbn
+ */
+async function queryDynamicsByISBN (isbn) {
+  let data = null
+
+  if (isbn) {
+    data = await UserDynamicInfo.find({isbn: isbn, isActive: true}, '-_id id content likeCount createTime isbn userId')
+  }
+
+  return data
+}
+
 exports.addDynamicInfo = addDynamicInfo
+exports.queryDynamicsByISBN = queryDynamicsByISBN
 exports.queryAllDynamicInfos = queryAllDynamicInfos
 exports.updateDynamicLikeCount = updateDynamicLikeCount
 exports.queryDynamicIdsByUserId = queryDynamicIdsByUserId

@@ -201,6 +201,32 @@ async function deleteOne (phoneNumber) {
   return result
 }
 
+// #region User Group Statistics.
+async function groupBySex () {
+  const data = await UserInfo.aggregate([ {$group: {'_id': {'sex': '$sex'}, 'number': {$sum: 1}}}, { $project: { '_id': 0, 'sex': '$_id.sex', 'number': 1 } } ])
+  return data
+}
+
+async function groupByProvince () {
+  const data = await UserInfo.aggregate([ {$group: {'_id': {'province': '$provinceName'}, 'number': {$sum: 1}}}, { $project: { '_id': 0, 'province': '$_id.province', 'number': 1 } } ])
+  return data
+}
+
+async function groupByCityInCertainProvince (province) {
+  const data = await UserInfo.find({provinceName: province}).aggregate([ {$group: {'_id': {'city': '$cityName'}, 'number': {$sum: 1}}}, { $project: { '_id': 0, 'city': '$_id.city', 'number': 1 } } ])
+  return data
+}
+
+async function groupByEducation () {
+  const data = await UserInfo.aggregate([ {$group: {'_id': {'education': '$educationBackground'}, 'number': {$sum: 1}}}, { $project: { '_id': 0, 'education': '$_id.educationBackground', 'number': 1 } } ])
+  return data
+}
+
+async function groupByAge () {
+
+}
+// #endregion
+
 exports.login = login
 exports.register = register
 exports.queryAll = queryAll
@@ -210,3 +236,9 @@ exports.queryTotalCount = queryTotalCount
 exports.queryUserInfoById = queryUserInfoById
 exports.queryUserCertainFieldsById = queryUserCertainFieldsById
 exports.searchUsersByKeyword = searchUsersByKeyword
+
+exports.groupBySex = groupBySex
+exports.groupByProvince = groupByProvince
+exports.groupByCityInCertainProvince = groupByCityInCertainProvince
+exports.groupByEducation = groupByEducation
+exports.groupByAge = groupByAge

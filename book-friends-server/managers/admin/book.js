@@ -79,6 +79,26 @@ async function deleteBooks (isbns) {
   return result
 }
 
+async function queryTopByVisitCount () {
+  const funcName = 'server: managers/admin/book/queryTopByVisitCount'
+  let result = null
+
+  try {
+    const books = await bookDal.queryTopByVisitCount()
+    if (books) {
+      result = { errorCode: errorCode.SUCCESS, data: books }
+    } else {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA }
+    }
+  } catch (error) {
+    result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+    logUtil.logErrorMsg(funcName, result.errorMsg)
+  }
+
+  return result
+}
+
 exports.update = update
 exports.queryAll = queryAll
 exports.deleteBooks = deleteBooks
+exports.queryTopByVisitCount = queryTopByVisitCount

@@ -34,6 +34,17 @@ async function saveBook (req, res, next) {
 
   return res.status(200).send(result)
 }
+async function addVisitCountForBook (req, res, next) {
+  let result = { errorCode: 0 }
+
+  try {
+    await bookManager.addVisitCountForBook()
+  } catch (error) {
+    result = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + error.message }
+  }
+
+  return res.status(200).send(result)
+}
 
 /**
  * Querys new books.
@@ -220,6 +231,7 @@ async function getBookInfoByISBN (req, res, next) {
 }
 
 exports.updateBook = updateBook // test
+exports.addVisitCountForBook = addVisitCountForBook // test
 exports.saveBook = saveBook
 exports.getNewBooks = getNewBooks
 exports.getHotBooks = getHotBooks
