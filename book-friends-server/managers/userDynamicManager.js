@@ -275,8 +275,39 @@ async function queryFriendDynamics (userId, pageIndex) {
   return result
 }
 
+/**
+ * Querys one certain book's comment.
+ * @param {*String} isbn
+ */
+async function queryDynamicsByISBN (isbn) {
+  const funcName = 'server: managers/dynamic/queryDynamicsByISBN'
+  let result = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER }
+
+  let dynamics = []
+  try {
+    const infos = await userDynamicDal.queryDynamicsByISBN(isbn)
+    if (infos && infos.length > 0) {
+      for (let i = 0; i < infos.length; i++) {
+        const dynamicId = infos[i].id
+        const loadResult = await queryDynamicInfoById(dynamicId)
+        if (loadResult.errorCode === errorCode.SUCCESS) {
+          dynamics.push(loadResult.data)
+        }
+      }
+    }
+
+    result = { errorCode: errorCode.SUCCESS, data: dynamics }
+  } catch (error) {
+    result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+    logUtil.logErrorMsg(funcName, result.errorMsg)
+  }
+
+  return result
+}
+
 exports.addDynamicInfo = addDynamicInfo
 exports.queryAllDynamics = queryAllDynamics
+exports.queryDynamicsByISBN = queryDynamicsByISBN
 exports.queryFriendDynamics = queryFriendDynamics
 exports.updateDynamicLikeCount = updateDynamicLikeCount
 exports.queryDynamicInfosByUserId = queryDynamicInfosByUserId

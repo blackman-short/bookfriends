@@ -216,8 +216,44 @@ async function queryFriendDynamics (req, res, next) {
   return res.status(200).send(response)
 }
 
+/**
+ * Querys one certain book's dynamics.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function queryDynamicsByISBN (req, res, next) {
+  const funcName = 'server: controllers/dynamic/queryDynamicsByISBN'
+  logUtil.logDebugMsg(funcName, JSON.stringify(req.query))
+  let response = { errorCode: errorCode.SUCCESS }
+
+  // Validates parameter errors.
+  let isbn = req.query.isbn
+  try {
+    if (!isbn || (isbn && !validator.trim(isbn))) {
+      throw new Error('Please provide parameter: isbn')
+    } else {
+      isbn = validator.trim(isbn)
+    }
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+    return res.status(200).send(response)
+  }
+
+  try {
+    response = await userDynamicManager.queryDynamicsByISBN(isbn)
+  } catch (error) {
+    response = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+    logUtil.logErrorMsg(funcName, response.errorMsg)
+  }
+
+  return res.status(200).send(response)
+}
+
 exports.getAllDynamics = getAllDynamics
 exports.addDynamicInfo = addDynamicInfo
+exports.queryDynamicsByISBN = queryDynamicsByISBN
 exports.queryFriendDynamics = queryFriendDynamics
 exports.updateDynamicLikeCount = updateDynamicLikeCount
 exports.queryDynamicInfosByUserId = queryDynamicInfosByUserId

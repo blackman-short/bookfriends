@@ -133,6 +133,11 @@ async function updateInfo (req, res, next) {
     return res.status(200).send({errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + 'user info is null'})
   }
 
+  // convert hobbies from String to Array.
+  if (userInfo.hobbies) {
+    userInfo.hobbies = JSON.parse(userInfo.hobbies)
+  }
+
   // test the birthday is valid pattern. For example: '1995-12-19'.
   if (userInfo.birthday) {
     if (!tools.isValidDate(userInfo.birthday)) {

@@ -6,7 +6,7 @@ const routers = router
   .post('/login', userInfoController.login)
   .post('/register', userInfoController.register)
   .post('/update', userInfoController.updateInfo)
-  .get('/search', userInfoController.getUsersByKeyword)
   .get('/get', userInfoController.getUserInfoByUserId)
+  .get('/search', userInfoController.getUsersByKeyword)
 
 module.exports = routers

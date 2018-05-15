@@ -40,23 +40,24 @@ async function queryCommentsByDynamicId (dynamicId, pageIndex) {
       logUtil.logErrorMsg(funcName, result.errorMsg)
     }
 
+    let data = []
+
     if (comments) {
       for (let i = 0; i < comments.length; i++) {
-        let comment = comments[i]
-        comment.nickName = '匿名'
-        comment.headIcon = 'm_01'
-        let userId = comment.userId
-        let user = await userDal.queryUserInfoById(userId)
-        if (!user) {
-          user = {
-            nickName: '匿名',
-            headIcon: 'm_01'
-          }
+        const comment = comments[i]
+        let user = await userDal.queryUserInfoById(comment.userId)
+        const d = {
+          id: comment.id,
+          content: comment.content,
+          likeCount: comment.likeCount,
+          createTime: comment.createTime,
+          userId: comment.userId,
+          nickName: user.nickName == false ? '匿名' : user.nickName,
+          headIcon: user.headIcon == false ? 'm_01' : user.headIcon
         }
-        comment.nickName = user.nickName
-        comment.headIcon = user.headIcon
+        data.push(d)
       }
-      result = { errorCode: errorCode.SUCCESS, data: comments }
+      result = { errorCode: errorCode.SUCCESS, data: data }
     }
   }
   return result
