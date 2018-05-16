@@ -58,7 +58,7 @@ async function queryAll (req, res, next) {
 async function deleteUser (req, res, next) {
   const functionName = 'server: controllers/admin/user/deleteUser'
   // logs request info.
-  logUtil.logDebugMsg(functionName, JSON.stringify(req.query))
+  logUtil.logDebugMsg(functionName, JSON.stringify(req.body))
   let responseResult = { errorCode: errorCode.SUCCESS }
 
   let phoneNumber = req.body.phoneNumber
@@ -84,5 +84,64 @@ async function deleteUser (req, res, next) {
   return res.status(200).send(responseResult)
 }
 
+/**
+ * Gets the chart results.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function getChartGroup (req, res, next) {
+  const functionName = 'server: controllers/admin/user/getChartGroup'
+  // logs request info.
+  logUtil.logDebugMsg(functionName, JSON.stringify(req.query))
+  let responseResult = { errorCode: errorCode.SUCCESS }
+
+  try {
+    responseResult = await userManager.getChartGroup()
+  } catch (error) {
+    responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+    logUtil.logErrorMsg(functionName, responseResult.errorMsg)
+  }
+
+  return res.status(200).send(responseResult)
+}
+
+/**
+ * Gets city chart when in same province.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function getCityChart (req, res, next) {
+  const functionName = 'server: controllers/admin/user/deleteUser'
+  // logs request info.
+  logUtil.logDebugMsg(functionName, JSON.stringify(req.query))
+  let responseResult = { errorCode: errorCode.SUCCESS }
+
+  let provinceName = req.query.provinceName
+  try {
+    if (!provinceName || (provinceName && !validator.trim(provinceName))) {
+      throw new Error('Please provide parameter: provinceName')
+    } else {
+      provinceName = validator.trim(provinceName)
+    }
+  } catch (error) {
+    responseResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
+    logUtil.logErrorMsg(functionName, responseResult.errorMsg)
+    return res.status(200).send(responseResult)
+  }
+
+  try {
+    responseResult = await userManager.getCityChart(provinceName)
+  } catch (error) {
+    responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+    logUtil.logErrorMsg(functionName, responseResult.errorMsg)
+  }
+
+  return res.status(200).send(responseResult)
+}
+
 exports.queryAll = queryAll
 exports.delete = deleteUser
+exports.getCityChart = getCityChart
+exports.getChartGroup = getChartGroup

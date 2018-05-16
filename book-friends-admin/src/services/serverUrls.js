@@ -26,6 +26,12 @@ module.exports = {
   deleteUser: function () {
     return this.baseUrl + '/admin/user/delete'
   },
+  chartGroup: function () {
+    return this.baseUrl + '/admin/user/chartgroup'
+  },
+  chartCity: function () {
+    return this.baseUrl + '/admin/user/citychart'
+  },
   // #endregion
 
   // #region Book operations

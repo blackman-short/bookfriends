@@ -218,7 +218,7 @@ async function groupByCityInCertainProvince (province) {
 }
 
 async function groupByEducation () {
-  const data = await UserInfo.aggregate([ {$group: {'_id': {'education': '$educationBackground'}, 'number': {$sum: 1}}}, { $project: { '_id': 0, 'education': '$_id.educationBackground', 'number': 1 } } ])
+  const data = await UserInfo.aggregate([ {$group: {'_id': {'education': '$educationBackground'}, 'number': {$sum: 1}}}, { $project: { '_id': 0, 'education': '$_id.education', 'number': 1 } } ])
   return data
 }
 

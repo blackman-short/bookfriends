@@ -70,6 +70,17 @@ const API = {
     const response = await post(reqUrl.deleteUser(), getData)
     return response
   },
+  getChartGroup: async function () {
+    const response = await get(reqUrl.chartGroup(), null)
+    return response
+  },
+  getCityChart: async function (provinceName) {
+    const getData = {
+      provinceName: provinceName
+    }
+    const response = await get(reqUrl.chartCity(), getData)
+    return response
+  },
   // #endregion
 
   // #region Book operations
