@@ -10,16 +10,14 @@ const request = {
     }
   },
   get: async function (url, data) {
-    if (url) {
+    if (url && data) {
       url += '?'
-    }
-    if (data) {
       for (let key in data) {
         url += key + '=' + data[key] + '&'
       }
+      url = url.substring(0, url.lastIndexOf('&'))
     }
-
-    url = url.substring(0, url.lastIndexOf('&'))
+    
     const response = await Vue.http.get(url, null)
     if (!response || (response && !response.data)) {
       return { errorCode: '101', errorMsg: 'request is errored or response.data is null' }

@@ -3,7 +3,7 @@
     <div class="todayReservation">
       <el-table :data="tableData" style="width: 100%" stripe>
           <el-table-column prop="bookName" label="阅读Top"></el-table-column>
-          <el-table-column prop="readCount" label="" ></el-table-column>
+          <el-table-column prop="readCount" label="" width="100"></el-table-column>
           <el-table-column label="" width="200">
             <template slot-scope="scope">
               <el-rate style="float:left"
@@ -16,8 +16,9 @@
           </el-table-column>
           <el-table-column>
             <template slot-scope="scope">
-              <i v-if="scope.row.riseCount > 0" class="fa fa-arrow-up icon" aria-hidden="true">{{scope.row.riseCount}}</i>
-              <i v-else class="fa fa-arrow-down icon" aria-hidden="true">{{scope.row.riseCount - 2 * scope.row.riseCount}}</i>
+              <i v-if="scope.row.riseCount > 0" class="fa fa-arrow-up icon" aria-hidden="true">  {{scope.row.riseCount}}</i>
+              <i v-else-if="scope.row.riseCount == 0"  class="fa fa-minus icon" ria-hidden="true">  {{scope.row.riseCount}}</i>
+              <i v-else class="fa fa-arrow-down icon" aria-hidden="true">  {{scope.row.riseCount - 2 * scope.row.riseCount}}</i>
             </template>
           </el-table-column>
       </el-table>
@@ -164,6 +165,9 @@
     .fa-arrow-down {
       color: #228B22
     }
+    .fa-minus {
+      color:#E6A23C
+    }
     .fa-plus {
       color: #409EFF
     }
@@ -172,6 +176,8 @@
 import echarts from 'echarts'
 import store from '../../store'
 import {api} from '../../global/api'
+const API = require('../../services/getData').default
+const resultCode = require('../../global/resultCode').default
 export default {
   data () {
     return {
@@ -182,13 +188,14 @@ export default {
       dataArrange: store.state.weeks_content
     }
   },
-  mounted: function () {
+  mounted: async function () {
     this.$http.get(api.testData).then(function (response) {
-      this.tableData = response.data.top
+      // this.tableData = response.data.top
       this.newAddedBooks = response.data.newAdded
     })
 
     this.initChart()
+    await this.initTableData()
   },
 
   // 图表部分
@@ -250,6 +257,25 @@ export default {
           data: [50, 32, 100, 300, 190, 58, 350]
         }]
       })
+    },
+    initTableData: async function () {
+      const response = await API.getTop3()
+      if (response && response.errorCode === resultCode.SUCCESS) {
+        const books = response.data
+        if (books && books.length > 0) {
+          let resetData = []
+          books.forEach(b => {
+            resetData.push({
+              bookName: b.title,
+              readCount: b.visitCount + ' 次',
+              rating: b.rating,
+              riseCount: b.lastestRanking - b.previousRanking
+            })
+          })
+
+          this.tableData = resetData
+        }
+      }
     }
   }
 

@@ -235,11 +235,23 @@ async function updateBook (bookParams) {
   return result
 }
 
+async function rankBook () {
+  const books = await BookInfo.find({}, '-_id previousRanking lastestRanking isbn').sort({'visitCount': -1})
+  if (books) {
+    for (let i = 0; i < books.length; i++) {
+      let book = books[i]
+      book.previousRanking = book.lastestRanking
+      book.lastestRanking = i + 1
+      await BookInfo.updateOne({isbn: book.isbn}, book)
+    }
+  }
+}
+
 /**
  * Querys TOP 3.
  */
 async function queryTopByVisitCount () {
-  const books = await BookInfo.find({}).sort({'visitCount': -1}).limit(3)
+  const books = await BookInfo.find({}, '-_id title rating visitCount previousRanking lastestRanking').sort({'lastestRanking': 1}).limit(3)
   return books
 }
 
@@ -253,6 +265,7 @@ exports.deleteBooks = deleteBooks
 exports.queryTopByVisitCount = queryTopByVisitCount
 
 // For users.
+exports.rankBook = rankBook
 exports.addVisitCount = addVisitCount
 exports.getTotalCount = getTotalCount
 exports.queryTopBooks = queryTopBooks

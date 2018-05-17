@@ -209,8 +209,9 @@ async function queryBookInfoByISBN (isbn, userId) {
   }
 
   if (loadResult && loadResult.length === 2) {
-    // async to updates visit count.
-    bookDal.addVisitCount(isbn)
+    // async to updates visit count, then rank the books again.
+    await bookDal.addVisitCount(isbn)
+    bookDal.rankBook()
     result = { errorCode: errorCode.SUCCESS, data: loadResult[0], hasStored: false }
     if (loadResult[1]) {
       result.hasStored = true

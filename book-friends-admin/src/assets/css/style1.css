@@ -2,12 +2,11 @@
         text-align: left;
     }
 .Mrliu .h-content,.Visdoctor .h-content{
-		height: 700px;
+		height: 550px;
 		margin-top: 1%;
-		
 	}
 .Mrliu .content-left,.Visdoctor .content-left{
-    height: 700px;
+    height: 550px;
     width: 15%;
     float: left;
     background-color: #ffffff;

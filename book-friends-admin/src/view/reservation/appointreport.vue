@@ -25,7 +25,7 @@
 
       </div>
 
-        <div class="content-right" style="height:700px;"  >
+        <div class="content-right" style="height:550px;"  >
         <router-view></router-view>
       </div>
     </div>

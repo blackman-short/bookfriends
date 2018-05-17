@@ -43,6 +43,9 @@ module.exports = {
   },
   deleteBook: function () {
     return this.baseUrl + '/admin/book/delete'
+  },
+  getTop3: function () {
+    return this.baseUrl + '/admin/book/top'
   }
   // #endregion
 }

@@ -104,6 +104,10 @@ const API = {
     }
     const response = await post(reqUrl.deleteBook(), getData)
     return response
+  },
+  getTop3: async function () {
+    const response = await get(reqUrl.getTop3(), null)
+    return response
   }
   // #endregion
 }

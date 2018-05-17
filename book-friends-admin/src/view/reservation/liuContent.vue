@@ -1,6 +1,6 @@
 <template >
   <div class="liuContent">
-    <div class="content-right" style="height:700px;"  >
+    <div class="content-right" style="height:550px"  >
       <div class="content-right-bottom">
         <div v-if="!visitCounts">
           <img src="../../assets/40.png" class="bells" style="margin-left: 40%;margin-top: 16%;" >
