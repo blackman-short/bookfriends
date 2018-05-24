@@ -178,7 +178,10 @@ async function unstore (userId, isbn) {
   return result
 }
 
-async function groupUserBooks () {
+/**
+ * Groups user books by books' tags.
+ */
+async function groupUserBooksByTags () {
   const funcName = 'server: managers/userbook/groupUserBooks'
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
 
@@ -196,7 +199,7 @@ async function groupUserBooks () {
     const isbns = filterUserBookISBN(loadResult)
     if (isbns && isbns.length > 0) {
       try {
-        books = await bookDal.groupByTag(isbns)
+        books = await bookDal.queryBooksByISBNs(isbns)
       } catch (error) {
         result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
         logUtil.logDebugMsg(funcName, result.errorMsg)
@@ -218,6 +221,48 @@ async function groupUserBooks () {
   return result
 }
 
+/**
+ * Groups user books by user.
+ */
+async function groupUserBooksByUser () {
+  const funcName = 'server: managers/userbook/groupUserBooks'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  let isbns = []
+  try {
+    const datas = await userBookDal.groupUserBooksByISBN()
+    if (datas && datas.length > 0) {
+      datas.forEach(d => {
+        isbns.push(d.isbn)
+      })
+    }
+  } catch (error) {
+    result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+    logUtil.logDebugMsg(funcName, result.errorMsg)
+    return result
+  }
+
+  if (isbns.length > 0) {
+    try {
+      const userIds = await userBookDal.queryUserIdsByIsbns(isbns)
+      if (userIds && userIds.length > 0) {
+        // const data = await userDal.groupByEducationOfIds(userIds)
+        const data = await userDal.groupByAgeOfIds(userIds)
+        // const loadResult = await Promise.all([userDal.groupByEducationOfIds(userIds), userDal.groupByAgeOfIds()]).then()
+        if (data) {
+          result = { errorCode: errorCode.SUCCESS, data: data }
+        }
+      }
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+      logUtil.logDebugMsg(funcName, result.errorMsg)
+      return result
+    }
+  }
+
+  return result
+}
+
 function convertBookByTag (books) {
   let result = null
   let labels = []
@@ -226,13 +271,13 @@ function convertBookByTag (books) {
     books.forEach(b => {
       const tags = b.tags
       for (let i = 0; i < 3; i++) {
-        const index = labels.indexOf(tags[i])
+        const index = labels.indexOf(tags[i].name)
         // 不含有
         if (index < 0) {
-          labels.push(tags[i])
+          labels.push(tags[i].name)
           values.push({
             value: 1,
-            name: tags[i]
+            name: tags[i].name
           })
         // 含有
         } else {
@@ -272,4 +317,5 @@ function filterUserBookISBN (userBookInfos) {
 exports.unstore = unstore
 exports.storeUpBook = storeUpBook
 exports.getUserBooks = getUserBooks
-exports.groupUserBooks = groupUserBooks
+exports.groupUserBooksByUser = groupUserBooksByUser
+exports.groupUserBooksByTags = groupUserBooksByTags

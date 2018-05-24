@@ -258,6 +258,25 @@ async function groupByEducation () {
 async function groupByAge () {
 
 }
+
+async function groupByEducationOfIds (userIds) {
+  const data = await UserInfo.aggregate([
+    {$match: {'id': {'$in': userIds}}},
+    {$group: {'_id': {'education': '$educationBackground'}, 'number': {$sum: 1}}},
+    {$project: { '_id': 0, 'education': '$_id.education', 'number': 1 }}])
+  return data
+}
+
+async function groupByAgeOfIds (userIds) {
+  console.log(new Date().getFullYear() - new Date('1995-12-19').getFullYear())
+  // const currentYear = new Date().getFullYear()
+  const data = await UserInfo.aggregate([
+    {$match: {'id': {'$in': userIds}}},
+    // {$group: {'_id': {'age': {'$subtract': [currentYear, new Date('$birthday').getFullYear()]}}, 'number': {$sum: 1}}},
+    {$group: {'_id': {'age': '$birthday'}, 'number': {$sum: 1}}},
+    {$project: { '_id': 0, 'age': '$_id.age', 'number': 1 }}])
+  return data
+}
 // #endregion
 
 exports.login = login
@@ -277,3 +296,5 @@ exports.groupByProvince = groupByProvince
 exports.groupByCityInCertainProvince = groupByCityInCertainProvince
 exports.groupByEducation = groupByEducation
 exports.groupByAge = groupByAge
+exports.groupByEducationOfIds = groupByEducationOfIds
+exports.groupByAgeOfIds = groupByAgeOfIds

@@ -165,7 +165,7 @@ async function queryDynamicInfoById (dynamicId) {
         const userId = data.userId
 
         let loadResults = null
-        if (userId && isbn) {
+        if (userId) {
           loadResults = await Promise.all([bookDal.queryCertainFieldsByISBN(isbn), userDal.queryUserCertainFieldsById(userId)]).then()
         }
 

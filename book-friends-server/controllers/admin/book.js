@@ -167,7 +167,7 @@ async function groupUserBooksByTags (req, res, next) {
   let responseResult = { errorCode: errorCode.SUCCESS }
 
   try {
-    responseResult = await userBookManager.groupUserBooks()
+    responseResult = await userBookManager.groupUserBooksByTags()
   } catch (error) {
     responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
     logUtil.logErrorMsg(functionName, responseResult.errorMsg)
@@ -183,7 +183,19 @@ async function groupUserBooksByTags (req, res, next) {
  * @param {*} next
  */
 async function groupUserBooksByUser (req, res, next) {
+  const functionName = 'server: controllers/admin/book/groupUserBooksByTags'
+  // logs request info.
+  logUtil.logDebugMsg(functionName, JSON.stringify(req.query))
+  let responseResult = { errorCode: errorCode.SUCCESS }
 
+  try {
+    responseResult = await userBookManager.groupUserBooksByUser()
+  } catch (error) {
+    responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+    logUtil.logErrorMsg(functionName, responseResult.errorMsg)
+  }
+
+  return res.status(200).send(responseResult)
 }
 
 exports.update = update

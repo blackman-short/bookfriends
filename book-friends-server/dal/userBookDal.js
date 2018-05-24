@@ -1,6 +1,7 @@
 const errorMsg = require('../error/errorMsg')
 const errorCode = require('../error/errorCode')
 const UserBookInfo = require('../models').UserBookInfo
+const PAGE_SIZE = require('../config/systemConfig').pageSize
 
 /**
  * Querys user's books info according to user ID.
@@ -90,8 +91,30 @@ async function queryAll () {
   return infos
 }
 
+async function groupUserBooksByISBN () {
+  const data = await UserBookInfo.aggregate([ {$group: {'_id': {'isbn': '$isbn'}, 'number': {$sum: 1}}}, { $project: { '_id': 0, 'isbn': '$_id.isbn', 'number': 1 } } ]).sort({'number': -1}).limit(PAGE_SIZE)
+  return data
+}
+
+async function queryUserIdsByIsbns (isbns) {
+  let userIds = []
+  const loadData = await UserBookInfo.find({'isbn': {'$in': isbns}}, '-_id userId')
+
+  if (loadData && loadData.length > 0) {
+    loadData.forEach(d => {
+      if (userIds.indexOf(d.userId) < 0) {
+        userIds.push(d.userId)
+      }
+    })
+  }
+
+  return userIds
+}
+
 exports.unstore = unstore
 exports.queryAll = queryAll
 exports.storeUpBook = storeUpBook
+exports.queryUserIdsByIsbns = queryUserIdsByIsbns
+exports.groupUserBooksByISBN = groupUserBooksByISBN
 exports.queryUserBookInfoByUserId = queryUserBookInfoByUserId
 exports.getUserBookByUserIdAndISBN = getUserBookByUserIdAndISBN
