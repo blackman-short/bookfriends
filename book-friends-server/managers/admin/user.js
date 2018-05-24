@@ -106,7 +106,30 @@ async function getCityChart (provinceName) {
   return result
 }
 
+/**
+ * Gets users is onlined.
+ */
+async function queryOnlineUsers () {
+  const funcName = 'server: managers/user/queryOnlineUsers'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.ERROR_CALL_MANAGER }
+
+  try {
+    const data = await userInfoDal.queryOnlineUsers()
+    if (data) {
+      result = { errorCode: errorCode.SUCCESS, data: data }
+    } else {
+      result = { erroCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA }
+    }
+  } catch (error) {
+    result = { erroCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+    logUtil.logErrorMsg(funcName, result.errorMsg)
+  }
+
+  return result
+}
+
 exports.queryAll = queryAll
 exports.deleteUser = deleteUser
 exports.getCityChart = getCityChart
 exports.getChartGroup = getChartGroup
+exports.queryOnlineUsers = queryOnlineUsers

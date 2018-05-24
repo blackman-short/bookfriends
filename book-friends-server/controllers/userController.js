@@ -117,6 +117,43 @@ async function login (req, res, next) {
 }
 
 /**
+ * User exits the system.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function offLine (req, res, next) {
+  const functionName = 'server: controllers/user/offLine'
+  // logs request info.
+  logUtil.logDebugMsg(functionName, JSON.stringify(req.body))
+  let responseResult = { errorCode: errorCode.SUCCESS }
+  let userId = req.body.userId
+
+  // Validates request params.
+  try {
+    if (!userId || (userId && !validator.trim(userId))) {
+      throw new Error('Please provide parameter: userId')
+    } else {
+      userId = validator.trim(userId)
+    }
+  } catch (error) {
+    responseResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: error.message }
+    logUtil.logErrorMsg(functionName, responseResult.errorMsg)
+    return res.status(200).send(responseResult)
+  }
+
+  if (responseResult.errorCode === errorCode.SUCCESS) {
+    try {
+      responseResult = await userInfoManager.offLine(userId)
+    } catch (error) {
+      responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + error.message }
+      logUtil.logErrorMsg(functionName, responseResult.errorMsg)
+    }
+  }
+  return res.status(200).send(responseResult)
+}
+
+/**
  * Updates user's personnal information.
  * @param {*} req
  * @param {*} res
@@ -244,6 +281,7 @@ async function getUserInfoByUserId (req, res, next) {
 }
 
 exports.login = login
+exports.offLine = offLine
 exports.register = register
 exports.updateInfo = updateInfo
 exports.getUsersByKeyword = getUsersByKeyword

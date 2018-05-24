@@ -7,5 +7,6 @@ const routers = router
   .post('/delete', userController.delete)
   .get('/citychart', userController.getCityChart)
   .get('/chartgroup', userController.getChartGroup)
+  .get('/onlineusers', userController.queryOnlineUsers)
 
 module.exports = routers

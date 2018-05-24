@@ -47,6 +47,26 @@ async function login (phoneNumber, password) {
 }
 
 /**
+ * User exits the system.
+ * @param {*String} userId
+ */
+async function offLine (userId) {
+  const functionName = 'server: managers/user/offLine'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  if (userId) {
+    try {
+      result = await userInfoDal.offLine(userId)
+    } catch (error) {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_UPDATE_DB + error.message }
+      logUtil.logErrorMsg(functionName, result.errorMsg)
+    }
+  }
+
+  return result
+}
+
+/**
  * Updates the user's personnal information.
  * @param {*Object} userInfo
  */
@@ -115,6 +135,7 @@ async function queryUsersByKeyword (keyWord, pageIndex) {
 }
 
 exports.login = login
+exports.offLine = offLine
 exports.register = register
 exports.updateInfo = updateInfo
 exports.getUserInfoByUserId = getUserInfoByUserId

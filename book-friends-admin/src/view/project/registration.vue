@@ -36,7 +36,7 @@
         </el-table-column>
         <el-table-column  label="最近登录"  width="200">
           <template slot-scope="scope">
-            <label class="admin-color" v-if="currentAdmin === scope.row.phoneNumber">{{scope.row.loginAt == null? '暂未登录' :  scope.row.loginAt}}</label>
+            <label class="admin-color" v-if="currentAdmin === scope.row.phoneNumber">当前管理员</label>
             <label v-else>{{scope.row.loginAt == null? '暂未登录' :  scope.row.loginAt}}</label>
           </template>
         </el-table-column>
@@ -59,7 +59,7 @@
           <el-input v-model="form.realName"></el-input>
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="form.phoneNumber"></el-input>
+          <el-input v-model="form.phoneNumber" disabled></el-input>
         </el-form-item>
         <el-form-item label="邮箱">
           <el-input v-model="form.email"></el-input>

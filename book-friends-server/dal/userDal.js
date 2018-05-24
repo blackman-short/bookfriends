@@ -55,7 +55,7 @@ async function login (phoneNumber, password) {
     if (user) {
       result = { errorCode: errorCode.SUCCESS, data: user } // login successfully.
       // async update the user's lastLoginTime.
-      await UserInfo.update({phoneNumber: user.phoneNumber}, {lastLoginTime: tools.getCurrentTime()})
+      await UserInfo.update({phoneNumber: user.phoneNumber}, {lastLoginTime: tools.getCurrentTime(), isOnline: true})
     } else {
       if (!account) {
         result = { errorCode: errorCode.ERROR_USER_NOTEXISTED } // account is not existed.
@@ -66,6 +66,31 @@ async function login (phoneNumber, password) {
           result = { errorCode: errorCode.ERROR_PWD } // password is wrong.
         }
       }
+    }
+  }
+
+  return result
+}
+
+/**
+ * User exits current system.
+ * @param {*String} userId
+ */
+async function offLine (userId) {
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  // If the parameters is valid.
+  let user = null
+  if (userId) {
+    user = await UserInfo.findOne({ id: userId, isActive: true })
+
+    // If success, return the user's information
+    if (user) {
+      await UserInfo.updateOne({id: userId}, {isOnline: false})
+      result = { errorCode: errorCode.SUCCESS }
+    } else {
+      result = { errorCode: errorCode.ERROR_USER_NOTEXISTED, errorMsg: errorMsg.ERROR_USER_NOTEXISTED }
+      logUtil.logInfoMsg('server: dal/user/update', 'the user is not exited')
     }
   }
 
@@ -201,6 +226,14 @@ async function deleteOne (phoneNumber) {
   return result
 }
 
+/**
+ * Gets the users is onlined.
+ */
+async function queryOnlineUsers () {
+  let users = null
+  users = await UserInfo.find({isOnline: true})
+  return users
+}
 // #region User Group Statistics.
 async function groupBySex () {
   const data = await UserInfo.aggregate([ {$group: {'_id': {'sex': '$sex'}, 'number': {$sum: 1}}}, { $project: { '_id': 0, 'sex': '$_id.sex', 'number': 1 } } ])
@@ -228,11 +261,13 @@ async function groupByAge () {
 // #endregion
 
 exports.login = login
+exports.offLine = offLine
 exports.register = register
 exports.queryAll = queryAll
 exports.deleteOne = deleteOne
 exports.updateInfo = updateInfo
 exports.queryTotalCount = queryTotalCount
+exports.queryOnlineUsers = queryOnlineUsers
 exports.queryUserInfoById = queryUserInfoById
 exports.queryUserCertainFieldsById = queryUserCertainFieldsById
 exports.searchUsersByKeyword = searchUsersByKeyword

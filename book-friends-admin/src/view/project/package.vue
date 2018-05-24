@@ -397,7 +397,21 @@ export default {
     },
 
     download() {
-      console.log('download----')
+      // console.log('download----')
+      // this.downloadLoading = true
+      // require.ensure([], () => {
+      // const { export_json_to_excel } = require('../../global/Export2Excel')
+      //   const tHeader = ['ISBN', '书名', '作者']
+      //   const filterVal = ['isbn', 'title', 'author']
+      //   const list = this.tableData
+      //   const data = this.formatJson(filterVal, list)
+      //   export_json_to_excel(tHeader, data, '列表excel')
+      //   this.downloadLoading = false
+      // })
+    },
+
+    formatJson(filterVal, jsonData) {
+        return jsonData.map(v => filterVal.map(j => v[j]))
     },
 
     handleCreate () {

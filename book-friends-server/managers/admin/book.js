@@ -79,6 +79,7 @@ async function deleteBooks (isbns) {
   return result
 }
 
+// Gets Top books by visitCount.
 async function queryTopByVisitCount () {
   const funcName = 'server: managers/admin/book/queryTopByVisitCount'
   let result = null

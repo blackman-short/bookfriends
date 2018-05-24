@@ -3,7 +3,7 @@ const logUtil = require('../../utils/logUtil')
 const errorMsg = require('../../error/errorMsg')
 const errorCode = require('../../error/errorCode')
 const bookManager = require('../../managers/admin/book')
-
+const userBookManager = require('../../managers/userBookManager')
 /**
  * Querys all books
  * @param {*} req
@@ -154,7 +154,41 @@ async function getTop3ByVisitCount (req, res, next) {
   return res.status(200).send(responseResult)
 }
 
+/**
+ * Groups user books by tags.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function groupUserBooksByTags (req, res, next) {
+  const functionName = 'server: controllers/admin/book/groupUserBooksByTags'
+  // logs request info.
+  logUtil.logDebugMsg(functionName, JSON.stringify(req.query))
+  let responseResult = { errorCode: errorCode.SUCCESS }
+
+  try {
+    responseResult = await userBookManager.groupUserBooks()
+  } catch (error) {
+    responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+    logUtil.logErrorMsg(functionName, responseResult.errorMsg)
+  }
+
+  return res.status(200).send(responseResult)
+}
+
+/**
+ * Groups user books by user.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function groupUserBooksByUser (req, res, next) {
+
+}
+
 exports.update = update
 exports.queryAll = queryAll
 exports.deleteBooks = deleteBooks
 exports.getTop3ByVisitCount = getTop3ByVisitCount
+exports.groupUserBooksByUser = groupUserBooksByUser
+exports.groupUserBooksByTags = groupUserBooksByTags

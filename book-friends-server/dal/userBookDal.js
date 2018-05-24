@@ -79,7 +79,19 @@ async function getUserBookByUserIdAndISBN (userId, isbn) {
   return data
 }
 
+/**
+ * Querys all infos.
+ */
+async function queryAll () {
+  let infos = null
+
+  infos = await UserBookInfo.find({}, '-_id isbn userId tags')
+
+  return infos
+}
+
 exports.unstore = unstore
+exports.queryAll = queryAll
 exports.storeUpBook = storeUpBook
 exports.queryUserBookInfoByUserId = queryUserBookInfoByUserId
 exports.getUserBookByUserIdAndISBN = getUserBookByUserIdAndISBN

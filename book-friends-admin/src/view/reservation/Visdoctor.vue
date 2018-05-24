@@ -42,7 +42,7 @@ export default {
       legend: {
           orient : 'vertical',
           x : 'left',
-          data:['普通用户','VIP用户','游客']
+          data:['普通用户','VIP用户','月租用户', '年租用户']
       },
       toolbox: {
           show : true,
@@ -75,7 +75,8 @@ export default {
               data:[
                   {value:600, name:'普通用户'},
                   {value:100, name:'VIP用户'},
-                  {value:300, name:'游客'}
+                  {value:300, name:'月租用户'},
+                  {value:10, name:'年租用户'}
               ]
           }
       ]

@@ -269,7 +269,7 @@ export default {
               bookName: b.title,
               readCount: b.visitCount + ' 次',
               rating: b.rating,
-              riseCount: b.lastestRanking - b.previousRanking
+              riseCount: b.previousRanking - b.lastestRanking
             })
           })
 

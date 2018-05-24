@@ -178,6 +178,78 @@ async function unstore (userId, isbn) {
   return result
 }
 
+async function groupUserBooks () {
+  const funcName = 'server: managers/userbook/groupUserBooks'
+  let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
+  let loadResult = null
+  try {
+    loadResult = await userBookDal.queryAll()
+  } catch (error) {
+    result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+    logUtil.logDebugMsg(funcName, result.errorMsg)
+    return result
+  }
+
+  let books = []
+  if (loadResult) {
+    const isbns = filterUserBookISBN(loadResult)
+    if (isbns && isbns.length > 0) {
+      try {
+        books = await bookDal.groupByTag(isbns)
+      } catch (error) {
+        result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+        logUtil.logDebugMsg(funcName, result.errorMsg)
+        return result
+      }
+    } else {
+      result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + 'user books is empty' }
+      return result
+    }
+  }
+
+  if (books.length > 0) {
+    const data = convertBookByTag(books)
+    if (data) {
+      result = { errorCode: errorCode.SUCCESS, data: data }
+    }
+  }
+
+  return result
+}
+
+function convertBookByTag (books) {
+  let result = null
+  let labels = []
+  let values = []
+  if (books && books.length > 0) {
+    books.forEach(b => {
+      const tags = b.tags
+      for (let i = 0; i < 3; i++) {
+        const index = labels.indexOf(tags[i])
+        // 不含有
+        if (index < 0) {
+          labels.push(tags[i])
+          values.push({
+            value: 1,
+            name: tags[i]
+          })
+        // 含有
+        } else {
+          values[index].value += 1
+        }
+      }
+    })
+
+    // gets the result.
+    result = {
+      labels: labels,
+      values: values
+    }
+  }
+  return result
+}
+
 /**
  * Filters and gets the isbns of the user's books.
  * @param {*Array} userBookInfos
@@ -200,3 +272,4 @@ function filterUserBookISBN (userBookInfos) {
 exports.unstore = unstore
 exports.storeUpBook = storeUpBook
 exports.getUserBooks = getUserBooks
+exports.groupUserBooks = groupUserBooks

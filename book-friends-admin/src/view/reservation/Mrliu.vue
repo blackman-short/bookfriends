@@ -18,9 +18,9 @@
             <router-link to="/home/infochart/book/visits" style="text-decoration:none;color:#48576a;">
               <el-menu-item index="2">图书访问量</el-menu-item>
             </router-link>
-              <!-- <el-menu-item index="3">李医生</el-menu-item>
-              <el-menu-item index="4">张医生</el-menu-item>
-              <el-menu-item index="5">王医生</el-menu-item> -->
+              <!-- <el-menu-item index="3"></el-menu-item>
+              <el-menu-item index="4"></el-menu-item>
+              <el-menu-item index="5"></el-menu-item> -->
           </el-menu>
 
       </div>

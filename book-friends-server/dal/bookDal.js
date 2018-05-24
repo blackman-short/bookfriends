@@ -255,9 +255,16 @@ async function queryTopByVisitCount () {
   return books
 }
 
+async function groupByTag (isbns) {
+  let data = null
+  data = await BookInfo.find({'isbn': {'$in': isbns}}, '-_id tags')
+  return data
+}
+
 // #endregion
 
 // For admins.
+exports.groupByTag = groupByTag
 exports.queryAll = queryAll
 exports.saveBook = saveBook
 exports.updateBook = updateBook

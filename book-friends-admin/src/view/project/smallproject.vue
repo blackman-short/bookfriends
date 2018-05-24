@@ -25,7 +25,7 @@
     </el-form>
 
     <div class="content">
-      <el-table  :data="tableData"  style="width: 100%" stripe>
+      <el-table  :data="tableData"  style="width: 100%" stripe max-height="400" row-key="isbn">
         <el-table-column  label="序号"  width="100">
         <template slot-scope="scope">
           {{scope.$index + 1}}

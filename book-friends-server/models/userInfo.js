@@ -19,7 +19,8 @@ const userInfoSchema = mongoose.Schema({
   isActive: { type: Boolean, default: true },
   createTime: { type: String, default: tools.getCurrentTime() }, // 创建时间
   updateTime: { type: String, default: tools.getCurrentTime() }, // 更新时间
-  lastLoginTime: { type: String, default: tools.getCurrentTime() } // 最近一次登录时间
+  lastLoginTime: { type: String, default: tools.getCurrentTime() }, // 最近一次登录时间
+  isOnline: { type: Boolean, default: false } // 是否在线
 })
 
 mongoose.model('user', userInfoSchema)

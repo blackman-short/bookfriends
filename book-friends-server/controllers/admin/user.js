@@ -141,7 +141,30 @@ async function getCityChart (req, res, next) {
   return res.status(200).send(responseResult)
 }
 
+/**
+ * Gets users is onlined.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function queryOnlineUsers (req, res, next) {
+  const functionName = 'server: controllers/admin/user/queryOnlineUsers'
+  // logs request info.
+  logUtil.logDebugMsg(functionName, JSON.stringify(req.query))
+  let responseResult = { errorCode: errorCode.SUCCESS }
+
+  try {
+    responseResult = await userManager.queryOnlineUsers()
+  } catch (error) {
+    responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
+    logUtil.logErrorMsg(functionName, responseResult.errorMsg)
+  }
+
+  return res.status(200).send(responseResult)
+}
+
 exports.queryAll = queryAll
 exports.delete = deleteUser
 exports.getCityChart = getCityChart
 exports.getChartGroup = getChartGroup
+exports.queryOnlineUsers = queryOnlineUsers
