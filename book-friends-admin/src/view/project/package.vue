@@ -188,6 +188,7 @@
 </template>
 <script >
 const API = require('../../services/getData').default
+const exportJson2Excel = require('../../global/Export2Excel').export_json_to_excel
 export default {
   name: 'package',
   data () {
@@ -397,10 +398,9 @@ export default {
     },
 
     download() {
-      // console.log('download----')
-      // this.downloadLoading = true
+      console.log('download----')
+      this.downloadLoading = true
       // require.ensure([], () => {
-      // const { export_json_to_excel } = require('../../global/Export2Excel')
       //   const tHeader = ['ISBN', '书名', '作者']
       //   const filterVal = ['isbn', 'title', 'author']
       //   const list = this.tableData
@@ -408,6 +408,14 @@ export default {
       //   export_json_to_excel(tHeader, data, '列表excel')
       //   this.downloadLoading = false
       // })
+
+        const tHeader = ['ISBN', '书名', '作者']
+        const filterVal = ['isbn', 'title', 'author']
+        const list = this.tableData
+        const data = this.formatJson(filterVal, list)
+        exportJson2Excel(tHeader, data, '列表excel')
+        this.downloadLoading = false
+
     },
 
     formatJson(filterVal, jsonData) {

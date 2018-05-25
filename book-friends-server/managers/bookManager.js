@@ -7,6 +7,7 @@ const errorCode = require('../error/errorCode')
 const userBookDal = require('../dal/userBookDal')
 const mockConfig = require('../config/mockConfig')
 const proxyConfig = require('../config/proxyConfig')
+const visitRecordDal = require('../dal/visitRecordDal')
 const commonRequest = require('../common/common_request')
 
 // #region practice
@@ -210,7 +211,7 @@ async function queryBookInfoByISBN (isbn, userId) {
 
   if (loadResult && loadResult.length === 2) {
     // async to updates visit count, then rank the books again.
-    await bookDal.addVisitCount(isbn)
+    await Promise.all([bookDal.addVisitCount(isbn), visitRecordDal.updateVisitRecord(userId, isbn)]).then()
     bookDal.rankBook()
     result = { errorCode: errorCode.SUCCESS, data: loadResult[0], hasStored: false }
     if (loadResult[1]) {

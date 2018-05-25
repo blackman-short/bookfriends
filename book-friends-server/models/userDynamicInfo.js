@@ -14,4 +14,4 @@ const userDynamicSchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true }
 })
 
-mongoose.model('userDynamic', userDynamicSchema)
+mongoose.model('userdynamic', userDynamicSchema)

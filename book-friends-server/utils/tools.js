@@ -52,12 +52,18 @@ function isValidDate (dateString) {
 }
 
 /**
- * Gets current time.
+ * Gets current time. yyyy-MM-dd HH:mm:ss
  */
 function getCurrentTime () {
   return moment().format('YYYY-MM-DD HH:mm:ss').toString()
 }
 
+/**
+ * Gets current date. yyyy-MM-dd
+ */
+function getCurrentDate () {
+  return moment().format('YYYY-MM-DD').toString()
+}
 /**
  * Encrypts the parameter.
  * @param {*String} param
@@ -86,6 +92,7 @@ function hMd5Decrypt (param) {
 exports.isEmail = isEmail
 exports.isPhoneNumber = isPhoneNumber
 exports.isValidDate = isValidDate
+exports.getCurrentDate = getCurrentDate
 exports.getCurrentTime = getCurrentTime
 exports.encrypt = hMd5Encrypt
 exports.decrypt = hMd5Decrypt

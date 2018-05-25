@@ -81,6 +81,10 @@ const API = {
     const response = await get(reqUrl.chartCity(), getData)
     return response
   },
+  getAllDynamics: async function () {
+    const response = await get(reqUrl.getUserDynamics(), null)
+    return response
+  },
   // #endregion
 
   // #region Book operations
@@ -107,6 +111,10 @@ const API = {
   },
   getTop3: async function () {
     const response = await get(reqUrl.getTop3(), null)
+    return response
+  },
+  getWeekVisit: async function () {
+    const response = await get(reqUrl.getWeekVisit(), null)
     return response
   }
   // #endregion

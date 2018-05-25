@@ -57,4 +57,21 @@ function bookConvertor(books) {
   return newBooks
 }
 
+function dynamicConvertor (dynamicInfos) {
+  let newDynamics = []
+  if (dynamicInfos && dynamicInfos.length > 0) {
+    dynamicInfos.forEach(d => {
+      newDynamics.push({
+        headIcon: d.userInfo.headIcon,
+        userName: d.userInfo.nickName,
+        bookName: d.bookInfo.title,
+        createTime: d.createTime
+      })
+    })
+  }
+
+  return newDynamics
+}
+
+exports.dynamicConvertor = dynamicConvertor
 exports.userConvertor = userConvertor

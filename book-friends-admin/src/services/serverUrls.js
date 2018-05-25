@@ -32,6 +32,9 @@ module.exports = {
   chartCity: function () {
     return this.baseUrl + '/admin/user/citychart'
   },
+  getUserDynamics: function () {
+    return this.baseUrl + '/dynamic/infos'
+  },
   // #endregion
 
   // #region Book operations
@@ -46,6 +49,9 @@ module.exports = {
   },
   getTop3: function () {
     return this.baseUrl + '/admin/book/top'
+  },
+  getWeekVisit: function () {
+    return this.baseUrl + '/admin/book/weekvisits'
   }
   // #endregion
 }

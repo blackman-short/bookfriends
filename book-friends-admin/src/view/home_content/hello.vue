@@ -177,6 +177,7 @@ import echarts from 'echarts'
 import store from '../../store'
 import {api} from '../../global/api'
 const API = require('../../services/getData').default
+const dynamicConvertor = require('../../global/objectConvert').dynamicConvertor
 const resultCode = require('../../global/resultCode').default
 export default {
   data () {
@@ -184,48 +185,7 @@ export default {
       newAddedBooks: [], // 新增的图书列表
       tableData: [], // 阅读Top榜
       dynamicData: [], //用户最新动态
-      chart: null,
-      dataArrange: store.state.weeks_content
-    }
-  },
-  mounted: async function () {
-    this.$http.get(api.testData).then(function (response) {
-      // this.tableData = response.data.top
-      this.newAddedBooks = response.data.newAdded
-    })
-
-    this.initChart()
-    await this.initTableData()
-  },
-
-  // 图表部分
-  // props接收父组件的数据
-  props: {
-    // 设置图表的宽度
-    width: {
-      type: String,
-      default: '500px'
-    },
-    // 设置图表的高度
-    height: {
-      type: String,
-      default: '500px'
-    }
-  },
-  beforeDestroy () {
-    if (!this.chart) {
-      return
-    }
-    this.chart.dispose()
-    this.chart = null
-  },
-  methods: {
-    initChart () {
-      // 对图表进行初始化
-      this.chart = echarts.init(this.$refs.myEchart)
-
-      // 把配置和数据放这里
-      this.chart.setOption({
+      visitOption: {
         color: ['#3398DB'],
         tooltip: {
           trigger: 'axis',
@@ -256,7 +216,53 @@ export default {
           barWidth: '60%',
           data: [50, 32, 100, 300, 190, 58, 350]
         }]
-      })
+      },
+      chart: null,
+      dataArrange: store.state.weeks_content
+    }
+  },
+  mounted: async function () {
+    this.$http.get(api.testData).then(function (response) {
+      // this.tableData = response.data.top
+      this.newAddedBooks = response.data.newAdded
+    })
+
+    this.initChart() // 初始化图表。
+    this.initTableData() // 初始化Top榜信息。
+    this.initDynamicInfos() // 初始化最新用户动态信息。
+  },
+
+  // 图表部分
+  // props接收父组件的数据
+  props: {
+    // 设置图表的宽度
+    width: {
+      type: String,
+      default: '500px'
+    },
+    // 设置图表的高度
+    height: {
+      type: String,
+      default: '500px'
+    }
+  },
+  beforeDestroy () {
+    if (!this.chart) {
+      return
+    }
+    this.chart.dispose()
+    this.chart = null
+  },
+  methods: {
+    async initChart () {
+      // Gets chart data.
+      await initVisitRecord()
+
+      // 对图表进行初始化
+      this.chart = echarts.init(this.$refs.myEchart)
+
+      // 把配置和数据放这里
+      this.chart.setOption(this.visitOption)
     },
     initTableData: async function () {
       const response = await API.getTop3()
@@ -275,6 +281,25 @@ export default {
 
           this.tableData = resetData
         }
+      }
+    },
+    initDynamicInfos: async function () {
+      const response = await API.getAllDynamics()
+      if (response.errorCode === errorCode.SUCCESS) {
+        // Converts the UI data.
+        const dynamics = dynamicConvertor(response.data)
+        if (dynamics) {
+          this.dynamicData = dynamics
+        }
+      }
+    },
+    initVisitRecord: async function () {
+      const response = await API.getWeekVisit()
+      if (response.errorCode === errorCode.SUCCESS) {
+        this.visitOption.xAxis.data = []
+        this.visitOption.series.data = []
+      } else {
+        // reload data.
       }
     }
   }

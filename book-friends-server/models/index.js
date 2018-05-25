@@ -12,6 +12,7 @@ require('./feedBackInfo')
 require('./bookStoreInfo')
 require('./userFriendInfo')
 require('./userDynamicInfo')
+require('./visitRecord')
 
 exports.BookInfo = mongoose.model('book')
 exports.UserInfo = mongoose.model('user')
@@ -21,7 +22,8 @@ exports.UserBookInfo = mongoose.model('userbook')
 exports.FeedBackInfo = mongoose.model('feedback')
 exports.BookStoreInfo = mongoose.model('bookstore')
 exports.UserFriendInfo = mongoose.model('userfriend')
-exports.UserDynamicInfo = mongoose.model('userDynamic')
+exports.UserDynamicInfo = mongoose.model('userdynamic')
+exports.VisitRecordInfo = mongoose.model('visitrecord')
 
 // Connecting the mongoDB.
 mongoose.Promise = global.Promise
