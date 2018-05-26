@@ -6,8 +6,8 @@ const userFriendDal = require('../dal/userFriendsDal')
 
 /**
  * User adds friend.
- * @param {*String} userId
- * @param {*String} friendId
+ * @param {String} userId
+ * @param {String} friendId
  */
 async function addFriends (userId, friendId) {
   const funcName = 'server: managers/userfriends/addFriends'
@@ -36,8 +36,8 @@ async function addFriends (userId, friendId) {
 
 /**
  * User deletes friend.
- * @param {*String} userId
- * @param {*String} friendId
+ * @param {String} userId
+ * @param {String} friendId
  */
 async function deleteFriend (userId, friendId) {
   const funcName = 'server: managers/userfriends/deleteFriend'
@@ -66,7 +66,7 @@ async function deleteFriend (userId, friendId) {
 
 /**
  * Querys the certain user's friends info.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function queryFriendsInfo (userId) {
   const funcName = 'server: managers/userfriends/queryFriendsInfo'
@@ -109,7 +109,7 @@ async function queryFriendsInfo (userId) {
 /**
  *
  * Querys the user's fans.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function queryFansInfo (userId) {
   const funcName = 'server: managers/userfriends/queryFansInfo'
@@ -151,8 +151,8 @@ async function queryFansInfo (userId) {
 
 /**
  * Gets the relationship between the user and friend.
- * @param {*String} userId
- * @param {*String} friendId
+ * @param {String} userId
+ * @param {String} friendId
  */
 async function getRelationBetweenUsers (userId, friendId) {
   const funcName = 'server: managers/userfriends/getRelationBetweenUsers'

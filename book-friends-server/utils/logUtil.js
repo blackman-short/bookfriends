@@ -6,7 +6,7 @@ const moment = require('moment')
 
 /**
  * Logs error message.
- * @param {*String} errorMsg
+ * @param {String} errorMsg
  */
 function logErrorMsg (functionName, errorMsg) {
   const data = moment.now()
@@ -21,7 +21,7 @@ function logErrorMsg (functionName, errorMsg) {
 
 /**
  * Logs warning message.
- * @param {*String} warningMsg
+ * @param {String} warningMsg
  */
 function logWarningMsg (functionName, warningMsg) {
   const data = moment.now()
@@ -36,7 +36,7 @@ function logWarningMsg (functionName, warningMsg) {
 
 /**
  * Logs debug message.
- * @param {*String} debugMsg
+ * @param {String} debugMsg
  */
 function logDebugMsg (functionName, debugMsg) {
   const data = moment.now()
@@ -51,8 +51,8 @@ function logDebugMsg (functionName, debugMsg) {
 
 /**
  * Logs info message.
- * @param {*String} functionName
- * @param {*String} infoMsg
+ * @param {String} functionName
+ * @param {String} infoMsg
  */
 function logInfoMsg (functionName, infoMsg) {
   const data = moment.now()

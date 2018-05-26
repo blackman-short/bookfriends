@@ -50,7 +50,7 @@ app.listen(3002, function () {
 
 /**
  * 确定目录是否存在, 如果不存在则创建目录.
- * @param {*String} pathStr
+ * @param {String} pathStr
  */
 var confirmPath = function (pathStr) {
   if (!fs.existsSync(pathStr)) {

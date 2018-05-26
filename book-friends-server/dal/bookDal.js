@@ -51,8 +51,8 @@ async function addVisitCountForBook () {
 
 /**
  * Querys new books.
- * @param {*Number} pageIndex
- * @param {*String} keyWord
+ * @param {Number} pageIndex
+ * @param {String} keyWord
  */
 async function queryNewBooks (pageIndex, keyWord) {
   let data = null
@@ -69,7 +69,7 @@ async function queryNewBooks (pageIndex, keyWord) {
 
 /**
  * Gets the new books' total count.
- * @param {*String} keyWord
+ * @param {String} keyWord
  */
 async function getNewBooksTotalCount (keyWord) {
   let count = 0
@@ -82,8 +82,8 @@ async function getNewBooksTotalCount (keyWord) {
 
 /**
  * Querys hot books.
- * @param {*Number} pageIndex
- * @param {*String} keyWord
+ * @param {Number} pageIndex
+ * @param {String} keyWord
  */
 async function queryHotBooks (pageIndex, keyWord) {
   let data = null
@@ -100,7 +100,7 @@ async function queryHotBooks (pageIndex, keyWord) {
 
 /**
  * Gets the hot books' total count.
- * @param {*String} keyWord
+ * @param {String} keyWord
  */
 async function getHotBooksTotalCount (keyWord) {
   let count = 0
@@ -113,8 +113,8 @@ async function getHotBooksTotalCount (keyWord) {
 
 /**
  * Querys recommened books.
- * @param {*Number} pageIndex
- * @param {*String} keyWord
+ * @param {Number} pageIndex
+ * @param {String} keyWord
  */
 async function queryRecommendBooks (pageIndex, flags) {
   let data = null
@@ -130,7 +130,7 @@ async function queryRecommendBooks (pageIndex, flags) {
 
 /**
  * Querys books from TOP 250.
- * @param {*Number} pageIndex
+ * @param {Number} pageIndex
  */
 async function queryTopBooks (pageIndex) {
   let data = null
@@ -145,7 +145,7 @@ async function queryTopBooks (pageIndex) {
 
 /**
  * Querys book by isbn.
- * @param {*String} isbn
+ * @param {String} isbn
  */
 async function queryBookByISBN (isbn) {
   let book = null
@@ -170,7 +170,7 @@ async function addVisitCount (isbn) {
 
 /**
  * Querys the certain fields by isbn.
- * @param {*String} isbn
+ * @param {String} isbn
  */
 async function queryCertainFieldsByISBN (isbn) {
   let book = null
@@ -209,7 +209,7 @@ async function queryAll (pageIndex, pageSize) {
 
 /**
  *
- * @param {*Array} isbns
+ * @param {Array} isbns
  */
 async function deleteBooks (isbns) {
   let result = null
@@ -223,7 +223,7 @@ async function deleteBooks (isbns) {
 
 /**
  * Updates one book
- * @param {*JSON} bookParams
+ * @param {JSON} bookParams
  */
 async function updateBook (bookParams) {
   let result = null

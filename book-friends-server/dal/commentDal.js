@@ -5,8 +5,8 @@ const PAGE_SIZE = require('../config/systemConfig').pageSize
 
 /**
  * Adds comment of one dynamic.
- * @param {*String} dynamicId
- * @param {*JSON} comment
+ * @param {String} dynamicId
+ * @param {JSON} comment
  */
 async function addComment (dynamicId, comment) {
   let data = null
@@ -29,7 +29,7 @@ async function addComment (dynamicId, comment) {
 
 /**
  * Querys one dynamic's comments by dynamicId.
- * @param {*String} dynamicId
+ * @param {String} dynamicId
  */
 async function queryCommentsByDynamicId (dynamicId, pageIndex) {
   let data = null
@@ -44,7 +44,7 @@ async function queryCommentsByDynamicId (dynamicId, pageIndex) {
 
 /**
  * Querys comment's total count of one certain dynamic.
- * @param {*String} dynamicId
+ * @param {String} dynamicId
  */
 async function queryCommentCountByDynamicId (dynamicId) {
   let data = 0
@@ -58,7 +58,7 @@ async function queryCommentCountByDynamicId (dynamicId) {
 
 /**
  * Likes one comment.
- * @param {*String} commentId
+ * @param {String} commentId
  */
 async function likeComment (commentId) {
   let data = null
@@ -75,7 +75,7 @@ async function likeComment (commentId) {
 
 /**
  * Querys one comment info by ID.
- * @param {*String} commentId
+ * @param {String} commentId
  */
 async function queryCommentById (commentId) {
   let commentInfo = null

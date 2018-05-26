@@ -7,10 +7,19 @@ const visitRecordDal = require('../../dal/visitRecordDal')
 async function getVisitCountByDate () {
   const funcName = 'server: managers/visitRecord/getVisitCountByDate'
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+
   const currentDateStr = tool.getCurrentDate()
   const currentDate = new Date(currentDateStr)
-  const day = currentDate.getDate()
-  let beginDate = new Date(currentDate.setDate(day - 7))
+  const year = currentDate.getFullYear()
+  let month = currentDate.getMonth() + 1
+  let day = currentDate.getDate() - 6
+  if (day <= 0) {
+    day = tool.getDaysOfMonth(year, month) - 6
+    month = currentDate.getMonth()
+  }
+
+  let beginDate = year + '-' + month + '-' + day
+
   beginDate = beginDate.getFullYear() + '-' + (beginDate.getMonth + 1) + '-' + beginDate.getDate()
 
   try {

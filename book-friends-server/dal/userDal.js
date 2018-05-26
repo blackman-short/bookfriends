@@ -7,8 +7,8 @@ const PAGE_SIZE = require('../config/systemConfig').pageSize
 
 /**
  * Registers a new account.
- * @param {*String} phoneNumber
- * @param {*String} password
+ * @param {String} phoneNumber
+ * @param {String} password
  */
 async function register (phoneNumber, password, nickName) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
@@ -40,8 +40,8 @@ async function register (phoneNumber, password, nickName) {
 
 /**
  * Login.
- * @param {*String} phoneNumber
- * @param {*String} password
+ * @param {String} phoneNumber
+ * @param {String} password
  */
 async function login (phoneNumber, password) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
@@ -74,7 +74,7 @@ async function login (phoneNumber, password) {
 
 /**
  * User exits current system.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function offLine (userId) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
@@ -99,7 +99,7 @@ async function offLine (userId) {
 
 /**
  * Updates user's personnal information.
- * @param {*Object} userInfo
+ * @param {Object} userInfo
  */
 async function updateInfo (userInfo) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
@@ -135,7 +135,7 @@ async function updateInfo (userInfo) {
 
 /**
  * Querys user info according to user ID.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function queryUserInfoById (userId) {
   let data = null
@@ -149,7 +149,7 @@ async function queryUserInfoById (userId) {
 
 /**
  * Querys user's ceratin fields by userId.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function queryUserCertainFieldsById (userId) {
   let data = null
@@ -163,8 +163,8 @@ async function queryUserCertainFieldsById (userId) {
 
 /**
  * Searched users by keyword.
- * @param {*String} keyWord
- * @param {*Number} pageIndex
+ * @param {String} keyWord
+ * @param {Number} pageIndex
  */
 async function searchUsersByKeyword (keyWord, pageIndex) {
   let users = null
@@ -205,7 +205,7 @@ async function queryTotalCount () {
 
 /**
  * Deletes one user by id.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function deleteOne (phoneNumber) {
   let result = null
@@ -256,7 +256,23 @@ async function groupByEducation () {
 }
 
 async function groupByAge () {
-
+  let data = null
+  const currentDate = new Date(tools.getCurrentDate())
+  let month = (currentDate.getMonth() + 1) < 10 ? `0${currentDate.getMonth() + 1}` : currentDate.getMonth() + 1
+  let begin20 = currentDate.getFullYear() - 19 + '-' + month + '-' + currentDate.getDate()
+  let begin40 = currentDate.getFullYear() - 39 + '-' + month + '-' + currentDate.getDate()
+  let begin60 = currentDate.getFullYear() - 59 + '-' + month + '-' + currentDate.getDate()
+  const data20 = await UserInfo.find({birthday: { $gte: begin20, $lte: currentDate }})
+  const data40 = await UserInfo.find({birthday: { $gte: begin40, $lte: begin20 }})
+  const data60 = await UserInfo.find({birthday: { $gte: begin60, $lte: begin40 }})
+  const dataGt60 = await UserInfo.find({birthday: { $lte: begin60 }})
+  data = {
+    '1 ~ 20': data20.length,
+    '21 ~ 40': data40.length,
+    '41 ~ 60': data60.length,
+    '60 ~ ': dataGt60.length
+  }
+  return data
 }
 
 async function groupByEducationOfIds (userIds) {
@@ -268,13 +284,22 @@ async function groupByEducationOfIds (userIds) {
 }
 
 async function groupByAgeOfIds (userIds) {
-  console.log(new Date().getFullYear() - new Date('1995-12-19').getFullYear())
-  // const currentYear = new Date().getFullYear()
-  const data = await UserInfo.aggregate([
-    {$match: {'id': {'$in': userIds}}},
-    // {$group: {'_id': {'age': {'$subtract': [currentYear, new Date('$birthday').getFullYear()]}}, 'number': {$sum: 1}}},
-    {$group: {'_id': {'age': '$birthday'}, 'number': {$sum: 1}}},
-    {$project: { '_id': 0, 'age': '$_id.age', 'number': 1 }}])
+  let data = null
+  const currentDate = new Date(tools.getCurrentDate())
+  let month = (currentDate.getMonth() + 1) < 10 ? `0${currentDate.getMonth() + 1}` : currentDate.getMonth() + 1
+  let begin20 = currentDate.getFullYear() - 19 + '-' + month + '-' + currentDate.getDate()
+  let begin40 = currentDate.getFullYear() - 39 + '-' + month + '-' + currentDate.getDate()
+  let begin60 = currentDate.getFullYear() - 59 + '-' + month + '-' + currentDate.getDate()
+  const data20 = await UserInfo.find({id: {'$in': userIds}, birthday: { $gte: begin20, $lte: currentDate }})
+  const data40 = await UserInfo.find({id: {'$in': userIds}, birthday: { $gte: begin40, $lte: begin20 }})
+  const data60 = await UserInfo.find({id: {'$in': userIds}, birthday: { $gte: begin60, $lte: begin40 }})
+  const dataGt60 = await UserInfo.find({id: {'$in': userIds}, birthday: { $lte: begin60 }})
+  data = {
+    '1 ~ 20': data20.length,
+    '21 ~ 40': data40.length,
+    '41 ~ 60': data60.length,
+    '60 ~ ': dataGt60.length
+  }
   return data
 }
 // #endregion

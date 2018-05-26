@@ -5,8 +5,8 @@ const UserFriendInfo = require('../models').UserFriendInfo
 
 /**
  * User adds one friend.
- * @param {*String} userId
- * @param {*String} friendId
+ * @param {String} userId
+ * @param {String} friendId
  */
 async function addFriend (userId, friendId) {
   const funcName = 'server: dals/userFriends/addFriend'
@@ -44,8 +44,8 @@ async function addFriend (userId, friendId) {
 
 /**
  * User removes one friend.
- * @param {*String} userId
- * @param {*String} friendId
+ * @param {String} userId
+ * @param {String} friendId
  */
 async function deleteFriend (userId, friendId) {
   const funcName = 'server: dals/userFriends/addFriend'
@@ -70,7 +70,7 @@ async function deleteFriend (userId, friendId) {
 
 /**
  * Querys the certain user's all friends' ID.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function queryFriendIdsByUserId (userId) {
   let ids = []
@@ -91,7 +91,7 @@ async function queryFriendIdsByUserId (userId) {
 
 /**
  * Querys the users' id follows the certain user.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function queryFanIdsByUserId (userId) {
   let ids = []
@@ -112,8 +112,8 @@ async function queryFanIdsByUserId (userId) {
 
 /**
  * Validates the another user is the user's friend.
- * @param {*String} userId
- * @param {*String} friendId
+ * @param {String} userId
+ * @param {String} friendId
  */
 async function isFriend (userId, friendId) {
   let isFriend = false
@@ -128,8 +128,8 @@ async function isFriend (userId, friendId) {
 
 /**
  * Validates the another user is the user's fans.
- * @param {*String} userId
- * @param {*String} friendId
+ * @param {String} userId
+ * @param {String} friendId
  */
 async function isFans (userId, friendId) {
   let isFans = false

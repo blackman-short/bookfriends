@@ -10,7 +10,7 @@ module.exports = {
   },
   /**
    * Converts douBook to local book.
-   * @param {*Object} douBook
+   * @param {Object} douBook
    */
   bookConvertor (data) {
     let mapBook = null
@@ -38,7 +38,7 @@ module.exports = {
 
   /**
    * Converts Array<JSON> to Array<String>
-   * @param {*JSONArray} tags
+   * @param {JSONArray} tags
    */
   tagsConvertor (tags) {
     let mapTags = []

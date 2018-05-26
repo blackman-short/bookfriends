@@ -10,8 +10,8 @@ const userDynamicDal = require('../dal/userDynamicDal')
 
 /**
  * Adds one new dynamic.
- * @param {*String} userId
- * @param {*String} content
+ * @param {String} userId
+ * @param {String} content
  */
 async function addDynamicInfo (userId, content, isbn) {
   const funcName = 'server: managers/dynamic/addDynamicInfo'
@@ -59,7 +59,7 @@ async function addDynamicInfo (userId, content, isbn) {
 
 /**
  * Likes the certain dynamic.
- * @param {*String} dynamicId
+ * @param {String} dynamicId
  */
 async function updateDynamicLikeCount (dynamicId) {
   const funcName = 'server: managers/dynamic/updateDynamicLikeCount'
@@ -90,7 +90,7 @@ async function updateDynamicLikeCount (dynamicId) {
 
 /**
  * Querys the certain user's dynamics.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function queryDynamicInfosByUserId (userId, pageIndex) {
   const funcName = 'server: managers/dynamic/queryDynamicInfosByUserId'
@@ -138,7 +138,7 @@ async function queryDynamicInfosByUserId (userId, pageIndex) {
 
 /**
  * Querys the certain dynamic's info.
- * @param {*String} dynamicId
+ * @param {String} dynamicId
  */
 async function queryDynamicInfoById (dynamicId) {
   let dynamicInfo = null
@@ -223,8 +223,8 @@ async function queryAllDynamics (pageIndex) {
 
 /**
  * Querys friends' dynamics.
- * @param {*String} userId
- * @param {*String} pageIndex
+ * @param {String} userId
+ * @param {String} pageIndex
  */
 async function queryFriendDynamics (userId, pageIndex) {
   const funcName = 'server: managers/dynamic/queryFriendDynamics'
@@ -277,7 +277,7 @@ async function queryFriendDynamics (userId, pageIndex) {
 
 /**
  * Querys one certain book's comment.
- * @param {*String} isbn
+ * @param {String} isbn
  */
 async function queryDynamicsByISBN (isbn) {
   const funcName = 'server: managers/dynamic/queryDynamicsByISBN'
@@ -305,8 +305,55 @@ async function queryDynamicsByISBN (isbn) {
   return result
 }
 
+/**
+ * Querys today's dynamics.
+ */
+async function queryTodayDynamics () {
+  const funcName = 'server: managers/dynamic/queryTodayDynamics'
+  let result = { errroCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
+  let dynamicInfos = []
+
+  try {
+    const data = await userDynamicDal.queryTodayDynamics()
+    if (data && data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        let dynamic = {
+          createTime: data[i].createTime
+        }
+        const userId = data[i].userId
+        const isbn = data[i].isbn
+        // Gets the user's info.
+        if (userId) {
+          const user = await userDal.queryUserInfoById(userId)
+          if (user) {
+            dynamic.userName = user.nickName
+          }
+        }
+
+        // Gets the book's info.
+        if (isbn) {
+          const book = await bookDal.queryBookByISBN(isbn)
+          if (book) {
+            dynamic.bookName = book.title
+          }
+        }
+
+        dynamicInfos.push(dynamic)
+      }
+    }
+  } catch (error) {
+    result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
+    logUtil.logErrorMsg(funcName, result.errorMsg)
+  }
+
+  result = { errorCode: errorCode.SUCCESS, data: dynamicInfos }
+
+  return result
+}
+
 exports.addDynamicInfo = addDynamicInfo
 exports.queryAllDynamics = queryAllDynamics
+exports.queryTodayDynamics = queryTodayDynamics
 exports.queryDynamicsByISBN = queryDynamicsByISBN
 exports.queryFriendDynamics = queryFriendDynamics
 exports.updateDynamicLikeCount = updateDynamicLikeCount

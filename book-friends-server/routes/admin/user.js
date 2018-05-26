@@ -8,5 +8,6 @@ const routers = router
   .get('/citychart', userController.getCityChart)
   .get('/chartgroup', userController.getChartGroup)
   .get('/onlineusers', userController.queryOnlineUsers)
+  .get('/newdynamics', userController.queryTodayDynamics)
 
 module.exports = routers

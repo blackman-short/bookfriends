@@ -6,8 +6,8 @@ const feedBackDal = require('../dal/feedBackDal')
 
 /**
  * User published one feedback.
- * @param {*String} userId
- * @param {*String} content
+ * @param {String} userId
+ * @param {String} content
  */
 async function publish (userId, content) {
   const funcName = 'server: managers/feedback/publish'

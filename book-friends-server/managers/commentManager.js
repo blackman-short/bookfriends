@@ -8,7 +8,7 @@ const userDynamicDal = require('../dal/userDynamicDal')
 
 /**
  * Querys the certain dynamic's comments
- * @param {*String} dynamicId
+ * @param {String} dynamicId
  */
 async function queryCommentsByDynamicId (dynamicId, pageIndex) {
   const funcName = 'server: managers/dynamic/queryCommentsByDynamicId'
@@ -65,8 +65,8 @@ async function queryCommentsByDynamicId (dynamicId, pageIndex) {
 
 /**
  * Comments one dynamic.
- * @param {*String} dynamicId
- * @param {*JSON} commentInfo
+ * @param {String} dynamicId
+ * @param {JSON} commentInfo
  */
 async function addCommentOfDynamic (dynamicId, commentInfo) {
   const funcName = 'server: managers/dynamic/addCommentOfDynamic'
@@ -113,7 +113,7 @@ async function addCommentOfDynamic (dynamicId, commentInfo) {
 
 /**
  * Likes one comment.
- * @param {*String} commentId
+ * @param {String} commentId
  */
 async function likeComment (commentId) {
   const funcName = 'server: managers/comment/likeComment'

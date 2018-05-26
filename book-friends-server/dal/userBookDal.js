@@ -5,7 +5,7 @@ const PAGE_SIZE = require('../config/systemConfig').pageSize
 
 /**
  * Querys user's books info according to user ID.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function queryUserBookInfoByUserId (userId) {
   let data = null
@@ -19,9 +19,9 @@ async function queryUserBookInfoByUserId (userId) {
 
 /**
  * User stores up one book.
- * @param {*String} userId 用户ID
- * @param {*String} isbn 书籍的标识ISBN
- * @param {*Array} tags 该书的标签
+ * @param {String} userId 用户ID
+ * @param {String} isbn 书籍的标识ISBN
+ * @param {Array} tags 该书的标签
  */
 async function storeUpBook (userId, isbn, tags) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
@@ -52,8 +52,8 @@ async function storeUpBook (userId, isbn, tags) {
 
 /**
  * User unstores one book.
- * @param {*String} userId
- * @param {*String} isbn
+ * @param {String} userId
+ * @param {String} isbn
  */
 async function unstore (userId, isbn) {
   let data = null
@@ -67,8 +67,8 @@ async function unstore (userId, isbn) {
 
 /**
  * Gets userbook by userIdand isbn.
- * @param {*String} userId
- * @param {*String} isbn
+ * @param {String} userId
+ * @param {String} isbn
  */
 async function getUserBookByUserIdAndISBN (userId, isbn) {
   let data = null

@@ -183,7 +183,7 @@ async function groupUserBooksByTags (req, res, next) {
  * @param {*} next
  */
 async function groupUserBooksByUser (req, res, next) {
-  const functionName = 'server: controllers/admin/book/groupUserBooksByTags'
+  const functionName = 'server: controllers/admin/book/groupUserBooksByUser'
   // logs request info.
   logUtil.logDebugMsg(functionName, JSON.stringify(req.query))
   let responseResult = { errorCode: errorCode.SUCCESS }

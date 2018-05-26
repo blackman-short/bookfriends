@@ -51,8 +51,8 @@ async function addVisitCountForBook () {
 
 /**
  * Querys new books.
- * @param {*Number} pageIndex
- * @param {*String} keyWord
+ * @param {Number} pageIndex
+ * @param {String} keyWord
  */
 async function queryNewBooks (pageIndex, keyWord) {
   let loadResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
@@ -76,8 +76,8 @@ async function queryNewBooks (pageIndex, keyWord) {
 
 /**
  * Quers hot books.
- * @param {*Number} pageIndex
- * @param {*String} keyWord
+ * @param {Number} pageIndex
+ * @param {String} keyWord
  */
 async function queryHotBooks (pageIndex, keyWord) {
   let loadResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
@@ -102,8 +102,8 @@ async function queryHotBooks (pageIndex, keyWord) {
 
 /**
  * Querys books accroding to user's hobbies & readed books.
- * @param {*Number} pageIndex
- * @param {*Array} flags
+ * @param {Number} pageIndex
+ * @param {Array} flags
  */
 async function queryRecommendBooks (pageIndex, userId) {
   const functionName = 'server: managers/book/queryRecommendBooks'
@@ -156,7 +156,7 @@ async function queryRecommendBooks (pageIndex, userId) {
 
 /**
  * Gets user's hobbies according to userId.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function getUserHobbiesByUser (userInfo) {
   let hobbies = []
@@ -192,8 +192,8 @@ async function getUserHobbiesByUser (userInfo) {
 
 /**
  * Querys the certain book's info by ISBN.
- * @param {*String} isbn
- * @param {*String} userId
+ * @param {String} isbn
+ * @param {String} userId
  */
 async function queryBookInfoByISBN (isbn, userId) {
   const funcName = 'server: managers/book/queryBookInfoByISBN'

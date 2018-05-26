@@ -4,7 +4,7 @@ const PAGE_SIZE = require('../config/systemConfig').pageSize
 
 /**
  * Publishes one dynamic.
- * @param {*Object} dynamicInfo
+ * @param {Object} dynamicInfo
  */
 async function addDynamicInfo (dynamicInfo) {
   let result = null
@@ -23,7 +23,7 @@ async function addDynamicInfo (dynamicInfo) {
 
 /**
  * Adds likeCount for one dynamic.
- * @param {*String} dynamicId
+ * @param {String} dynamicId
  */
 async function updateDynamicLikeCount (dynamicId) {
   let data = null
@@ -40,8 +40,8 @@ async function updateDynamicLikeCount (dynamicId) {
 
 /**
  * Querys the certain user's dynamical info.
- * @param {*String} userId
- * @param {*Number} pageIndex
+ * @param {String} userId
+ * @param {Number} pageIndex
  */
 async function queryDynamicIdsByUserId (userId, pageIndex) {
   let ids = []
@@ -57,8 +57,8 @@ async function queryDynamicIdsByUserId (userId, pageIndex) {
 
 /**
  * Querys dynamic ids of userIds.
- * @param {*Array} userIds
- * @param {*Number} pageIndex
+ * @param {Array} userIds
+ * @param {Number} pageIndex
  */
 async function queryDynamicIdsByUserIds (userIds, pageIndex) {
   let ids = []
@@ -74,7 +74,7 @@ async function queryDynamicIdsByUserIds (userIds, pageIndex) {
 
 /**
  * Querys the all dynamic infos.
- * @param {*Number} pageIndex
+ * @param {Number} pageIndex
  */
 async function queryAllDynamicInfos (pageIndex) {
   let ids = null
@@ -90,7 +90,7 @@ async function queryAllDynamicInfos (pageIndex) {
 
 /**
  * Querys the certain dynamic info's comments.
- * @param {*String} dynamicId
+ * @param {String} dynamicId
  */
 async function queryDynamicInfoByDynamicId (dynamicId) {
   let data = null
@@ -104,7 +104,7 @@ async function queryDynamicInfoByDynamicId (dynamicId) {
 
 /**
  * Querys the certain book's dynamics
- * @param {*String} isbn
+ * @param {String} isbn
  */
 async function queryDynamicsByISBN (isbn) {
   let data = null
@@ -116,7 +116,21 @@ async function queryDynamicsByISBN (isbn) {
   return data
 }
 
+/**
+ * Querys today's dynamics.
+ */
+async function queryTodayDynamics () {
+  let data = null
+  const currentTime = tools.getCurrentDate()
+  const begin = currentTime + ' 00:00:00'
+  const end = currentTime + ' 23:59:59'
+  data = await UserDynamicInfo.find({isActive: true, createTime: { $gte: begin, $lte: end }}, '-_id userId isbn createTime').sort({'createTime': -1})
+
+  return data
+}
+
 exports.addDynamicInfo = addDynamicInfo
+exports.queryTodayDynamics = queryTodayDynamics
 exports.queryDynamicsByISBN = queryDynamicsByISBN
 exports.queryAllDynamicInfos = queryAllDynamicInfos
 exports.updateDynamicLikeCount = updateDynamicLikeCount

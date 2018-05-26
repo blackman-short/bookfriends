@@ -5,8 +5,8 @@ const adminDal = require('../../dal/admin/adminDal')
 
 /**
  * Admin registers account.
- * @param {*String} adminName
- * @param {*String} password
+ * @param {String} adminName
+ * @param {String} password
  */
 async function register (realName, adminName, password, phoneNumber, email) {
   const funcName = 'server: controllers/admin/register'
@@ -24,8 +24,8 @@ async function register (realName, adminName, password, phoneNumber, email) {
 
 /**
  * Login.
- * @param {*String} phoneNumber
- * @param {*String} password
+ * @param {String} phoneNumber
+ * @param {String} password
  */
 async function login (phoneNumber, password) {
   const funcName = 'server: controllers/admin/login'
@@ -48,7 +48,7 @@ async function login (phoneNumber, password) {
 
 /**
  * Updates admin info.
- * @param {*JSON} adminInfo
+ * @param {JSON} adminInfo
  */
 async function update (adminInfo) {
   const funcName = 'server: controllers/admin/update'
@@ -68,8 +68,8 @@ async function update (adminInfo) {
 
 /**
  * Querys all admins.
- * @param {*Number} pageIndex
- * @param {*Number} pageSize
+ * @param {Number} pageIndex
+ * @param {Number} pageSize
  */
 async function queryAll (pageIndex, pageSize) {
   const funcName = 'server: controllers/admin/queryAll'

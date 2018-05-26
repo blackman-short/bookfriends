@@ -5,9 +5,9 @@ const errorCode = require('../error/errorCode')
 
 /**
  * Registers a new account.
- * @param {*String} phoneNumber
- * @param {*String} password
- * @param {*String} nickName
+ * @param {String} phoneNumber
+ * @param {String} password
+ * @param {String} nickName
  */
 async function register (phoneNumber, password, nickName) {
   const functionName = 'server: managers/user/register'
@@ -27,8 +27,8 @@ async function register (phoneNumber, password, nickName) {
 
 /**
  * Login.
- * @param {*String} phoneNumber
- * @param {*String} password
+ * @param {String} phoneNumber
+ * @param {String} password
  */
 async function login (phoneNumber, password) {
   const funcName = 'server: managers/user/login'
@@ -48,7 +48,7 @@ async function login (phoneNumber, password) {
 
 /**
  * User exits the system.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function offLine (userId) {
   const functionName = 'server: managers/user/offLine'
@@ -68,7 +68,7 @@ async function offLine (userId) {
 
 /**
  * Updates the user's personnal information.
- * @param {*Object} userInfo
+ * @param {Object} userInfo
  */
 async function updateInfo (userInfo) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
@@ -87,7 +87,7 @@ async function updateInfo (userInfo) {
 
 /**
  * Gets certain user's info by the user ID.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function getUserInfoByUserId (userId) {
   const funcName = 'server: managers/user/getUserInfoByUserId'
@@ -115,8 +115,8 @@ async function getUserInfoByUserId (userId) {
 
 /**
  * Querys users by keyword.
- * @param {*String} keyWord
- * @param {*Number} pageIndex
+ * @param {String} keyWord
+ * @param {Number} pageIndex
  */
 async function queryUsersByKeyword (keyWord, pageIndex) {
   let result = { errorCode: errorCode.PARAMETER_ERRORMSG, errorMsg: errorMsg.PARAMETER_ERRORMSG }

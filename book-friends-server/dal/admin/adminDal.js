@@ -6,8 +6,8 @@ const PAGE_SIZE = require('../../config/systemConfig').pageSize
 
 /**
  * Admin registers account.
- * @param {*String} adminName
- * @param {*String} password
+ * @param {String} adminName
+ * @param {String} password
  */
 async function register (realName, adminName, password, phoneNumber, email) {
   let resultData = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
@@ -35,8 +35,8 @@ async function register (realName, adminName, password, phoneNumber, email) {
 
 /**
  *
- * @param {*String} phoneNumber
- * @param {*String} password
+ * @param {String} phoneNumber
+ * @param {String} password
  */
 async function login (phoneNumber, password) {
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG }
@@ -63,7 +63,7 @@ async function login (phoneNumber, password) {
 
 /**
  * Updates admin info.
- * @param {*JSON} adminInfo
+ * @param {JSON} adminInfo
  */
 async function update (adminInfo) {
   let result = null
@@ -91,8 +91,8 @@ async function update (adminInfo) {
 
 /**
  * Querys all admins.
- * @param {*Number} pageIndex
- * @param {*Number} pageSize
+ * @param {Number} pageIndex
+ * @param {Number} pageSize
  */
 async function queryAll (pageIndex, pageSize) {
   let admins = null

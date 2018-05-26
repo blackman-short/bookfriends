@@ -3,8 +3,8 @@ const VisitRecordInfo = require('../models').VisitRecordInfo
 
 /**
  * Updates the visit records.
- * @param {*String} userId
- * @param {*String} isbn
+ * @param {String} userId
+ * @param {String} isbn
  */
 async function updateVisitRecord (userId, isbn) {
   const currentDate = tool.getCurrentDate()
@@ -24,7 +24,7 @@ async function updateVisitRecord (userId, isbn) {
 
 /**
  * Gets the vistiCount by date.
- * @param {*String} date
+ * @param {String} date
  */
 async function getVisitCountByDate (beginDate, currentDate) {
   // const currentDate = new Date(date)

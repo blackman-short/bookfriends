@@ -9,7 +9,7 @@ function getUUID () {
 
 /**
  * Validates the phone number is valid.
- * @param {*String} phoneNumber
+ * @param {String} phoneNumber
  */
 function isPhoneNumber (phoneNumber) {
   let isValid = false
@@ -24,7 +24,7 @@ function isPhoneNumber (phoneNumber) {
 
 /**
  * Validates the email is valid.
- * @param {*String} email
+ * @param {String} email
  */
 function isEmail (email) {
   let isValid = false
@@ -39,7 +39,7 @@ function isEmail (email) {
 
 /**
  * Validates the dateString is pattern 'yyyy-mm-dd'
- * @param {*String} dateString
+ * @param {String} dateString
  */
 function isValidDate (dateString) {
   let isValid = false
@@ -66,7 +66,7 @@ function getCurrentDate () {
 }
 /**
  * Encrypts the parameter.
- * @param {*String} param
+ * @param {String} param
  */
 function hMd5Encrypt (param) {
   let secretSign = param
@@ -82,13 +82,45 @@ function hMd5Encrypt (param) {
 
 /**
  * Decrypt secret parameter.
- * @param {*String} param
+ * @param {String} param
  */
 function hMd5Decrypt (param) {
   let verifysign = crypto.createHash('md5').update(param, 'utf8').digest('hex')
   return verifysign
 }
 
+/**
+ * Gets the days of one month according the year & month.
+ * @param {Number} year
+ * @param {Number} month
+ */
+function getDaysOfMonth (year, month) {
+  let days = 30
+  switch (month) {
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+      days = 31
+      break
+    case 2:
+      if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
+        days = 29
+      } else {
+        days = 28
+      }
+      break
+    default:
+      break
+  }
+
+  return days
+}
+
+exports.getDaysOfMonth = getDaysOfMonth
 exports.isEmail = isEmail
 exports.isPhoneNumber = isPhoneNumber
 exports.isValidDate = isValidDate

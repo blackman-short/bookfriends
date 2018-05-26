@@ -10,7 +10,7 @@ const commonRequest = require('../common/common_request')
 
 /**
  * Gets user's books.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function getUserBooks (userId) {
   const funcName = 'server: managers/userbook/getUserBooks'
@@ -56,9 +56,9 @@ async function getUserBooks (userId) {
 
 /**
  * User stores up onne book.
- * @param {*String} userId 用户ID
- * @param {*String} isbn 书籍的标识ISBN
- * @param {*Array} tags 书籍的标识
+ * @param {String} userId 用户ID
+ * @param {String} isbn 书籍的标识ISBN
+ * @param {Array} tags 书籍的标识
  */
 async function storeUpBook (userId, isbn) {
   const funcName = 'server: managers/book/storeUpBook'
@@ -138,8 +138,8 @@ async function storeUpBook (userId, isbn) {
 
 /**
  * User unstores one book.
- * @param {*String} userId
- * @param {*String} isbn
+ * @param {String} userId
+ * @param {String} isbn
  */
 async function unstore (userId, isbn) {
   const funcName = 'server: managers/userbook/unstore'
@@ -297,7 +297,7 @@ function convertBookByTag (books) {
 
 /**
  * Filters and gets the isbns of the user's books.
- * @param {*Array} userBookInfos
+ * @param {Array} userBookInfos
  */
 function filterUserBookISBN (userBookInfos) {
   let isbnArray = []

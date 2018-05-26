@@ -31,7 +31,7 @@ async function queryAll (pageIndex, pageSize) {
 
 /**
  * Updates one book by isbn.
- * @param {*String} isbn
+ * @param {String} isbn
  */
 async function update (bookInfo) {
   const funcName = 'server: managers/admin/book/update'
@@ -56,7 +56,7 @@ async function update (bookInfo) {
 
 /**
  * Deletes books by isbns.
- * @param {*Array} isbns
+ * @param {Array} isbns
  */
 async function deleteBooks (isbns) {
   const funcName = 'server: managers/admin/book/deleteBooks'

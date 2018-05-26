@@ -31,7 +31,7 @@ async function queryAll (pageIndex, pageSize) {
 
 /**
  * Deletes one user by userId.
- * @param {*String} userId
+ * @param {String} userId
  */
 async function deleteUser (phoneNumber) {
   const funcName = 'server: managers/user/deleteUser'
@@ -63,17 +63,18 @@ async function getChartGroup () {
 
   let loadResults = null
   try {
-    loadResults = await Promise.all([userInfoDal.groupBySex(), userInfoDal.groupByProvince(), userInfoDal.groupByEducation()]).then()
+    loadResults = await Promise.all([userInfoDal.groupBySex(), userInfoDal.groupByProvince(), userInfoDal.groupByEducation(), userInfoDal.groupByAge()]).then()
   } catch (error) {
     result = { errorCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
     logUtil.logErrorMsg(funcName, result.errorMsg)
   }
 
-  if (loadResults && loadResults.length === 3) {
+  if (loadResults && loadResults.length === 4) {
     const chartDatas = {
       sex: loadResults[0],
       province: loadResults[1],
-      education: loadResults[2]
+      education: loadResults[2],
+      age: loadResults[3]
     }
     result = { errorCode: errorCode.SUCCESS, data: chartDatas }
   }
@@ -83,7 +84,7 @@ async function getChartGroup () {
 
 /**
  * Gets city chart data when in same province.
- * @param {*String} provinceName
+ * @param {String} provinceName
  */
 async function getCityChart (provinceName) {
   const funcName = 'server: managers/user/getCityChart'

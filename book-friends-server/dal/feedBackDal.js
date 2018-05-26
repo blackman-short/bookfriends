@@ -2,7 +2,7 @@ const FeedBackInfo = require('../models').FeedBackInfo
 
 /**
  * Saves one feedback.
- * @param {*JSON} info
+ * @param {JSON} info
  */
 async function save (userId, content) {
   let data = null
