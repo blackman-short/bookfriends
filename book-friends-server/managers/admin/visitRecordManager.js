@@ -18,9 +18,9 @@ async function getVisitCountByDate () {
     month = currentDate.getMonth()
   }
 
-  let beginDate = year + '-' + month + '-' + day
+  month = month < 10 ? `0${month}` : month
 
-  beginDate = beginDate.getFullYear() + '-' + (beginDate.getMonth + 1) + '-' + beginDate.getDate()
+  const beginDate = year + '-' + month + '-' + day
 
   try {
     const loadData = await visitRecordDal.getVisitCountByDate(beginDate, currentDateStr)

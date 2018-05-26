@@ -27,10 +27,6 @@ async function updateVisitRecord (userId, isbn) {
  * @param {String} date
  */
 async function getVisitCountByDate (beginDate, currentDate) {
-  // const currentDate = new Date(date)
-  // const day = new Date(date).getDate()
-  // let beginDate = new Date(currentDate.setDate(day - 7))
-  // beginDate = beginDate.getFullYear() + '-' + (beginDate.getMonth + 1) + '-' + beginDate.getDate()
   const data = await VisitRecordInfo.aggregate([
     {$match: {'visitAt': {'$gte': beginDate, '$lte': currentDate}}},
     {$group: {'_id': {'vistiCount': '$visitCount', 'visitAt': '$visitAt'}}},
