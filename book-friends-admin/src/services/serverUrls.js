@@ -33,7 +33,7 @@ module.exports = {
     return this.baseUrl + '/admin/user/citychart'
   },
   getUserDynamics: function () {
-    return this.baseUrl + '/dynamic/infos'
+    return this.baseUrl + '/admin/user/newdynamics'
   },
   // #endregion
 

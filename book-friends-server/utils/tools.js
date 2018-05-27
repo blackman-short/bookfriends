@@ -55,7 +55,17 @@ function isValidDate (dateString) {
  * Gets current time. yyyy-MM-dd HH:mm:ss
  */
 function getCurrentTime () {
-  return moment().format('YYYY-MM-DD HH:mm:ss').toString()
+  // return moment().format('YYYY-MM-DD HH:mm:ss').toString()
+  const currentDate = new Date()
+  const year = currentDate.getFullYear()
+  let month = currentDate.getMonth() + 1
+  month = month < 10 ? `0${month}` : month
+  const day = currentDate.getDate()
+  const hour = currentDate.getHours()
+  const minute = currentDate.getMinutes()
+  const second = currentDate.getSeconds()
+  const formatDate = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+  return formatDate
 }
 
 /**

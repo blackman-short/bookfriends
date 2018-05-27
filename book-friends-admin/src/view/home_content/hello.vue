@@ -299,7 +299,7 @@ export default {
         this.visitOption.xAxis.data = []
         this.visitOption.series.data = []
       } else {
-        // reload data.
+        this.showError('加载一周访问量数据失, 请重试。。。')
       }
     }
   }

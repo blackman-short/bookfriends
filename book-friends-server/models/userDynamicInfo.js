@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const tools = require('../utils/tools')
-// const CommentSchema = require('./commentInfo')
 
 const userDynamicSchema = new mongoose.Schema({
   id: { type: String, default: tools.getUUID() },

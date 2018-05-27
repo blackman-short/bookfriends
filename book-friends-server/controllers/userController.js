@@ -5,6 +5,8 @@ const errorMsg = require('../error/errorMsg')
 const errorCode = require('../error/errorCode')
 const userInfoManager = require('../managers/userManager')
 
+const moment = require('moment')
+
 /**
  * Register.
  * @param {*} req
