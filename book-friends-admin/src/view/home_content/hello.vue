@@ -54,14 +54,30 @@
         <span class="new">最新动态</span>
         <!-- <span class="more">更多</span> -->
       </p>
-      <div v-if="dynamicData.length === 0" class="content" style="margin-top:20%">
+      <div v-if="dynamicData.length === 0 && loadDynamics === false" class="content" style="margin-top:20%">
         <img src="../../assets/40.png" class="bells" style="margin-left: 25%;width:200px" >
         <p style="margin-left: 30%;opacity: 0.3; background-color:white; font-size:30px">暂无最新动态</p>
       </div>
-      <el-table v-if="dynamicData.length > 0">
-        <el-table-column label="用户最新动态"></el-table-column>
-        <el-table-column prop="userName"></el-table-column>
-        <el-table-column prop="content"></el-table-column>
+      <el-table v-if="dynamicData.length > 0"
+         :data="dynamicData"
+         stripe
+         max-height="500"
+         v-loading="loadDynamics">
+        <el-table-column label="用户动态">
+          <template slot-scope="scope">
+            <span>{{scope.row.userName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column>
+          <template slot-scope="scope">
+            <span>{{scope.row.bookName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column >
+          <template slot-scope="scope">
+            <span style="font-size:4px"> 今天  {{scope.row.createTime.substring(11)}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>
@@ -217,17 +233,15 @@ export default {
           data: [50, 32, 100, 300, 190, 58, 350]
         }]
       },
-      chart: null,
-      dataArrange: store.state.weeks_content
+      dataArrange: store.state.weeks_content,
+      loadDynamics: true
     }
   },
   mounted: async function () {
     this.$http.get(api.testData).then(function (response) {
-      // this.tableData = response.data.top
       this.newAddedBooks = response.data.newAdded
     })
-
-    this.initChart() // 初始化图表。
+    this.initVisitRecord() // 初始化图表。
     this.initTableData() // 初始化Top榜信息。
     this.initDynamicInfos() // 初始化最新用户动态信息。
   },
@@ -254,16 +268,6 @@ export default {
     this.chart = null
   },
   methods: {
-    async initChart () {
-      // Gets chart data.
-      await initVisitRecord()
-
-      // 对图表进行初始化
-      this.chart = echarts.init(this.$refs.myEchart)
-
-      // 把配置和数据放这里
-      this.chart.setOption(this.visitOption)
-    },
     initTableData: async function () {
       const response = await API.getTop3()
       if (response && response.errorCode === resultCode.SUCCESS) {
@@ -284,20 +288,37 @@ export default {
       }
     },
     initDynamicInfos: async function () {
+      this.loadDynamics = true
       const response = await API.getAllDynamics()
-      if (response.errorCode === errorCode.SUCCESS) {
-        // Converts the UI data.
-        const dynamics = dynamicConvertor(response.data)
-        if (dynamics) {
-          this.dynamicData = dynamics
-        }
+      if (response.errorCode === resultCode.SUCCESS) {
+        this.dynamicData = response.data
       }
+      this.loadDynamics = false
     },
     initVisitRecord: async function () {
       const response = await API.getWeekVisit()
-      if (response.errorCode === errorCode.SUCCESS) {
-        this.visitOption.xAxis.data = []
-        this.visitOption.series.data = []
+      if (response.errorCode === resultCode.SUCCESS) {
+        const chartData = response.data
+        let xData = []
+        let yData = []
+        if (chartData) {
+          chartData.forEach((c, i) => {
+            if ( i === (chartData.length -1 )) {
+              xData.push('今天')
+            } else {
+              xData.push(c.visitAt)
+            }
+
+            yData.push(c.visitCount)
+          })
+        }
+        this.visitOption.xAxis[0].data = xData
+        this.visitOption.series[0].data = yData
+        // 对图表进行初始化
+        this.chart = echarts.init(this.$refs.myEchart)
+
+        // 把配置和数据放这里
+        this.chart.setOption(this.visitOption)
       } else {
         this.showError('加载一周访问量数据失, 请重试。。。')
       }

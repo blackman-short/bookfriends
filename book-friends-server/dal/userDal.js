@@ -246,7 +246,11 @@ async function groupByProvince () {
 }
 
 async function groupByCityInCertainProvince (province) {
-  const data = await UserInfo.find({provinceName: province}).aggregate([ {$group: {'_id': {'city': '$cityName'}, 'number': {$sum: 1}}}, { $project: { '_id': 0, 'city': '$_id.city', 'number': 1 } } ])
+  const data = await UserInfo.aggregate([
+    {$match: {provinceName: province}},
+    {$group: {'_id': {'city': '$cityName'}, 'number': {$sum: 1}}},
+    {$project: {'_id': 0, 'city': '$_id.city', 'number': 1}}
+  ])
   return data
 }
 
@@ -256,7 +260,7 @@ async function groupByEducation () {
 }
 
 async function groupByAge () {
-  let data = null
+  let data = []
   const currentDate = new Date(tools.getCurrentDate())
   let month = (currentDate.getMonth() + 1) < 10 ? `0${currentDate.getMonth() + 1}` : currentDate.getMonth() + 1
   let begin20 = currentDate.getFullYear() - 19 + '-' + month + '-' + currentDate.getDate()
@@ -266,11 +270,41 @@ async function groupByAge () {
   const data40 = await UserInfo.find({birthday: { $gte: begin40, $lte: begin20 }})
   const data60 = await UserInfo.find({birthday: { $gte: begin60, $lte: begin40 }})
   const dataGt60 = await UserInfo.find({birthday: { $lte: begin60 }})
-  data = {
-    '1 ~ 20': data20.length,
-    '21 ~ 40': data40.length,
-    '41 ~ 60': data60.length,
-    '60 ~ ': dataGt60.length
+
+  if (data20 && data20.length > 0) {
+    data.push(
+      {
+        age: '1 ~ 20',
+        number: data20.length
+      }
+    )
+  }
+
+  if (data40 && data40.length > 0) {
+    data.push(
+      {
+        age: '21 ~ 40',
+        number: data40.length
+      }
+    )
+  }
+
+  if (data60 && data60.length > 0) {
+    data.push(
+      {
+        age: '41 ~ 60',
+        number: data60.length
+      }
+    )
+  }
+
+  if (dataGt60 && dataGt60.length > 0) {
+    data.push(
+      {
+        age: '60 ~ ',
+        number: dataGt60.length
+      }
+    )
   }
   return data
 }

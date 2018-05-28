@@ -188,7 +188,7 @@
 </template>
 <script >
 const API = require('../../services/getData').default
-const exportJson2Excel = require('../../global/Export2Excel').export_json_to_excel
+// const exportJson2Excel = require('../../global/Export2Excel').export_json_to_excel
 export default {
   name: 'package',
   data () {

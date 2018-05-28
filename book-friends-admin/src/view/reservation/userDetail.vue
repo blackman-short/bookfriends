@@ -392,6 +392,9 @@ export default {
       let valueNames = []
       let keyWord = 'sex'
       switch (number) {
+        case 4:
+          keyWord = 'age'
+          break
         case 3:
           keyWord = 'education'
           break
@@ -431,10 +434,11 @@ export default {
     async getChartGroup () {
       const response = await API.getChartGroup()
       
-      if (response.errorCode === resultCode.SUCCESS) {
+      if (response.errorCode === resultCode.SUCCESS) {       
         const sexData = response.data.sex
         const provinceData = response.data.province
         const educationData = response.data.education
+        const ageData = response.data.age
         // chart1.
         if (sexData) {
           const values = this.convertCetainChartData(sexData, 1)
@@ -462,6 +466,15 @@ export default {
           this.chart1.setOption(this.chartOptions['chart3'])
         }
 
+        // chart4
+        if (ageData) {
+          const values = this.convertCetainChartData(ageData, 4)
+          this.chartLegendNames['chart4'] = values.legendData
+          this.chartOptions['chart4'].series[0].data = values.seriesData
+          this.chart1 = echarts.init(this.$refs.chart4)
+          this.chart1.setOption(this.chartOptions['chart4'])
+        }
+
       } else {
         this.showError('加载数据失败, 请刷新。。。')
       }
@@ -469,10 +482,15 @@ export default {
 
     // Gets city chart.
     async getCityChart (provinceName) {
-      const respones = await API.getCityChart('')
-      if (response.errorCode === resultCode.SUCCESS) {
+      if (provinceName.indexOf('省') > 0 || provinceName.indexOf('市') > 0) {
+        const respones = await API.getCityChart(provinceName)
+        if (response.errorCode === resultCode.SUCCESS) {
 
+        }
+      } else {
+        return
       }
+     
     }
   },
 

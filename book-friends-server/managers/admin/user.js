@@ -99,7 +99,7 @@ async function getCityChart (provinceName) {
         result = { erroCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA }
       }
     } catch (error) {
-      result = { erroCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_DELETE_DB + JSON.stringify(error) }
+      result = { erroCode: errorCode.ERROR_DB, errorMsg: errorMsg.ERROR_LOAD_DBDATA + JSON.stringify(error) }
       logUtil.logErrorMsg(funcName, result.errorMsg)
     }
   }

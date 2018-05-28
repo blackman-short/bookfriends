@@ -30,7 +30,8 @@ async function getVisitCountByDate (beginDate, currentDate) {
   const data = await VisitRecordInfo.aggregate([
     {$match: {'visitAt': {'$gte': beginDate, '$lte': currentDate}}},
     {$group: {'_id': {'visitAt': '$visitAt'}, 'visitCount': {$sum: '$visitCount'}}},
-    {$project: {'_id': 0, 'visitCount': 1, 'visitAt': '$_id.visitAt'}}
+    {$project: {'_id': 0, 'visitCount': 1, 'visitAt': '$_id.visitAt'}},
+    {$sort: { 'visitAt': 1 }}
   ])
 
   return data
