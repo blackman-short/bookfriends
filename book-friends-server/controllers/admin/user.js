@@ -153,9 +153,23 @@ async function queryOnlineUsers (req, res, next) {
   // logs request info.
   logUtil.logDebugMsg(functionName, JSON.stringify(req.query))
   let responseResult = { errorCode: errorCode.SUCCESS }
+  let isOnline = req.query.isOnline
 
   try {
-    responseResult = await userManager.queryOnlineUsers()
+    if (!isOnline || (isOnline && !validator.trim(isOnline))) {
+      throw new Error('Please provide parameter: isOnline')
+    } else {
+      isOnline = validator.trim(isOnline)
+      isOnline = parseInt(isOnline)
+    }
+  } catch (error) {
+    responseResult = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.PARAMETER_ERRORMSG + error.message }
+    logUtil.logErrorMsg(functionName, responseResult.errorMsg)
+    return res.status(200).send(responseResult)
+  }
+
+  try {
+    responseResult = await userManager.queryOnlineUsers(isOnline)
   } catch (error) {
     responseResult = { errorCode: errorCode.ERROR_MANAGER, errorMsg: errorMsg.ERROR_CALL_MANAGER + JSON.stringify(error) }
     logUtil.logErrorMsg(functionName, responseResult.errorMsg)

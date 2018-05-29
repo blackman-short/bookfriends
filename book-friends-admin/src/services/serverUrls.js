@@ -35,6 +35,9 @@ module.exports = {
   getUserDynamics: function () {
     return this.baseUrl + '/admin/user/newdynamics'
   },
+  getOnlineUsers: function () {
+    return this.baseUrl + '/admin/user/onlineusers'
+  },
   // #endregion
 
   // #region Book operations
@@ -52,6 +55,12 @@ module.exports = {
   },
   getWeekVisit: function () {
     return this.baseUrl + '/admin/book/weekvisits'
+  },
+  chartTags: function () {
+    return this.baseUrl + '/admin/book/grouptags'
+  },
+  chartUserBook: function () {
+    return this.baseUrl + '/admin/book/groupusers'
   }
   // #endregion
 }

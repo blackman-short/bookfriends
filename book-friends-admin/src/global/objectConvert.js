@@ -24,7 +24,7 @@ function userConvertor(users) {
         object.age = new Date().getFullYear() - new Date(u.birthday).getFullYear() + 1
       }
       object.sex = u.sex === 1? '男' : '女'
-      object.isActive = u.isActive === true? '可用' : '不可用'
+      object.isOnline = u.isOnline === true? '在线' : '离线'
 
       newUsers.push(object)
     })

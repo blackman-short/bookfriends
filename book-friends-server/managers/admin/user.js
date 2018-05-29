@@ -110,12 +110,12 @@ async function getCityChart (provinceName) {
 /**
  * Gets users is onlined.
  */
-async function queryOnlineUsers () {
+async function queryOnlineUsers (isOnline) {
   const funcName = 'server: managers/user/queryOnlineUsers'
   let result = { errorCode: errorCode.ERROR_PARAMETER, errorMsg: errorMsg.ERROR_CALL_MANAGER }
 
   try {
-    const data = await userInfoDal.queryOnlineUsers()
+    const data = await userInfoDal.queryOnlineUsers(isOnline)
     if (data) {
       result = { errorCode: errorCode.SUCCESS, data: data }
     } else {

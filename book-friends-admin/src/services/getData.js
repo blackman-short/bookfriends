@@ -85,6 +85,13 @@ const API = {
     const response = await get(reqUrl.getUserDynamics(), null)
     return response
   },
+  getOnlineUsers: async function (isOnline) {
+    const getData = {
+      isOnline: isOnline
+    }
+    const response = await get(reqUrl.getOnlineUsers(), getData)
+    return response
+  },
   // #endregion
 
   // #region Book operations

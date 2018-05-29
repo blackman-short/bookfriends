@@ -39,7 +39,7 @@ function isValidDate (dateString) {
  * Gets current time.
  */
 function getCurrentTime () {
-  return moment().format('YYYY-MM-DD HH:mm:ss').toString()
+   return moment().utc().zone(-8).format('YYYY-MM-DD HH:mm:ss').toString()
 }
 
 /**

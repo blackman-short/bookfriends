@@ -19,28 +19,26 @@ import project from '@/view/project/project'
 import smallproject from '@/view/project/smallproject'
 import Package from '@/view/project/package'
 import registration from '@/view/project/registration'
-// 会员模块
+
 import members from '@/view/members/member'
 import account from '@/view/members/account'
 import integral from '@/view/members/integral'
 import mem_package from '@/view/members/mem_package'
 import style from '@/view/members/style'
 
-// 问诊模块
 import Inquiry from '@/view/inquiry/inquiry'
 import InquiryNone from '@/view/inquiry/inquiryNone'
 
-// 排班模块
 import Arrange from '@/view/arrange/arrange';
 import AddWork from '@/view/arrange/new_add_work';
 
-// 预约模块
 import Reservation from '@/view/reservation/reservation'
 import Mrliu from '@/view/reservation/Mrliu'
 import Vdetails from '@/view/reservation/Vdetails'
 import Visdoctor from '@/view/reservation/Visdoctor'
 import BookKinds from '@/view/reservation/bookKinds'
 import UserDetail from '@/view/reservation/userDetail'
+import UserBooks from '@/view/reservation/userBook'
 import Appointreport from '@/view/reservation/appointreport'
 import LiuContent from '@/view/reservation/liuContent'
 
@@ -96,6 +94,7 @@ export default new Router({
                     children:[
                       {path:'kinds',component: Visdoctor,name:'用户类别'},
                       {path:'details',component: UserDetail,name:'用户详情'},
+                      {path:'userbook',component: UserBooks,name:'用户书架'},
                       {path: '/', redirect: 'kinds' }
                     ]
                   }

@@ -302,11 +302,15 @@ export default {
         let xData = []
         let yData = []
         if (chartData) {
-          chartData.forEach((c, i) => {
-            if ( i === (chartData.length -1 )) {
+          const current = new Date()
+          let month = current.getMonth() + 1
+          month = month < 10? `0${month}`: month
+          const currentDate = current.getFullYear() + '-' + month + '-' + current.getDate()
+          chartData.forEach(c => {
+            if ( currentDate === c.visitAt) {
               xData.push('今天')
             } else {
-              xData.push(c.visitAt)
+              xData.push(c.visitAt.substring(6))
             }
 
             yData.push(c.visitCount)

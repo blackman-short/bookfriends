@@ -13,13 +13,13 @@
         <el-input v-model="formInline.user" placeholder="请输入姓名/手机"></el-input>
       </el-form-item>
       <el-form-item label="在线状态">
-        <el-select v-model="formInline.state" placeholder="请选择">
-          <el-option label="在线" value="ture"></el-option>
+        <el-select v-model="isOnline" placeholder="请选择">
+          <el-option label="在线" value="true"></el-option>
           <el-option label="离线" value="false"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="success" class="el-icon-search" @click="onSubmit"></el-button>
+        <el-button type="success" class="el-icon-search" @click="onSearch"></el-button>
       </el-form-item>
       <el-button class="filter-item" type="primary" @click="handleCreate()"  icon="edit" :disabled="true">添加</el-button>
     </el-form>
@@ -27,16 +27,21 @@
     <div class="content">
       <el-table  :data="tableData"  style="width: 100%" stripe max-height="400" row-key="isbn">
         <el-table-column  label="序号"  width="100">
-        <template slot-scope="scope">
-          {{scope.$index + 1}}
-        </template>
+          <template slot-scope="scope">
+            {{scope.$index + 1}}
+          </template>
         </el-table-column>
         <el-table-column  prop="phoneNumber" label="手机号"  width="150"></el-table-column>
         <el-table-column  prop="nickName" label="用户名"  width="150"></el-table-column>
         <el-table-column  prop="sex" label="性别"  width="100"></el-table-column>
         <el-table-column  prop="age" label="年龄(岁)"  width="100"></el-table-column>
         <el-table-column  prop="location" label="所在地"  width="150"></el-table-column>
-        <el-table-column  prop="isActive" label="账号状态"  width="100"></el-table-column>
+        <el-table-column  label="在线状态"  width="100">
+          <template slot-scope="scope">
+            <label v-if="scope.row.isOnline === '在线'" style="color:#67C23A">{{scope.row.isOnline}}</label>
+            <label v-else style="color:#909399">{{scope.row.isOnline}}</label>
+          </template>
+        </el-table-column>
 
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -147,7 +152,8 @@ export default {
         location: '',
         isActive: ''
       }],
-      totalCount: 0
+      totalCount: 0,
+      isOnline: '离线'
     }
   }, 
   // 实例化就获取数据
@@ -165,10 +171,20 @@ export default {
         this.showWarning('加载失败。。。请重试 !')
       }
     },
-    onSubmit () {
-      // this.$http.get(api.smallproject_search, {params: this.formInline}).then(function (response) {
-      //   this.tableData = response.data.tableData
-      // })
+    onSearch: async function () {
+      let flag = 0
+      if (this.isOnline === 'true') {
+        flag = 1
+      }
+
+      const response = await API.getOnlineUsers(flag)
+      if (response.errorCode === 0) {
+        const users = response.data
+        this.tableData = userConvertor(users)
+        this.totalCount = users.length
+      } else {
+        this.showWarning('加载失败。。。请重试 !')
+      }
     },
     handleEdit (index, row) {
       this.dialogFormVisible = true

@@ -229,9 +229,14 @@ async function deleteOne (phoneNumber) {
 /**
  * Gets the users is onlined.
  */
-async function queryOnlineUsers () {
+async function queryOnlineUsers (isOnline) {
   let users = null
-  users = await UserInfo.find({isOnline: true})
+  if (isOnline === 1) {
+    users = await UserInfo.find({isOnline: true})
+  } else {
+    users = await UserInfo.find({isOnline: false})
+  }
+
   return users
 }
 // #region User Group Statistics.

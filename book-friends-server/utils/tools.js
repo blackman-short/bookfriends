@@ -56,23 +56,28 @@ function isValidDate (dateString) {
  */
 function getCurrentTime () {
   // return moment().format('YYYY-MM-DD HH:mm:ss').toString()
-  const currentDate = new Date()
-  const year = currentDate.getFullYear()
-  let month = currentDate.getMonth() + 1
-  month = month < 10 ? `0${month}` : month
-  const day = currentDate.getDate()
-  const hour = currentDate.getHours()
-  const minute = currentDate.getMinutes()
-  const second = currentDate.getSeconds()
-  const formatDate = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
-  return formatDate
+  // const currentDate = new Date()
+  // const year = currentDate.getFullYear()
+  // let month = currentDate.getMonth() + 1
+  // month = month < 10 ? `0${month}` : month
+  // const day = currentDate.getDate()
+  // const hour = currentDate.getHours()
+  // const minute = currentDate.getMinutes()
+  // const second = currentDate.getSeconds()
+  // const formatDate = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+  // return formatDate
+  return moment().utc().zone(-8).format('YYYY-MM-DD HH:mm:ss').toString()
+}
+
+function getCurrentHour () {
+  return moment().utc().zone(-8).format('HH')
 }
 
 /**
  * Gets current date. yyyy-MM-dd
  */
 function getCurrentDate () {
-  return moment().format('YYYY-MM-DD').toString()
+  return moment().utc().zone(-8).format('YYYY-MM-DD').toString()
 }
 /**
  * Encrypts the parameter.
@@ -139,3 +144,4 @@ exports.getCurrentTime = getCurrentTime
 exports.encrypt = hMd5Encrypt
 exports.decrypt = hMd5Decrypt
 exports.getUUID = getUUID
+exports.getCurrentHour = getCurrentHour
