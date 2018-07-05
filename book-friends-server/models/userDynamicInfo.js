@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const tools = require('../utils/tools')
 
 const userDynamicSchema = new mongoose.Schema({
-  id: { type: Number, default: tools.getUUID, index: true },
+  id: { type: String, default: tools.getUUID, index: true },
   userId: { type: String }, // 用户ID
   content: { type: String }, // 动态的内容
   // comments: { type: [CommentSchema], default: [] }, // 动态的评论
