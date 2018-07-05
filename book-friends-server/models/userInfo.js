@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const tools = require('../utils/tools')
 
 const userInfoSchema = mongoose.Schema({
-  id: { type: String, default: tools.getUUID() },
+  id: { type: String, default: tools.getUUID },
   phoneNumber: { type: String, index: true }, // 手机号
   password: { type: String }, // 密码
   nickName: { type: String }, // 昵称
@@ -17,9 +17,9 @@ const userInfoSchema = mongoose.Schema({
   QRCode: { type: String }, // 二维码
   hobbies: [String], // 喜好,
   isActive: { type: Boolean, default: true },
-  createTime: { type: String, default: tools.getCurrentTime() }, // 创建时间
-  updateTime: { type: String, default: tools.getCurrentTime() }, // 更新时间
-  lastLoginTime: { type: String, default: tools.getCurrentTime() }, // 最近一次登录时间
+  createTime: { type: String, default: tools.getCurrentTime }, // 创建时间
+  updateTime: { type: String, default: tools.getCurrentTime }, // 更新时间
+  lastLoginTime: { type: String, default: tools.getCurrentTime }, // 最近一次登录时间
   isOnline: { type: Boolean, default: false } // 是否在线
 })
 

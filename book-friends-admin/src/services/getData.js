@@ -123,6 +123,14 @@ const API = {
   getWeekVisit: async function () {
     const response = await get(reqUrl.getWeekVisit(), null)
     return response
+  },
+  chartTagsOfUserBokks: async function () {
+    const response = await get(reqUrl.chartTags(), null)
+    return response
+  },
+  chartUserBook: async function () {
+    const response = await get(reqUrl.chartUserBook(), null)
+    return response
   }
   // #endregion
 }

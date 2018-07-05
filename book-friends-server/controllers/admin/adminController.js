@@ -77,7 +77,7 @@ async function login (req, res, next) {
 
   let password = req.body.password
   let phoneNumber = req.body.phoneNumber
-
+  // 参数校验。
   try {
     if (!phoneNumber || (phoneNumber && !validator.trim(phoneNumber))) {
       throw new Error('Please provide parameter: phoneNumber')
@@ -92,7 +92,7 @@ async function login (req, res, next) {
     logUtil.logErrorMsg(funcName, response.errorMsg)
     return res.status(200).send(response)
   }
-
+  // 参数校验成功，调用manager逻辑层。
   if (response.errorCode === errorCode.SUCCESS) {
     try {
       response = await adminManger.login(phoneNumber, password)
@@ -101,7 +101,7 @@ async function login (req, res, next) {
       logUtil.logErrorMsg(funcName, response.errorMsg)
     }
   }
-
+  // 返回请求结果到前台。
   return res.status(200).send(response)
 }
 

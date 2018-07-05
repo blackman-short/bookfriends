@@ -47,7 +47,11 @@
 
     <div class="echart">
       <p>上周看书数统计</p>
-      <div :style="{height:height,width:width}" ref="myEchart"></div>
+      <div v-if="showVisitChart" :style="{height:height,width:width}" ref="myEchart"></div>
+      <div v-if="!showVisitChart" class="content" style="margin-top:20%">
+        <i class="fa fa-bar-chart-o icon" style="margin-left: 30%;opacity: 0.2; background-color:white; font-size:180px; font-weight:light" aria-hidden="true"></i>
+        <i style="margin-left: 30%;opacity: 0.3; background-color:white; font-size:30px">暂无统计数据</i>
+      </div>
     </div>
     <div class="news">
       <p v-if="dynamicData.length === 0">
@@ -147,6 +151,7 @@
       margin-left: 15px;
       background: #fff;
       width: 49.9%;
+      height: 540px;
       overflow: hidden;
       border: 1px solid #dfe6ec;
       position: relative;
@@ -155,7 +160,7 @@
     }
     .smallhome .echart p{
       font-size: 14px;
-      font-weight: bold;
+      font-weight:bold;
       color:#1f2d3d;
       width: 100%;
       line-height: 40px;
@@ -219,7 +224,7 @@ export default {
         },
         xAxis: [{
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: [],
           axisTick: {
             alignWithLabel: true
           }
@@ -230,11 +235,12 @@ export default {
         series: [{
           type: 'bar',
           barWidth: '60%',
-          data: [50, 32, 100, 300, 190, 58, 350]
+          data: []
         }]
       },
       dataArrange: store.state.weeks_content,
-      loadDynamics: true
+      loadDynamics: true,
+      showVisitChart: false
     }
   },
   mounted: async function () {
@@ -297,32 +303,39 @@ export default {
     },
     initVisitRecord: async function () {
       const response = await API.getWeekVisit()
-      if (response.errorCode === resultCode.SUCCESS) {
+      if (response.errorCode === resultCode.SUCCESS ) {
         const chartData = response.data
-        let xData = []
-        let yData = []
-        if (chartData) {
-          const current = new Date()
-          let month = current.getMonth() + 1
-          month = month < 10? `0${month}`: month
-          const currentDate = current.getFullYear() + '-' + month + '-' + current.getDate()
-          chartData.forEach(c => {
-            if ( currentDate === c.visitAt) {
-              xData.push('今天')
-            } else {
-              xData.push(c.visitAt.substring(6))
-            }
+        console.log(response.data)
+        if (chartData && chartData.length > 0) {
+          this.showVisitChart = true
+          let xData = []
+          let yData = []
+          if (chartData) {
+            const current = new Date()
+            let month = current.getMonth() + 1
+            month = month < 10? `0${month}`: month
+            const currentDate = current.getFullYear() + '-' + month + '-' + current.getDate()
+            chartData.forEach(c => {
+              if ( currentDate === c.visitAt) {
+                xData.push('今天')
+              } else {
+                xData.push(c.visitAt.substring(6))
+              }
 
-            yData.push(c.visitCount)
-          })
+              yData.push(c.visitCount)
+            })
+          }
+          this.visitOption.xAxis[0].data = xData
+          this.visitOption.series[0].data = yData
+          // 对图表进行初始化
+          this.chart = echarts.init(this.$refs.myEchart)
+
+          // 把配置和数据放这里
+          this.chart.setOption(this.visitOption)
+        } else {
+          this.showVisitChart = false
         }
-        this.visitOption.xAxis[0].data = xData
-        this.visitOption.series[0].data = yData
-        // 对图表进行初始化
-        this.chart = echarts.init(this.$refs.myEchart)
-
-        // 把配置和数据放这里
-        this.chart.setOption(this.visitOption)
+        
       } else {
         this.showError('加载一周访问量数据失, 请重试。。。')
       }

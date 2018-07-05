@@ -213,10 +213,10 @@ async function queryBookInfoByISBN (isbn, userId) {
   if (loadResult && loadResult.length === 2) {
     // async to updates visit count, then rank the books again.
     await Promise.all([bookDal.addVisitCount(isbn), visitRecordDal.updateVisitRecord(userId, isbn)]).then()
-    let hour = tools.getCurrentHour()
-    if (hour === 23) {
+    // let hour = tools.getCurrentHour()
+    // if (hour === 23) {
       bookDal.rankBook()
-    }
+    // }
     result = { errorCode: errorCode.SUCCESS, data: loadResult[0], hasStored: false }
     if (loadResult[1]) {
       result.hasStored = true

@@ -11,9 +11,9 @@ async function addDynamicInfo (dynamicInfo) {
 
   if (dynamicInfo) {
     let userDynamicInfo = new UserDynamicInfo(dynamicInfo)
-    const findId = await UserDynamicInfo.findOne({id: userDynamicInfo.id})
-    if (findId) {
-      userDynamicInfo.id = findId.id + '1'
+    const finds = await UserDynamicInfo.find({isActive: true}, '-_id id').sort({'id': -1})
+    if (finds) {
+      userDynamicInfo.id = finds[0].id + 1
     }
     result = await userDynamicInfo.save()
   }
@@ -81,7 +81,7 @@ async function queryAllDynamicInfos (pageIndex) {
 
   if (pageIndex > 0) {
     const skipCount = (pageIndex - 1) * PAGE_SIZE
-    ids = await UserDynamicInfo.find({isActive: true}, '-_id id createTime').sort({'createTime': -1})
+    ids = await UserDynamicInfo.find({isActive: true}, '-_id id createTime').sort({'id': -1})
       .skip(skipCount).limit(PAGE_SIZE)
   }
 

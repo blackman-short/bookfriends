@@ -7,18 +7,9 @@
           <p style="margin-left: 45%;opacity: 0.6;">暂无统计信息</p>
         </div>
         <div class="echart">
-          <div :style="{height:height,width:width,float:leftFloat}" ref="myEchart"></div> <!-- :style="{height:height2,width:width2,float:leftFloat,margin:marginLeft}" -->
-          <div v-if="chartValues.showCity === 1" style="{height:300px,width:300px,float:left,margin:40px 0px 0px 20px,background-color:grey}"  ref="city">城市分布图表</div>
-        </div>
-        <div style="float:left">
-          <div v-if="chartValues.chart1 === 0" class="blockChart" :style="{height:height1,width:width1}" ref="chart1" @click="showThis('chart1')"></div>
-          <div v-else class="blockChart selected" :style="{height:height1,width:width1}" ref="chart1" @click="showThis('chart1')"></div>
-          <div v-if="chartValues.chart2 === 0" class="blockChart" :style="{height:height1,width:width1}" ref="chart2" @click="showThis('chart2')"></div>
-          <div v-else class="blockChart selected" :style="{height:height1,width:width1}" ref="chart2" @click="showThis('chart2')"></div>
-          <div v-if="chartValues.chart3 === 0" class="blockChart" :style="{height:height1,width:width1}" ref="chart3" @click="showThis('chart3')"></div>
-          <div v-else class="blockChart selected" :style="{height:height1,width:width1}" ref="chart3" @click="showThis('chart3')"></div>
-          <div v-if="chartValues.chart4 === 0" class="blockChart" :style="{height:height1,width:width1}" ref="chart4" @click="showThis('chart4')"></div>
-          <div v-else class="blockChart selected" :style="{height:height1,width:width1}" ref="chart4" @click="showThis('chart4')"></div>
+          <div :style="{height:height,width:width}" ref="myEchart"></div>
+          <div style='margin: 20px 0px 0px 0px;background-color:#F6F6F6;height:10px;width:900px'>&nbsp;</div>
+          <div :style="{height:height,width:width}" ref="myEchart1"></div>
         </div>
       </div>
     </div>
@@ -40,249 +31,10 @@ export default {
         user: '',
         region: ''
       },
-      chartValues: {
-        chart1: 0,
-        chart2: 0,
-        chart3: 0,
-        chart4: 0,
-        showCity: 0
-      },
-      chartLegendNames: {
-        chart1: [],
-        chart2: [],
-        chart3: [],
-        chart4: [
-          '1 ~ 20',
-          '21 ~ 40',
-          '41 ~ 60',
-          '61 ~   '
-        ]
-      },
-      chartOptions: {
-        chart1: {
-          title : {
-              text: '书圈系统用户男女比例',
-              subtext: '',
-              x:'center',
-              textStyle: {
-                fontSize:8
-              }
-          },
-          tooltip : {
-              show: false,
-              trigger: 'item',
-              formatter: "{a} <br/>{b} : {c} ({d}%)"
-          },
-          legend: {
-              orient : 'vertical',
-              x : 'left',
-              data:[],
-          },
-          calculable : true,
-          series : [
-            {
-                name:'访问来源',
-                type:'pie',
-                radius : '55%',
-                center: ['50%', '50%'],
-                data:[
-                  {value:600, name:'文学'},
-                  {value:100, name:'科技'},
-                  {value:300, name:'计算机'}
-                ],
-                hoverAnimation:false,
-                labelLine: {
-                  normal: {
-                    show: false
-                  }
-                },
-                label: {
-                  normal: {
-                    show: false
-                  }
-                }
-            }
-          ]
-        },
-        chart2: {
-          title : {
-              text: '书圈系统用户地区分析',
-              subtext: '',
-              x:'center',
-              textStyle: {
-                fontSize:8
-              }
-          },
-          tooltip : {
-              show: false,
-              trigger: 'item',
-              formatter: "{a} <br/>{b} : {c} ({d}%)"
-          },
-          legend: {
-              orient : 'vertical',
-              x : 'left',
-              data:[],
-          },
-          calculable : true,
-          series : [
-              {
-                  name:'访问来源',
-                  type:'pie',
-                  radius : '55%',
-                  center: ['50%', '50%'],
-                  data:[
-                    {value:600, name:'文学'},
-                    {value:100, name:'科技'},
-                    {value:300, name:'计算机'}
-                  ],
-                  hoverAnimation:false,
-                  labelLine: {
-                    normal: {
-                      show: false
-                    }
-                  },
-                  label: {
-                    normal: {
-                      show: false
-                    }
-                  }
-              }
-          ]
-        },
-        chart3: {
-          title : {
-              text: '书圈系统用户学历分析',
-              subtext: '',
-              x:'center',
-              textStyle: {
-                fontSize:8
-              }
-          },
-          tooltip : {
-              show: false,
-              trigger: 'item',
-              formatter: "{a} <br/>{b} : {c} ({d}%)"
-          },
-          legend: {
-              orient : 'vertical',
-              x : 'left',
-              data:[],
-          },
-          calculable : true,
-          series : [
-              {
-                  name:'访问来源',
-                  type:'pie',
-                  radius : '55%',
-                  center: ['50%', '50%'],
-                  data:[
-                      {value:600, name:'文学'},
-                      {value:100, name:'科技'},
-                      {value:300, name:'计算机'}
-                  ],
-                  hoverAnimation:false,
-                  labelLine: {
-                    normal: {
-                      show: false
-                    }
-                  },
-                  label: {
-                    normal: {
-                      show: false
-                    }
-                }
-              }
-          ]
-        },
-        chart4: {
-          title : {
-              text: '书圈系统用户年龄分析',
-              subtext: '',
-              x:'center',
-              textStyle: {
-                fontSize:8
-              }
-          },
-          tooltip : {
-              show: false,
-              trigger: 'item',
-              formatter: "{a} <br/>{b} : {c} ({d}%)"
-          },
-          legend: {
-              orient : 'vertical',
-              x : 'left',
-              data:[],
-          },
-          calculable : true,
-          series : [
-              {
-                  name:'访问来源',
-                  type:'pie',
-                  radius : '55%',
-                  center: ['50%', '50%'],
-                  data:[
-                    {value:6, name:'1 ~ 20'},
-                    {value:1, name:'21 ~ 40'},
-                    {value:3, name:'41 ~ 60'}
-                  ],
-                  hoverAnimation:false,
-                  labelLine: {
-                    normal: {
-                      show: false
-                    }
-                  },
-                  label: {
-                    normal: {
-                      show: false
-                    }
-                }
-              }
-          ]
-        },
-        cityChart: {
-          title : {
-              text: '书圈系统用户男女比例',
-              subtext: '',
-              x:'center',
-              textStyle: {
-                fontSize:8
-              }
-          },
-          tooltip : {
-              show: false,
-              trigger: 'item',
-              formatter: "{a} <br/>{b} : {c} ({d}%)"
-          },
-          legend: {
-              orient : 'vertical',
-              x : 'left',
-              data:[],
-          },
-          calculable : true,
-          series : [
-            {
-                name:'访问来源',
-                type:'pie',
-                radius : '55%',
-                center: ['50%', '50%'],
-                data:[
-                  {value:600, name:'文学'},
-                  {value:100, name:'科技'},
-                  {value:300, name:'计算机'}
-                ],
-                hoverAnimation:false,
-                labelLine: {
-                  normal: {
-                    show: false
-                  }
-                }
-            }
-          ]
-        }
-      },
-      option: {
+      
+      option1: {
         title : {
-            text: '书圈系统用户详情分析',
+            text: '书架类别详情分析',
             subtext: '',
             x:'center',
         },
@@ -331,171 +83,98 @@ export default {
             }
         ]
       },
-      cityChart: null
+      option2: {
+        title : {
+            text: '书架用户年龄分析',
+            subtext: '',
+            x:'center',
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient : 'vertical',
+            x : 'left',
+            data:['文学','科技','计算机']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {
+                    show: true, 
+                    type: ['pie', 'funnel'],
+                    option: {
+                        funnel: {
+                            x: '25%',
+                            width: '50%',
+                            funnelAlign: 'left',
+                            max: 1548
+                        }
+                    }
+                },
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        series : [
+            {
+                name:'访问来源',
+                type:'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                  {value:600, name:'文学'},
+                  {value:100, name:'科技'},
+                  {value:300, name:'计算机'}
+                ]
+            }
+        ]
+      },
     }
   },
 
   methods: {
-    initChart () {
+    initChart: async function () {
       // 对图表进行初始化
+      const res1 = await API.chartTagsOfUserBokks()
+      if (res1 && res1.errorCode === resultCode.SUCCESS) {
+        this.option1.series[0].data = res1.data.values
+        this.option1.legend.data = res1.data.labels
+      }
+
+      const res2 = await API.chartUserBook()
+      if (res2 && res2.errorCode === resultCode.SUCCESS) {
+        
+        let labels = []
+        let values = []
+        const json = res2.data
+        for (let key in json) {
+         if(json[key] > 0) {
+            labels.push(key)
+            values.push({
+              value:json[key],
+              name: key
+            })
+         }
+        }
+
+        this.option2.series[0].data = values
+        this.option2.legend.data = labels
+      }
+
       var vm = this
       this.chart = echarts.init(this.$refs.myEchart)
-      this.chart.setOption(this.option)
-
-      // this.cityChart = echarts.init(this.$refs.city)
-      
-
-      this.chart.on('mouseover', function (params) {
-        if (params.name.indexOf('省') > 0 || params.name.indexOf('市') > 0) {          
-          // vm.cityChart.setOption(vm.chartOptions['chart1'])
-          vm.chartValues.showCity = 1
-        }
-      })
-      
-      
-
-      this.chart1 = echarts.init(this.$refs.chart1)
-      this.chart1.setOption(this.chartOptions['chart1'])
-
-      this.chart2 = echarts.init(this.$refs.chart2)
-      this.chart2.setOption(this.chartOptions['chart2'])
-
-      this.chart3 = echarts.init(this.$refs.chart3)
-      this.chart3.setOption(this.chartOptions['chart3'])
-
-      this.chart4 = echarts.init(this.$refs.chart4)
-      this.chart4.setOption(this.chartOptions['chart4'])
-      this.showThis ('chart1')
-    },
-
-    async initCityChart (provinceName) {
-      this.cityChart = echarts.init(this.$refs.cityChart)
-      this.cityChart.setOption(this.chartValues.cityChart)
-    },
-
-    // Toggles show items.
-    showThis (refName) {
-      for (var key in this.chartValues) {
-        this.chartValues[key] = 0
-      }
-      this.chartValues[refName] = 1
-      const selectedChart = this.chartOptions[refName]
-      this.option.title.text = selectedChart.title.text
-      this.option.series[0].data = selectedChart.series[0].data
-      this.option.legend.data = this.chartLegendNames[refName]
-      this.chart.setOption(this.option)
-    },
-
-    // number - int: 1 - chart1; 2 - chart2; 3 - chart3; 4 - chart4.
-    convertCetainChartData (datas, number) {
-      let names = []
-      let valueNames = []
-      let keyWord = 'sex'
-      switch (number) {
-        case 4:
-          keyWord = 'age'
-          break
-        case 3:
-          keyWord = 'education'
-          break
-        case 2:
-          keyWord = 'province'
-          break
-        case 1:
-          keyWord = 'sex'
-          break
-        default:
-          break
-      }
-      
-      for (let i in datas) {
-        const d = datas[i]
-        let n = d[keyWord]
-        if (number === 1 && n !== null) {
-          n = n === 0? '女' : '男'
-        }
-
-        n = n === null? '暂无数据' : n
-
-        names.push(n)
-        valueNames.push({
-          value: d.number,
-          name: n
-        })
-      }
-
-      return {
-        legendData: names,
-        seriesData: valueNames
-      }
-    },
-
-    // Gets chart group.
-    async getChartGroup () {
-      const response = await API.getChartGroup()
-      
-      if (response.errorCode === resultCode.SUCCESS) {       
-        const sexData = response.data.sex
-        const provinceData = response.data.province
-        const educationData = response.data.education
-        const ageData = response.data.age
-        // chart1.
-        if (sexData) {
-          const values = this.convertCetainChartData(sexData, 1)
-          this.chartLegendNames['chart1'] = values.legendData
-          this.chartOptions['chart1'].series[0].data = values.seriesData
-          this.chart1 = echarts.init(this.$refs.chart1)
-          this.chart1.setOption(this.chartOptions['chart1'])
-        }
-
-        // chart2.
-        if (provinceData) {
-          const values = this.convertCetainChartData(provinceData, 2)
-          this.chartLegendNames['chart2'] = values.legendData
-          this.chartOptions['chart2'].series[0].data = values.seriesData
-          this.chart1 = echarts.init(this.$refs.chart2)
-          this.chart1.setOption(this.chartOptions['chart2'])
-        }
-
-        // chart3.
-        if (educationData) {
-          const values = this.convertCetainChartData(educationData, 3)
-          this.chartLegendNames['chart3'] = values.legendData
-          this.chartOptions['chart3'].series[0].data = values.seriesData
-          this.chart1 = echarts.init(this.$refs.chart3)
-          this.chart1.setOption(this.chartOptions['chart3'])
-        }
-
-        // chart4
-        if (ageData) {
-          const values = this.convertCetainChartData(ageData, 4)
-          this.chartLegendNames['chart4'] = values.legendData
-          this.chartOptions['chart4'].series[0].data = values.seriesData
-          this.chart1 = echarts.init(this.$refs.chart4)
-          this.chart1.setOption(this.chartOptions['chart4'])
-        }
-
-      } else {
-        this.showError('加载数据失败, 请刷新。。。')
-      }
-    },
-
-    // Gets city chart.
-    async getCityChart (provinceName) {
-      if (provinceName.indexOf('省') > 0 || provinceName.indexOf('市') > 0) {
-        const respones = await API.getCityChart(provinceName)
-        if (response.errorCode === resultCode.SUCCESS) {
-
-        }
-      } else {
-        return
-      }
-     
+      this.chart.setOption(this.option1)
+      this.chart = echarts.init(this.$refs.myEchart1)
+      this.chart.setOption(this.option2)
     }
   },
 
   async mounted () {
-    await this.getChartGroup()
     this.initChart()
   },
    // 图表部分
@@ -508,12 +187,12 @@ export default {
     // 设置图表的宽度
     width: {
       type: String,
-      default: '60%'
+      default: '100%'
     },
     // 设置图表的高度
     height: {
       type: String,
-      default: '400px'
+      default: '350px'
     },
     // 设置图表的宽度
     width1: {
@@ -529,15 +208,6 @@ export default {
     width2: {
       type: String,
       default: '200px'
-    },
-    // 设置图表的高度
-    height2: {
-      type: String,
-      default: '200px'
-    },
-    marginLeft: {
-      type: String,
-      default: '0px 0px 0px 60px'
     }
   },
   beforeDestroy () {

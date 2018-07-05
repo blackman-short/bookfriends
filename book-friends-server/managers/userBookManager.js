@@ -263,6 +263,10 @@ async function groupUserBooksByUser () {
   return result
 }
 
+/**
+ * 将书籍信息转化为图表信息属性。
+ * @param {*Array} books
+ */
 function convertBookByTag (books) {
   let result = null
   let labels = []
@@ -270,18 +274,20 @@ function convertBookByTag (books) {
   if (books && books.length > 0) {
     books.forEach(b => {
       const tags = b.tags
-      for (let i = 0; i < 3; i++) {
-        const index = labels.indexOf(tags[i].name)
-        // 不含有
-        if (index < 0) {
-          labels.push(tags[i].name)
-          values.push({
-            value: 1,
-            name: tags[i].name
-          })
-        // 含有
-        } else {
-          values[index].value += 1
+      if (tags && tags.length > 0) {
+        for (let i = 0; i < 3; i++) {
+          const index = labels.indexOf(tags[i].name)
+          // 不含有
+          if (index < 0) {
+            labels.push(tags[i].name)
+            values.push({
+              value: 1,
+              name: tags[i].name
+            })
+          // 含有
+          } else {
+            values[index].value += 1
+          }
         }
       }
     })

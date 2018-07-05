@@ -2,7 +2,7 @@ const tools = require('../utils/tools')
 const mongoose = require('mongoose')
 
 const userFriendSchame = mongoose.Schema({
-  id: { type: String, default: tools.getUUID() },
+  id: { type: String, default: tools.getUUID },
   userId: { type: String },
   friendId: { type: String },
   isActive: { type: Boolean, default: true }
