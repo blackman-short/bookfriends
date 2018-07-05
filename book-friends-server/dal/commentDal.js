@@ -36,7 +36,7 @@ async function queryCommentsByDynamicId (dynamicId, pageIndex) {
 
   if (dynamicId && pageIndex > 0) {
     const skipCount = (pageIndex - 1) * PAGE_SIZE
-    data = await CommentInfo.find({dynamicId: dynamicId, isActive: true}, '-_id -__v -updateTime -isActive -dynamicId').skip(skipCount).limit(PAGE_SIZE)
+    data = await CommentInfo.find({dynamicId: dynamicId, isActive: true}, '-_id -__v -updateTime -isActive -dynamicId').skip(skipCount).limit(PAGE_SIZE).sort({'createTime': -1})
   }
 
   return data
