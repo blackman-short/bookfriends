@@ -143,6 +143,7 @@ $(()=>{
    })
 })
 
+// 页面渲染
 function initPage() {
     this.initPage1();
     this.initPage2();
@@ -191,10 +192,10 @@ function initPage6() {
 
 // 学习历程
 function initPage7() {
-    $("studentProcess").html(origanizateStudyProcessInnerHTML());
+    $("#studentProcess").html(origanizateStudyProcessInnerHTML());
 }
 
-
+// 新光闪耀-课堂等级
 function mapGradeByScore(score) {
     const Grades = ['优秀','良好','中等','及格','不及格']
 
@@ -222,6 +223,7 @@ function mapGradeByScore(score) {
     return Grades[gradeIndex];
 }
 
+// 专属能量-能力评级
 function mapStarNumByScore(score) {
     const starString = '&#9733;';
     let totalStars = ''
@@ -254,6 +256,7 @@ function organizateImgInnerHTML() {
     return innerHTMLString;
 }
 
+//学习历程-课程-'三年级致高英语班,三年级致高语文班'
 function origanizateStudyProcessInnerHTML() {
     const classStr = stuInfo.learningProcess;
     let classes = classStr.split(',');
