@@ -150,6 +150,7 @@ function initPage() {
     this.initPage4();
     this.initPage5();
     this.initPage6();
+    this.initPage7();
 }
 
 function initPage1() {
@@ -188,6 +189,11 @@ function initPage6() {
     $('#uniquekeyword').text(stuInfo.uniquekeyword);
 }
 
+// 学习历程
+function initPage7() {
+    $("studentProcess").html(origanizateStudyProcessInnerHTML());
+}
+
 
 function mapGradeByScore(score) {
     const Grades = ['优秀','良好','中等','及格','不及格']
@@ -221,7 +227,7 @@ function mapStarNumByScore(score) {
     let totalStars = ''
     let sCore = parseInt(score);
 
-    for(let i = 0; i < 4; i++){
+    for(let i = 0; i < sCore; i++){
         totalStars += starString;
     }
 
@@ -243,6 +249,18 @@ function organizateImgInnerHTML() {
             innerHTMLString += "<div style='margin-top:2%; padding-bottom: 4%'>" +
             "<img style='width: 100%;height:170px' src='" + stuInfo[newTag] + "' alt=''>" + "</div>"
         }
+    }
+
+    return innerHTMLString;
+}
+
+function origanizateStudyProcessInnerHTML() {
+    const classStr = stuInfo.learningProcess;
+    let classes = classStr.split(',');
+    let innerHTMLString = "<p><span style='display: flex;align-items:center'><img src='./imgs/add.png' alt='' style='height:25px;width:25px;margin-right:20px'><span>2019年度</span></span>" +
+                            "</p>" + "<p style='padding-left: 25%'>寒假</p>";
+    for (let i = 0; i < classes.length; i++){
+        innerHTMLString += "<p style='padding-left: 35%'>" + classes[i] +"</p>"
     }
 
     return innerHTMLString;
