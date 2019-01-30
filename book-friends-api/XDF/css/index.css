@@ -1,0 +1,644 @@
+html,body{
+	width:100%;
+	height:100%;
+}
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,dl,dd{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+a{
+  text-decoration:none;
+  color:#666;
+}
+img{
+  vertical-align:middle;
+}
+/*闅愯棌婊氬姩鏉�*/
+::-webkit-scrollbar {
+    width: 0px;
+}
+.login-page{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-image: url('../imgs//XDFLOGO.png');
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 2%;
+}
+.error-msg {
+  height: 40px;
+  width: 85%;
+  margin-top: 40%;
+  margin-bottom: 5%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #F56C6C;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+}
+
+.login-page .login-form{
+  width: 85%;
+  background-color: #eee;
+  height: 250px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+}
+
+.login-items{
+  height: 35px;
+  width: 200px;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.login-btn{
+  width: 100px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 10px
+}
+
+/*灏佺毊*/
+.page1{
+	width:100%;
+	height:100%;
+	background-size: 100% 100%;
+	position:fixed;
+	left:0;
+	transition: all .5s; 
+	z-index: 3;
+}
+.page1>p{
+	width:50px;
+	height:50px;
+	/* margin-top:10px; */
+	position: relative;
+	left:50%;
+	transform: translate(-50%);
+}
+.page1-image{
+    width: 100%;
+}
+
+.page1-logo{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+
+.page1-logo>div{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.page1>p>img{
+	width:20px;
+	position:absolute;
+	left:50%;
+	transform: translate(-50%);
+}
+.page1-center{
+    width: 100%;
+	margin:0 auto;
+	margin-top:5%;
+    display:flex;
+    flex-direction: column;
+}
+
+.page1-center>div{
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+
+/*棣栭〉*/
+.page2{
+	width:100%;
+	height:100%;
+	background-color: #0066CB;
+	background-size: 100% 100%;
+	overflow: auto;
+}
+
+.page2-items{
+    padding-left: 2rem;
+}
+
+.page2>ul{
+	width:86%;
+	margin:0 auto;
+	padding-top:10%;
+	/*height:100%;
+	overflow: auto;*/
+	box-sizing: border-box;
+}
+.page2>ul>li{
+    display: flex;
+    align-items: center;
+	  width:100%;
+    margin-bottom:14px;
+    background-color: #fff;
+    color: #9996CD;
+    height: 75px;
+}
+.page2>ul>li>img{
+	width:100%;
+}
+
+
+/*棣栭〉涓殑footer*/
+.footer{
+	width:100%;
+	height:70px;
+	position:fixed;
+	bottom:0;
+	background: #71a9ff;
+}
+.footer>ul{
+	width:100%;
+	height:100%;
+    display:flex;
+	justify-content: space-between;
+	padding-left:5%;
+	padding-right: 5%;
+	box-sizing: border-box;
+}
+.footer>ul>li{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	width:20%;
+	height:100%;
+    text-align: center;
+}
+.footer img{
+    margin-top: 8%;
+    height: 60% !important;
+	/*height:100% !important;*/
+}
+.footer-icon{
+    padding: 3px;
+    font-size: 1px;
+    color: #fff;
+}
+
+/*鎴愮哗鍗�*/
+.chengjidan{
+	width:100%;
+	height:100%;
+	position:absolute;
+	z-index:-1;
+	background-color:#4e95ff; 
+	background-size: 100% 100%;
+	top:0;
+	opacity: 0;
+	transition: all 1s;
+	overflow: auto;
+}
+.chengjidan>div{
+	width:90%;
+	height:90%;
+	margin:0 auto;
+	position: relative;
+	margin-top:10%;
+	min-height: 400px;
+}
+/*鐧借壊鐨勫簳鍥�*/
+.cjdcenter{
+	position: absolute;
+	bottom: 5%;
+	display: block;
+	width:95%;
+	height:90%;
+	background:rgba(255,255,255,.5);
+	border-radius: 10px;
+	right:0;
+}
+/*鎴愮哗鍒楄〃*/
+.sec2,.sec3,.sec4,.sec5,.sec6,.sec7,.sec8,.sec9,.sec10,.sec11,.sec12{
+	height:100%;
+	position: relative;
+	/* border-radius: 10px; */
+}
+.sec2>p,.sec3>p,.sec4>p,.sec5>p,.sec6>p,.sec7>p,.sec8>p,.sec9>p,.sec10>p,.sec11>p,.sec12>p{
+	width:100%;
+	/*height:50px;
+	line-height:50px;*/
+	text-align: center;
+	font-size:20px;
+	color:#444;
+	/*text-shadow: 1px 1px 3px #666;*/
+	margin-top: 10px;
+	font-weight: bold;
+}
+.sec2>p>span,.sec3>p>span,.sec4>p>span,.sec5>p>span,.sec6>p>span,.sec7>p>span,.sec8>p>span,.sec9>p>span,.sec10>p>span,.sec11>p>span,.sec12>p>span{
+	display: inline-block;
+	border-bottom: 8px solid #DAE9F9;
+	line-height: .4;
+  width:40%;
+  color: #9996CD;
+}
+
+/*学习历程*/
+.study-process {
+    margin-top:20%
+}
+.study-process>p:first-child{
+    font-size: 25px !important;
+}
+
+.study-process>p{
+    padding: 5px;
+    font-size: 20px 
+}
+
+/*瀛︽牎鐨勬垚缁╁垪琛�*/
+.stzkContainer{
+	width:90%;
+	margin:0 auto;
+	font-size:15px;
+	color:#9996CD;
+	font-weight: bold;
+	max-height: 70%;
+	margin-top:10px;
+}
+
+.stzkContainer ul>li{
+    display: flex;
+	height: 30px;
+    line-height: 30px;
+}
+
+.stzkContainer ul>li>span{
+    font-size: 1.5rem;
+    color: #FFEB66
+}
+
+.stzkContainer .book-title{
+    display: flex;
+    justify-content: center;
+}
+
+.section>span{
+	position:absolute;
+	width:50px;
+	height:50px;
+	right:0;
+	top:0;
+}
+.section>span>img{
+	width:100%;
+}
+/* 濂栨儵鎯呭喌*/
+.sec12>h4{
+	text-align:center;
+	margin-top:5px;
+	color:#666;
+}
+
+.jcqkContainer{
+	width:80%;
+	height:76%;
+	margin:0 auto;
+	font-size:18px;
+	/* background-image: url('../images/02jiangcheng/paper.png'); */
+	background-size: 100% 100%;
+	margin-top:6%;
+	padding-top:10px;
+	padding-bottom: 10px;
+	box-sizing: border-box;
+	overflow: auto;
+}
+.jiangbei1,.jiangbei2{
+	position:absolute;
+	width:20%;
+}
+.jiangbei1{
+	right:0;
+	top:20%;
+}
+.jiangbei2{
+	left:0;
+	top:60%;
+}
+.jcqkContainer>ul{
+	height: 100%;
+  overflow: auto;
+}
+.jcqkContainer>ul>li{
+	width:90%;
+	height:100px;
+	text-align: center;
+	/* background-image: url('../images/02jiangcheng/jianghuang.png'); */
+	background-size: 100% 100% ;
+	margin:0 auto;
+	margin-bottom:10px;
+	position: relative;
+}
+.jcqkContainer>ul>li>p{
+	width:70%;
+	border-bottom: 2px solid #ddd;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform: translate(-50%,-50%);
+	font-size: 16px;
+	height:20px;
+	line-height: 20px;
+	font-weight: bold;
+	color:#444;
+}
+/* 韬綋鎯呭喌*/
+.shili{
+	display:flex;
+}
+.shili>ul>li{
+	margin-bottom: 5px;
+}
+.sec3>h3,.sec3>h4{
+	text-align:center;
+	margin-top:5px;
+	font-weight: normal;
+}
+.sec3>h3{
+	margin-top: 6%;
+    font-size: 34px;
+}
+.sec3>h4{
+	font-size: 14px;
+    color: #999;
+}
+
+.xkcjContainer{
+	width: 100%;
+    max-height: 50%;
+    font-size: 14px;
+    color:#555;
+    font-weight: bold;
+    margin-top: 6%;
+    overflow: auto;
+}
+.xkcjContainer>ul{
+	margin-left:30%;
+}
+.xkcjContainer>ul>li{
+	margin-bottom:16px;
+}
+/*鐝富浠昏瘎璇�*/
+.stcjContainer{
+	z-index:9;
+	width:90%;
+	height:76%;
+	margin:0 auto;
+	font-size:16px;
+	color:#444;
+	/* background-image: url('../images/03pingyu/pingyu.png'); */
+	background-size: 100% 100%;
+	margin-top:6%;
+	padding-top:10px;
+	padding-left:20px;
+	padding-right:20px;
+	box-sizing: border-box;
+	position: relative;
+	font-weight: bold;
+}
+.stcjContainer>h3{
+	margin-top:20px;
+	margin-bottom: 20px;
+	font-size: 18px;
+	color:#333;
+}
+.stcjContainer>p{
+	line-height:1.5;
+	max-height: 70%;
+    overflow: auto;
+    font-size: 15px;
+}
+.sec4>img{
+	z-index:1;
+	width:100%;
+	height:100%;
+	position: absolute;
+	top:0;
+	left:0;
+}
+/*鍝佹牸鎯呭喌*/
+.tzContainer{
+	width:90%;
+	height:70%;
+	margin:0 auto;
+	font-size:16px;
+	color:#444;
+	/* background-image: url('../images/04pinge/pingepic.png'); */
+	background-size: 100% 100%;
+	margin-top:6%;
+	position: relative;
+}
+.pgText{
+	width:100%;
+	height:30%;
+	position: absolute;
+	bottom: 0;
+	padding-left:10px;
+}
+.pgText>h4{
+	margin-bottom:3px;
+	font-size: 15px;
+}
+.pgText>p{
+	text-align: center;
+	font-size: 30px;
+}
+/*瀹堕暱鍥炴墽*/
+.pyContainer{
+	width:90%;
+	/*height:26%;*/
+	height:170px;
+	margin:0 auto;
+	font-size:16px;
+	color:#444;
+	margin-top:6%;
+	/* background-image: url('../images/05huizhi/xin.png'); */
+	background-size: 100% 100%;
+	padding-top:26px;
+	padding-left:20px;
+	padding-right:20px;
+	box-sizing: border-box;
+	position:relative;
+}
+.pyContainer>img{
+	position: absolute;
+    right: -6px;
+    top: 14px;
+    width: 32%;
+}
+.pyContainer>textarea{
+	width:90%;
+	height:70%;
+	background:transparent;
+	border:none;
+	outline: none;
+	font-size:16px;
+}
+.bg{
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-1;
+}
+
+/*鍏抽敭璇�*/
+.sec7>img{
+	width:100%;
+	position:absolute;
+	bottom:0;
+}
+.sec7>h4{
+	margin-left:18%;
+	margin-top:5px;
+	font-size: 0.9rem;
+}
+.gjc1{
+	width: 10%;
+    /* height: 200px; */
+    margin-left: 18%;
+    margin-top: 4%;
+    font-size: 1.6rem;
+}
+.gjc2{
+	width:12%;
+	/*height:200px;*/
+	margin-left:20%;
+	margin-top:5px;
+	display:flex;
+	justify-content: space-between;
+}
+.gjc2>li{
+	font-size:0.75rem;
+	width:14px;
+	color:#333;
+	font-weight: bold;
+	text-align: center;
+}
+
+/*鏀惧亣閫氱煡,鍋囨湡浣滀笟锛屽垎浜�*/
+.fatzContainer{
+	width:90%;
+	height:85%;
+	margin:0 auto;
+	font-size:16px;
+	color:#444;
+	margin-top:6%;
+	position: relative;
+}
+.fjtzText{
+	width:100%;
+	height:50%;
+	position: absolute;
+	bottom: 0;
+	padding-left:10px;
+	padding-right: 10px;
+    box-sizing: border-box;
+}
+.fjtzText>li{
+	margin-bottom:3px;
+	font-size: 14px;
+	font-weight: bold;
+}
+.fatzContainer2{
+	width:90%;
+	height:70%;
+	margin:0 auto;
+	font-size:16px;
+	color:#444;
+	margin-top:6%;
+	position: relative;
+}
+.fjtzText2{
+	width:100%;
+	height:30%;
+	position: absolute;
+	bottom: 0;
+	padding-left:10px;
+	padding-right: 10px;
+    box-sizing: border-box;
+}
+.fjtzText2>li{
+	margin-bottom:3px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+/*鐝骇鍦�*/
+.bjqcontainer{
+	width:90%;
+	height:80%;
+	margin:0 auto;
+	background:#fff;
+	margin-top: 5%;
+	padding-top:5px;
+	padding-left:5px;
+	padding-right:5px;
+	overflow: auto;
+}
+.bjqcontainer>img{
+	width:100%;
+}
+.bjqText{
+	width:94%;
+	margin:0 auto;
+}
+.bjqText>h3{
+	font-size: 20px;
+	margin-top: 10px;
+}
+.bjqText>h4{
+	font-size: 15px;
+	margin-top: 5px;
+}
+.bjqText>p{
+	font-size: 13px;
+	margin-top: 5px;
+}
+.speck1,.speck2,.speck3{
+	width:100%;
+	background:#EBF3FB;
+	padding:5px;
+	box-sizing: border-box;
+    font-size: 12px;
+    color:#555;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.speck1{
+	border-radius:0 10px 10px 10px;
+}
+.speck2{
+	border-radius: 10px;
+}
+.speck3{
+	border-radius: 10px 0 10px 10px;
+}
+.bjqText>ul>li:last-child{
+	margin-bottom: 10px;
+}
+
+.section>d{
+	display:block;
+	height:2px;
+}

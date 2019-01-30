@@ -1,0 +1,46 @@
+  <script type="text/javascript">   
+           $(function() {
+              $("#查询按钮ID").click(function() {
+			  
+                var userName = $("#姓名输入框ID").val();
+				if (userName=='')
+				{
+				alert("请输入姓名");
+				return ;
+				}
+				var userCode = $("#学员号输入框ID").val();
+				if (userCode=='')
+				{
+				alert("请输入学员号");
+				return ;
+				}
+               				
+                $.ajax({   
+                    type:'GET',   
+                    url:'lx.xml',   //请求到
+                    dataType:'xml',  //以xml格式返回
+					
+                    success:function(docxml){   
+                        $(docxml).find('lx').each(function(){   
+                            var studentName = $(this).attr('studentName'); 
+						
+							var studentCode = $(this).find("studentCode").text();
+                            if(studentName == userName && studentCode==userCode) {
+                         
+							//用返回的docxml来改写页面相应的属性值
+					                             
+                            } 
+                        });
+						else
+						{
+						alert("请核对姓名和学员号后重试");
+						
+						}
+                       
+                    }   
+                    
+                }); 
+              });
+           });        
+        </script>   
+ 

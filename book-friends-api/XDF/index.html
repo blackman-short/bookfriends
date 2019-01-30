@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<title>新东方学生成长之旅</title>
+		<link rel="stylesheet" href="./css/index.css" type="text/css" />
+	</head>
+	<body>
+    <div class="login-page">
+      <div class="error-msg">
+        <img src="./imgs/error.png" alt="" style="height:100%;padding:10px">
+        <span style="color:#F56C6C; padding:10px">学员姓名或学员号错误。。。</span>
+      </div>
+      <div class="login-form">
+         <div>
+            <p><input type="text" placeholder="姓名" id="stuName" class="login-items" onkeypress="inputText()"></p>
+            <p><input type="text" placeholder="学员号" id="stuNO" class="login-items" onkeypress="inputText()"></p>
+            <p><input type="button" class="login-btn" id="loginBtn" value="查找学员"></p>
+         </div>
+      </div>
+    </div>
+		<div class="page1">
+			<img class="page1-image" src="./imgs/firstpage.jpg" alt="">
+			<div class="page1-center">
+				<div>
+					<!-- <ul style="text-align: center; color: #0066CB;font-size: 4rem;font-family: 黑体">
+						<li>新耀</li>
+						<li>2019</li>
+					</ul> -->
+					<img src="./imgs/xinyao.png" style="height:150px" alt="">
+				</div>
+				
+				<div>
+					<ul style="text-align: center;font-size: 1.5rem;font-family: 黑体">
+						<li style="color: #999; padding-bottom: 0.5rem">PM5C0101023</li>
+						<li style="color: #FF9C13">苏小新</li>
+					</ul>
+				</div>
+			</div>
+			<p><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/jiantou.png" alt="" id="zouhua"/></p>
+			<div class="page1-logo">
+				<div>
+          <img style="width: 88px;height:40px; display: none;" id="XDFLogo" src="./imgs/XDFLOGO.png" alt="">
+        </div>
+			</div>
+		</div>
+		<div class="page2" style="display:none;">
+			<ul>
+				<li id="chengji">
+					<div class="page2-items">
+						新光闪耀
+					</div>
+				</li>
+				<li id="shetuan">
+					<div class="page2-items">
+						专属能量
+					</div>
+				</li>
+				<li id="pinge">
+					<div class="page2-items">
+						独特的我
+					</div>
+				</li>
+				<li id="jiangcheng">
+					<div class="page2-items">
+						助力成长
+					</div>
+				</li>
+				<li id="shenti">
+					<div class="page2-items">
+						老师寄语
+					</div>
+				</li>
+				<li id="pingyu">
+					<div class="page2-items">
+						精彩瞬间
+					</div>
+				</li>
+			</ul>
+			<div class="footer">
+				<ul>
+					<li id="tongzhi"><img src="./imgs/book.png" alt="" /><div class="footer-icon">学习历程</div></li>
+					<li id="zuoye"><img src="./imgs/lu.png" alt="" /><div class="footer-icon">成长之路</div></li>
+					<li id="fenxiang"><img src="./imgs//fenxiang.png" alt="" /><div class="footer-icon">分享</div></li>
+				</ul>
+			</div>
+		</div>
+		<!--新路闪耀-->
+		<div class="chengjidan cjdpage">
+			<div>
+				<div class="section sec2" style="background-color: #fff">
+		        	<p><span>新光闪耀</span></p>
+		        	<div class="stzkContainer">
+		        		<div style="margin-top:20%">
+		        			<ul>
+		        				<li>随堂诊断：优秀</li>
+								<li>期中诊断：优秀</li>		  
+								<li>期末诊断：优秀</li>      			
+							</ul>
+		        		</div>
+						<div style="margin-top:25%">
+		        			<ul>
+		        				<li>小新同学：</li>
+								<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;你在三年级英语职高寒假班表现棒棒的，学习是一个不断积累的过程，希望在今后的学习中可以继续保持高水准的学习状态！</li>		        			
+							</ul>
+		        		</div>
+		        				        				        	</div>
+		        	<span><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
+		        </div>
+			</div>
+		</div>
+		<!--独特的我-->
+		<div class="chengjidan xspgpage">
+			<div>
+				<div class="section sec2" style="background-color: #fff">
+					<p><span>新光闪耀</span></p>
+					<div class="stzkContainer">
+						<div style="margin-top:20%">
+							<img style="width: 100%" src="./imgs/xingge.png" alt="">
+						</div>						
+					</div>
+					<span><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
+				</div>
+			</div>
+		</div>
+		<!--专属能量-->
+		<div class="chengjidan stpage">
+			<div>
+				<div class="section sec2" style="background-color: #fff">
+					<p><span>新光闪耀</span></p>
+					<div class="stzkContainer">
+						<div style="margin-top:20%">
+							<ul>
+								<li>课堂纪律：<span>&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
+								<li>理解能力：<span>&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>		  
+								<li>运用能力：<span>&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
+								<li>积 极  性  ：<span>&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>				  
+								<li>注 意  力  ：<span>&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
+							</ul>
+						</div>
+						<div style="margin-top:25%">
+							<ul>
+								<li>小新同学：</li>
+								<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;你在三年级英语职高寒假班表现棒棒的，学习是一个不断积累的过程，希望在今后的学习中可以继续保持高水准的学习状态！</li>		        			
+							</ul>
+						</div>
+																	</div>
+					<span><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
+				</div>
+			</div>
+		</div>
+		<!--助力成长-->
+		<div class="chengjidan jczkpage">
+			<div>
+				<div class="section sec2" style="background-color: #fff">
+					<p><span>助力成长</span></p>
+					<p style="font-size: 15px;color: #9996CD">推荐英语提升读物</p>
+					<div class="stzkContainer">
+						<div style="margin-top:20%;height: 150px;">
+							<ul>
+								<li class="book-title">《英语趣味阅读：三年级》</li>
+								<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;原汁原味的英语！棒棒哒的趣味英语！适合三年级小学生阅读。每月一章，与课堂教学大同步，每章节四周，每周都有”趣味阅读“、”名师阅读“、”周末英语乐园“三个版块。</li>		  							
+							</ul>
+						</div>
+						<div style="margin-top:20%;height: 150px;">
+							<ul>
+								<li class="book-title">《英语小故事课后读：三年级》</li>
+								<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;为适合小学生学习使用，本书在内容选取、语言风格和体例编排上都花费了许多心思，始终贯穿”玩中学“的理念：以小学生的日常生活学习为主线进行编排，是英语学习在日常生活中自然而然滴实现。</li>		        			
+							</ul>
+						</div>
+					</div>
+					<span><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
+				</div>
+			</div>
+		</div>
+		<!--老师寄语-->
+		<div class="chengjidan stqkpage">
+			<div>
+				<span class="cjdcenter"></span>
+				<div class="section sec4" style="background-image:url('https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/03pingyu/pingyubg.png');background-size: 100% 100%;">
+		        	<d></d>
+		        	<p><span>老师寄语</span></p>
+		        	<div class="stcjContainer">
+		        		<h3>李鸿暄同学</h3>
+		        		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;鸿暄，胖乎乎的你多可爱！课堂上能积极发言，管理眼保健操认真负责。老师常常想，如果你能让自己的文具“上课静悄悄”，养成专心听讲的好习惯，那你的成绩会更优秀的！寒假里，和好书交朋友吧！让它们陪你过一个充实快乐的假期。</p>
+		        	</div>
+		        	<img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/03pingyu/qianjing.png" alt="" onclick="return false"/>
+		        	<span style="z-index:10;"><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
+		        </div>
+			</div>
+		</div>
+		<!--精彩瞬间-->
+		<div class="chengjidan lspypage">
+			<div>
+				<div class="section sec2" style="background-color: #fff">
+					<p><span>精彩瞬间</span></p>
+					<p style="font-size: 15px;color: #9996CD">P E 3 M 0 1 0 2 5</p>
+					<div class="stzkContainer">
+						<div style="margin-top:2%">
+							<img style="width: 100%;height:170px" src="./imgs/shunjian1.png" alt="">
+						</div>	
+						<div style="margin-top:2%">
+							<img style="width: 100%;height:170px" src="./imgs/shunjian2.png" alt="">
+						</div>	
+						<div style="margin-top:2%">
+							<img style="width: 100%;height:170px" src="./imgs/shunjian3.png" alt="">
+						</div>						
+					</div>
+					<span><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
+				</div>
+			</div>
+		</div>
+		<!--分享-->
+		<div class="chengjidan fxpage">
+			<p style="font-size: 30px;text-align: center;margin-top: 5%; color: #fff">分  享</p>
+			<span><img id="fxpage_close" style="position: absolute;width: 50px;height: 50px;right: 0;top: 30px" src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
+			<div style="height: 85%;margin-top: 5%">
+				<div class="section sec2" style="background-color: #fff">
+					<img src="./imgs/sharepage.jpg" alt="" style="height: 100%;width: 100%;">
+				</div>
+			</div>
+		</div>
+		<!--学习历程-->
+		<div class="chengjidan fjtzpage">
+			<div>
+				<div class="section sec2" style="background-color: #fff">
+					<p><span>学习历程</span></p>
+					<div class="stzkContainer">
+						<div class="study-process">
+							<p>				
+								<span style="display: flex;align-items:center"><img src="./imgs/add.png" alt="" style="height:25px;width:25px;margin-right:20px"><span>2019年度</span></span>
+							</p>
+							<p style="padding-left: 25%">寒假</p>
+							<p style="padding-left: 35%">三年级致高英语班</p>
+							<p style="padding-left: 35%">三年级致高语文班</p>
+							<p style="padding-left: 35%">三年级致高数学班</p>
+						</div>						
+					</div>
+					<span><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
+				</div>
+			</div>
+		</div>
+		
+		<!--成长之路-->
+		<div class="chengjidan jqzypage">
+			<div>
+				<div class="section sec2" style="background-color: #fff">
+					<p><span>成长之路</span></p>
+					<div class="stzkContainer">
+						<div style="margin-top:20%">
+							
+						</div>						
+					</div>
+					<span><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/js/src/jquery-3.2.0.min.js"></script>
+	<script src="./js/index.js"></script>
+</html>
