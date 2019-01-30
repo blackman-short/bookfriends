@@ -18,7 +18,7 @@ $('#loginBtn').click(function(){
             $(docxml).find('lx').each(function(){
                 var studentName = $(this).attr('studentName');
                 var studentCode = $(this).find("studentCode").text(); 
-                if ('刘书翰' == studentName && 'stu123456' == studentCode) {
+                if (stuName == studentName && stuNO == studentCode) {
                     $('.login-page').remove();
                     $('.page1').css({'z-index': '3'});
                     $('#XDFLogo').css({'display': 'inline'});
@@ -105,7 +105,7 @@ $(()=>{
    })
    //鐐瑰嚮鍋囨湡浣滀笟寮瑰嚭椤甸潰
    $('#zuoye').click(function(){
-	   $('.jqzypage').css({'opacity':'1','z-index':'2'})
+	   $('.lspypage').css({'opacity':'1','z-index':'2'})
    })
    //鐐瑰嚮鍒嗕韩寮瑰嚭椤甸潰
    $('#fenxiang').click(function(){
