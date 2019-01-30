@@ -1,43 +1,47 @@
-var flag = 1;
-var objectid = "xmaseyXaCfTQEUdone";
-var user_no = "32050620120810015x";
-$('#fxpage_close').click(() => {
-    $('.fxpage').css({'opacity':'0','z-index':'-1'});
-})
+var stuInfo = null;
 
-$('#fenxiang').click(function(){
-    if(flag == 1){
-        flag = 0;
-        var url = "/campus/APP/szbgs_xw/index.php?s=/Home/Index/picture"+'/objectid/'+objectid+'/user_no/'+user_no; 
-        $.get(url,function(data){
-            var data = JSON.parse(data);
-            if(data.code == 0){
-                var html = '<img src="'+data.src+'" style="height:100%;">';
-                $('.fxpage .fatzContainer2').html(html);
+// 不让手机软键盘影响布局
+$(document).ready(function () {
+　　$('body').height($('body')[0].clientHeight);
+});
+
+// 登录
+$('#loginBtn').click(function(){
+    var stuName = document.getElementById('stuName').value;
+    var stuNO = document.getElementById('stuNO').value;
+    $.ajax({
+        type: 'GET',
+        url: `http://localhost:3001/download/image`,
+        dataType: 'xml',
+        success: function(docxml) {
+            var isRight = false;
+            $(docxml).find('lx').each(function(){
+                var studentName = $(this).attr('studentName');
+                var studentCode = $(this).find("studentCode").text(); 
+                if ('刘书翰' == studentName && 'stu123456' == studentCode) {
+                    $('.login-page').remove();
+                    $('.page1').css({'z-index': '3'});
+                    $('#XDFLogo').css({'display': 'inline'});
+                    $('#zouhua').css({'visibility': 'visible'});
+                    isRight = true;
+                    stuInfo = $.xml2json(this);
+                    
+                    initPage();
+                }
+            })
+
+            if (!isRight) {
+                $('.error-msg').css({'visibility':'visible'})
             }
-            flag = 1;
-        })				
-    }
-})
-    
-    $('#loginBtn').click(function(){
-      var stuName = document.getElementById('stuName').value;
-      var stuNO = document.getElementById('stuNO').value;
-
-      if (stuName === 'tom' && stuNO == 123){
-        $('.login-page').remove();
-		$('.page1').css({'z-index': '3'});
-		$('#XDFLogo').css({'display': 'inline'});
-      } else {
-        $('.error-msg').css({'visibility':'visible'})
-      }
+        }
     })
+})
 
-    function inputText(){
-      $('.error-msg').css({'visibility':'hidden'})
-	}
+function inputText(){
+    $('.error-msg').css({'visibility':'hidden'})
+}
 	
-	$(()=>{
+$(()=>{
    
    var tp=0;
    setInterval(()=>{
@@ -58,8 +62,9 @@ $('#fenxiang').click(function(){
 	   moveEndX = e.originalEvent.changedTouches[0].pageX;
 	   X = moveEndX - startX;
 	   if(X<0){
+            $('#zouhua').css({'visibility': 'hidden'});
 		   $('.page1').css({'left':'-100%', 'background-color': '#fff'});
-		   $('.page2').css('display','block');
+           $('.page2').css('display','block');
 	   }
    })
    //鐐瑰嚮鎴愮哗寮瑰嚭椤甸潰
@@ -128,8 +133,111 @@ $('#fenxiang').click(function(){
 	   $('.bjqpage').css({'opacity':'0','z-index':'-1'});
    })
    
+   $('#fxpage_close').click(() => {
+       $('.fxpage').css({'opacity':'0','z-index':'-1'});
+   })
+
    $('.sec2>img').click(()=>{
 	   console.log(1)
 	   
    })
 })
+
+function initPage() {
+    this.initPage1();
+    this.initPage2();
+    this.initPage3();
+    this.initPage4();
+    this.initPage5();
+}
+
+function initPage1() {
+    $('#studentCode').text(stuInfo.studentCode);
+    $('.studentName').text(stuInfo['@studentName']);
+}
+
+// 新光
+function initPage2() {
+    $('#suitang').text(mapGradeByScore(stuInfo.classRoomScore));
+    $('#starShineComment').text(stuInfo.starShineComment);
+}
+
+// 专属
+function initPage3() {
+    $('#classroomDiscipline').html(mapStarNumByScore(stuInfo.classroomDiscipline));
+    $('#comprehensionAbility').html(mapStarNumByScore(stuInfo.comprehensionAbility));
+    $('#applicationAbility').html(mapStarNumByScore(stuInfo.applicationAbility));
+    $('#initiative').html(mapStarNumByScore(stuInfo.initiative));
+    $('#Attention').html(mapStarNumByScore(stuInfo.Attention));
+    $('#exclusiveComment').text(stuInfo.exclusiveComment);
+}
+
+// 精彩瞬间
+function initPage4() {
+    $('#jingcaiImages').html(organizateImgInnerHTML());
+}
+
+// 分享页
+function initPage5() {
+    $('#sharePageImage').attr('src', 'http://localhost:3001/test/image/share');
+}
+
+
+function mapGradeByScore(score) {
+    const Grades = ['优秀','良好','中等','及格','不及格']
+
+    let sCore = score / 10;
+    let gradeIndex = 0;
+    switch(sCore) {
+        case 10:
+        case 9:
+            gradeIndex = 0;
+            break;
+        case 8:
+            gradeIndex = 1;
+            break;
+        case 7:
+            gradeIndex = 2;
+            break;
+        case 6:
+            gradeIndex = 3;
+            break;
+        default:
+            gradeIndex = 4;
+        break;           
+    }
+
+    return Grades[gradeIndex];
+}
+
+function mapStarNumByScore(score) {
+    const starString = '&#9733;';
+    let totalStars = ''
+    let sCore = parseInt(score);
+
+    for(let i = 0; i < 4; i++){
+        totalStars += starString;
+    }
+
+    return totalStars;
+}
+
+// 固定10张图片
+function organizateImgInnerHTML() {
+    const tagNamePrefix = 'wonderfulMomentURL';
+    let innerHTMLString = '';
+
+    for(let i = 1 ; i <= 10 ; i++) {
+        const newTag = tagNamePrefix + i;
+        
+        if (i < 10) {
+            innerHTMLString += "<div style='margin-top:2%'>" +
+            "<img style='width: 100%;height:170px' src='" + stuInfo[newTag] + "' alt=''>" + "</div>"
+        } else {
+            innerHTMLString += "<div style='margin-top:2%; padding-bottom: 4%'>" +
+            "<img style='width: 100%;height:170px' src='" + stuInfo[newTag] + "' alt=''>" + "</div>"
+        }
+    }
+
+    return innerHTMLString;
+}

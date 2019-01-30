@@ -5,3 +5,5 @@ book-friends-proxy/node-modules/
 book-friends-admin/node_modules/
 book-friends-admin/package-lock.json
 book-friends-admin/yarn.lock
+book-friends-api/node_modules/
+

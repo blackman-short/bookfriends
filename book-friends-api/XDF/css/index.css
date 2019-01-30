@@ -72,7 +72,7 @@ img{
 /*灏佺毊*/
 .page1{
 	width:100%;
-	height:100%;
+	min-height: 812px;
 	background-size: 100% 100%;
 	position:fixed;
 	left:0;
@@ -83,12 +83,14 @@ img{
 	width:50px;
 	height:50px;
 	/* margin-top:10px; */
-	position: relative;
-	left:50%;
+	position: fixed;
+	left:90%;
+	top:55%;
+	visibility: hidden;
 	transform: translate(-50%);
 }
 .page1-image{
-    width: 100%;
+	width: 100%;
 }
 
 .page1-logo{
@@ -107,6 +109,7 @@ img{
 	width:20px;
 	position:absolute;
 	left:50%;
+	top: 50%;
 	transform: translate(-50%);
 }
 .page1-center{
@@ -141,8 +144,9 @@ img{
 	width:86%;
 	margin:0 auto;
 	padding-top:10%;
-	/*height:100%;
-	overflow: auto;*/
+	/* height:100%;
+	overflow: auto; */
+	min-height: 700px;
 	box-sizing: border-box;
 }
 .page2>ul>li{
@@ -228,12 +232,12 @@ img{
 	right:0;
 }
 /*鎴愮哗鍒楄〃*/
-.sec2,.sec3,.sec4,.sec5,.sec6,.sec7,.sec8,.sec9,.sec10,.sec11,.sec12{
+.sec2, .sec4{
 	height:100%;
 	position: relative;
-	/* border-radius: 10px; */
+	background-color: #fff;
 }
-.sec2>p,.sec3>p,.sec4>p,.sec5>p,.sec6>p,.sec7>p,.sec8>p,.sec9>p,.sec10>p,.sec11>p,.sec12>p{
+.sec2>p,.sec4>p{
 	width:100%;
 	/*height:50px;
 	line-height:50px;*/
@@ -244,12 +248,12 @@ img{
 	margin-top: 10px;
 	font-weight: bold;
 }
-.sec2>p>span,.sec3>p>span,.sec4>p>span,.sec5>p>span,.sec6>p>span,.sec7>p>span,.sec8>p>span,.sec9>p>span,.sec10>p>span,.sec11>p>span,.sec12>p>span{
+.sec2>p>span,.sec4>p>span{
 	display: inline-block;
 	border-bottom: 8px solid #DAE9F9;
 	line-height: .4;
-  width:40%;
-  color: #9996CD;
+	width:40%;
+	color: #9996CD;
 }
 
 /*学习历程*/

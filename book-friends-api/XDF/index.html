@@ -34,18 +34,19 @@
 				
 				<div>
 					<ul style="text-align: center;font-size: 1.5rem;font-family: 黑体">
-						<li style="color: #999; padding-bottom: 0.5rem">PM5C0101023</li>
-						<li style="color: #FF9C13">苏小新</li>
+						<li style="color: #999; padding-bottom: 0.5rem" id="studentCode">PM5C0101023</li>
+						<li style="color: #FF9C13" class="studentName">苏小新</li>
 					</ul>
 				</div>
 			</div>
 			<p><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/jiantou.png" alt="" id="zouhua"/></p>
-			<div class="page1-logo">
+			<!-- <div class="page1-logo">
 				<div>
-          <img style="width: 88px;height:40px; display: none;" id="XDFLogo" src="./imgs/XDFLOGO.png" alt="">
-        </div>
-			</div>
+          			<img style="width: 88px;height:40px;display: none;" id="XDFLogo" src="./imgs/XDFLOGO.png" alt="">
+        		</div>
+			</div> -->
 		</div>
+		
 		<div class="page2" style="display:none;">
 			<ul>
 				<li id="chengji">
@@ -90,20 +91,20 @@
 		<!--新路闪耀-->
 		<div class="chengjidan cjdpage">
 			<div>
-				<div class="section sec2" style="background-color: #fff">
+				<div class="section sec2">
 		        	<p><span>新光闪耀</span></p>
 		        	<div class="stzkContainer">
 		        		<div style="margin-top:20%">
 		        			<ul>
-		        				<li>随堂诊断：优秀</li>
-								<li>期中诊断：优秀</li>		  
-								<li>期末诊断：优秀</li>      			
+		        				<li>随堂诊断：<label id="suitang">优秀</label></li>
+								<li>期中诊断：<label id="qizhong">优秀</label></li>		  
+								<li>期末诊断：<label id='qizhong'>优秀</label></li>      			
 							</ul>
 		        		</div>
 						<div style="margin-top:25%">
 		        			<ul>
-		        				<li>小新同学：</li>
-								<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;你在三年级英语职高寒假班表现棒棒的，学习是一个不断积累的过程，希望在今后的学习中可以继续保持高水准的学习状态！</li>		        			
+		        				<li><label class="studentName">小新</label>同学：</li>
+								<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label id="starShineComment">你在三年级英语职高寒假班表现棒棒的，学习是一个不断积累的过程，希望在今后的学习中可以继续保持高水准的学习状态！</label></li>		        			
 							</ul>
 		        		</div>
 		        				        				        	</div>
@@ -114,11 +115,11 @@
 		<!--独特的我-->
 		<div class="chengjidan xspgpage">
 			<div>
-				<div class="section sec2" style="background-color: #fff">
-					<p><span>新光闪耀</span></p>
+				<div class="section sec2">
+					<p><span>独特的我</span></p>
 					<div class="stzkContainer">
 						<div style="margin-top:20%">
-							<img style="width: 100%" src="./imgs/xingge.png" alt="">
+							<img style="width: 100%" src="./imgs/keyword.jpg" alt="">
 						</div>						
 					</div>
 					<span><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
@@ -128,22 +129,22 @@
 		<!--专属能量-->
 		<div class="chengjidan stpage">
 			<div>
-				<div class="section sec2" style="background-color: #fff">
-					<p><span>新光闪耀</span></p>
+				<div class="section sec2">
+					<p><span>专属能量</span></p>
 					<div class="stzkContainer">
 						<div style="margin-top:20%">
 							<ul>
-								<li>课堂纪律：<span>&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
-								<li>理解能力：<span>&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>		  
-								<li>运用能力：<span>&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
-								<li>积 极  性  ：<span>&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>				  
-								<li>注 意  力  ：<span>&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
+								<li>课堂纪律：<span id="classroomDiscipline">&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
+								<li>理解能力：<span id="comprehensionAbility">&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>		  
+								<li>运用能力：<span id="applicationAbility">&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
+								<li>积 极  性  ：<span id="initiative">&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>				  
+								<li>注 意  力  ：<span id="Attention">&#9733;&#9733;&#9733;&#9733;&#9733;</span></li>
 							</ul>
 						</div>
 						<div style="margin-top:25%">
 							<ul>
-								<li>小新同学：</li>
-								<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;你在三年级英语职高寒假班表现棒棒的，学习是一个不断积累的过程，希望在今后的学习中可以继续保持高水准的学习状态！</li>		        			
+								<li class="studentName">小新同学：</li>
+								<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label id="exclusiveComment">你在三年级英语职高寒假班表现棒棒的，学习是一个不断积累的过程，希望在今后的学习中可以继续保持高水准的学习状态！</label></li>		        			
 							</ul>
 						</div>
 																	</div>
@@ -154,10 +155,11 @@
 		<!--助力成长-->
 		<div class="chengjidan jczkpage">
 			<div>
-				<div class="section sec2" style="background-color: #fff">
+				<div class="section sec2">
 					<p><span>助力成长</span></p>
 					<p style="font-size: 15px;color: #9996CD">推荐英语提升读物</p>
-					<div class="stzkContainer">
+					<!--每位学员都是一样的-->
+					<div class="stzkContainer" id="recommendBooks">
 						<div style="margin-top:20%;height: 150px;">
 							<ul>
 								<li class="book-title">《英语趣味阅读：三年级》</li>
@@ -183,8 +185,8 @@
 		        	<d></d>
 		        	<p><span>老师寄语</span></p>
 		        	<div class="stcjContainer">
-		        		<h3>李鸿暄同学</h3>
-		        		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;鸿暄，胖乎乎的你多可爱！课堂上能积极发言，管理眼保健操认真负责。老师常常想，如果你能让自己的文具“上课静悄悄”，养成专心听讲的好习惯，那你的成绩会更优秀的！寒假里，和好书交朋友吧！让它们陪你过一个充实快乐的假期。</p>
+		        		<h3><label class="studentName">苏小新</label>同学</h3>
+		        		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<lable class="studentName">苏小新</lable>，你是一个聪明、可爱的孩子，关心集体，兴趣广泛。老师希望在寒假里，和好书交朋友吧！让它们陪你过一个充实快乐的假期。</p>
 		        	</div>
 		        	<img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/03pingyu/qianjing.png" alt="" onclick="return false"/>
 		        	<span style="z-index:10;"><img src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
@@ -194,17 +196,17 @@
 		<!--精彩瞬间-->
 		<div class="chengjidan lspypage">
 			<div>
-				<div class="section sec2" style="background-color: #fff">
+				<div class="section sec2" style="height:auto !important">
 					<p><span>精彩瞬间</span></p>
 					<p style="font-size: 15px;color: #9996CD">P E 3 M 0 1 0 2 5</p>
-					<div class="stzkContainer">
+					<div class="stzkContainer" id="jingcaiImages">
 						<div style="margin-top:2%">
 							<img style="width: 100%;height:170px" src="./imgs/shunjian1.png" alt="">
 						</div>	
 						<div style="margin-top:2%">
 							<img style="width: 100%;height:170px" src="./imgs/shunjian2.png" alt="">
 						</div>	
-						<div style="margin-top:2%">
+						<div style="margin-top:2%;">
 							<img style="width: 100%;height:170px" src="./imgs/shunjian3.png" alt="">
 						</div>						
 					</div>
@@ -217,15 +219,15 @@
 			<p style="font-size: 30px;text-align: center;margin-top: 5%; color: #fff">分  享</p>
 			<span><img id="fxpage_close" style="position: absolute;width: 50px;height: 50px;right: 0;top: 30px" src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/images/closebtn.png" alt="" /></span>
 			<div style="height: 85%;margin-top: 5%">
-				<div class="section sec2" style="background-color: #fff">
-					<img src="./imgs/sharepage.jpg" alt="" style="height: 100%;width: 100%;">
+				<div class="section sec2" style="background-color: #fff;height: auto !important;">
+					<img src="./imgs/sharepage.jpg" alt="" style="height: 100%;width: 100%;" id="sharePageImage">
 				</div>
 			</div>
 		</div>
 		<!--学习历程-->
 		<div class="chengjidan fjtzpage">
 			<div>
-				<div class="section sec2" style="background-color: #fff">
+				<div class="section sec2">
 					<p><span>学习历程</span></p>
 					<div class="stzkContainer">
 						<div class="study-process">
@@ -246,7 +248,7 @@
 		<!--成长之路-->
 		<div class="chengjidan jqzypage">
 			<div>
-				<div class="section sec2" style="background-color: #fff">
+				<div class="section sec2" >
 					<p><span>成长之路</span></p>
 					<div class="stzkContainer">
 						<div style="margin-top:20%">
@@ -260,5 +262,6 @@
 		
 	</body>
 	<script src="https://www.campusyun.com/campus/APP/szbgs_xw/Web/Home/js/src/jquery-3.2.0.min.js"></script>
+	<script type="text/javascript" src="http://www.jsons.cn/Down/jquery.xml2json.js"></script>
 	<script src="./js/index.js"></script>
 </html>
