@@ -149,10 +149,11 @@ function initPage() {
     this.initPage3();
     this.initPage4();
     this.initPage5();
+    this.initPage6();
 }
 
 function initPage1() {
-    $('#studentCode').text(stuInfo.studentCode);
+    $('.studentCode').text(stuInfo.studentCode);
     $('.studentName').text(stuInfo['@studentName']);
 }
 
@@ -179,7 +180,12 @@ function initPage4() {
 
 // 分享页
 function initPage5() {
-    $('#sharePageImage').attr('src', 'http://localhost:3001/test/image/share');
+    $('#sharePageImage').attr('src', stuInfo.shareURL);
+}
+
+// 独特的我
+function initPage6() {
+    $('#uniquekeyword').text(stuInfo.uniquekeyword);
 }
 
 
@@ -229,7 +235,7 @@ function organizateImgInnerHTML() {
 
     for(let i = 1 ; i <= 10 ; i++) {
         const newTag = tagNamePrefix + i;
-        
+
         if (i < 10) {
             innerHTMLString += "<div style='margin-top:2%'>" +
             "<img style='width: 100%;height:170px' src='" + stuInfo[newTag] + "' alt=''>" + "</div>"

@@ -146,17 +146,14 @@ img{
 	padding-top:10%;
 	/* height:100%;
 	overflow: auto; */
-	min-height: 700px;
+	min-height: 900px;
 	box-sizing: border-box;
 }
 .page2>ul>li{
     display: flex;
     align-items: center;
-	  width:100%;
-    margin-bottom:14px;
-    background-color: #fff;
-    color: #9996CD;
-    height: 75px;
+	width:100%;
+    margin-bottom:10px;
 }
 .page2>ul>li>img{
 	width:100%;
@@ -645,4 +642,12 @@ img{
 .section>d{
 	display:block;
 	height:2px;
+}
+
+#uniquekeyword {
+	position: absolute;
+    top: 20%;
+    left: 13%;
+    width: 20px;
+    font-size: 4rem;
 }

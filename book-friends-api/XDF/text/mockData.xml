@@ -3,7 +3,7 @@
 	<lx studentName="刘书翰">
 		<studentCode>stu123456</studentCode>
 		<classCode>pm456789</classCode>
-		<shareURL>>http://localhost:3001/test/image/share</shareURL>
+		<shareURL>http://localhost:3001/test/image/share</shareURL>
 		<classRoomScore>80</classRoomScore>
 		<starShineComment>你很棒</starShineComment>
 		<classroomDiscipline>5</classroomDiscipline>
